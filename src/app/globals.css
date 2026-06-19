@@ -1,0 +1,79 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #0047FF;
+  --color-vlyne-dark: #0f172a;
+  --color-vlyne-bg: #f4f6fa;
+  --color-vlyne-deep: #01143F;
+  --color-vlyne-navy: #010c2b;
+  --color-vlyne-cyan: #00B4D8;
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-danger: #EF4444;
+  --font-sans: 'Space Grotesk', 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+:root {
+  --background: #01143F;
+  --foreground: #ffffff;
+}
+
+/* Custom Utilities for High-Tech Dark Mode */
+@utility bg-landing-grid {
+  background-image: 
+    linear-gradient(rgba(0, 180, 216, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 180, 216, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+@utility text-glow-cyan {
+  text-shadow: 0 0 10px rgba(0, 180, 216, 0.5);
+}
+
+@utility shadow-neon-blue {
+  box-shadow: 0 0 25px rgba(0, 71, 255, 0.25);
+}
+
+@utility shadow-neon-cyan {
+  box-shadow: 0 0 25px rgba(0, 180, 216, 0.25);
+}
+
+@utility animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+body {
+  background-color: #01143F;
+  color: #ffffff;
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar rules */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 180, 216, 0.2);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 180, 216, 0.4);
+}
