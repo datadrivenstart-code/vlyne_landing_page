@@ -473,7 +473,7 @@ export default function LandingPage() {
                 </div>
 
                 <h3 className="text-2xl font-bold mb-3 tracking-tight text-white group-hover:text-emerald-300 transition-colors duration-200">
-                  VLYNE Etiquetas
+                  VLYNE Etiquetas Intelligence
                 </h3>
                 <p className="text-xs sm:text-sm text-gray-400 mb-8 leading-relaxed">
                   Sistema inteligente para gestão, auditoria e emissão de etiquetas. Focado em precificação dinâmica, controle de gôndolas e total conformidade operacional no PDV.
@@ -504,7 +504,7 @@ export default function LandingPage() {
 
               <div className="flex gap-3 mt-5">
                 <button 
-                  onClick={() => handleOpenDemo('VLYNE Etiquetas')}
+                  onClick={() => handleOpenDemo('VLYNE Etiquetas Intelligence')}
                   className="w-full text-center bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-white hover:shadow-[0_0_15px_rgba(16,185,129,0.4)] font-bold text-xs py-3.5 rounded-xl transition duration-200 tracking-wide cursor-pointer flex items-center justify-center gap-1.5"
                 >
                   Solicitar Demonstração
@@ -1052,7 +1052,7 @@ export default function LandingPage() {
                     className="w-full flex items-center justify-between p-4 bg-white/[0.03] hover:bg-emerald-500/10 border border-white/5 hover:border-emerald-500/30 rounded-2xl transition duration-200 group text-left"
                   >
                     <div>
-                      <h4 className="text-xs sm:text-sm font-bold text-white group-hover:text-emerald-300 transition-colors">VLYNE Etiquetas</h4>
+                      <h4 className="text-xs sm:text-sm font-bold text-white group-hover:text-emerald-300 transition-colors">VLYNE Etiquetas Intelligence</h4>
                       <p className="text-[10px] text-gray-500 mt-0.5">Sistema inteligente de emissão de etiquetas e auditoria</p>
                     </div>
                     <ArrowRight className="w-4 h-4 text-gray-500 group-hover:text-emerald-300 transition-colors" />
