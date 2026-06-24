@@ -632,37 +632,55 @@ export default function LandingPage() {
                 q: "Onde estou perdendo dinheiro sem perceber na minha operação?",
                 a: "A VLYNE identifica riscos operacionais, rupturas e oportunidades ocultas de ganho.",
                 icon: <Search className="w-6 h-6 text-cyan-400" />,
-                tag: "Pulse Intelligence"
+                tag: "VLYNE Pulse Intelligence"
+              },
+              {
+                q: "Como está o desempenho real de vendas em relação às metas?",
+                a: "A VLYNE oferece dashboards interativos com indicadores cruciais para acompanhamento em tempo real.",
+                icon: <LineChart className="w-6 h-6 text-cyan-400" />,
+                tag: "VLYNE Pulse Intelligence"
+              },
+              {
+                q: "Estou acompanhando as métricas corretas para impulsionar o negócio?",
+                a: "A VLYNE centraliza relatórios complexos em painéis de análise estratégica e decisão ágil.",
+                icon: <Sliders className="w-6 h-6 text-cyan-400" />,
+                tag: "VLYNE Pulse Intelligence"
               },
               {
                 q: "Qual projeto está dando lucro e qual está dando prejuízo?",
                 a: "A VLYNE mostra em tempo real a rentabilidade exata e os custos de cada projeto.",
                 icon: <TrendingUp className="w-6 h-6 text-cyan-400" />,
-                tag: "Event Intelligence"
+                tag: "VLYNE Event Intelligence"
               },
               {
                 q: "Minha equipe está entregando as tarefas dentro do prazo estabelecido?",
                 a: "A VLYNE monitora prazos, delega tarefas e acompanha o desempenho da sua equipe.",
                 icon: <Clock className="w-6 h-6 text-cyan-400" />,
-                tag: "Event Intelligence"
-              },
-              {
-                q: "Estou correndo o risco de sofrer multas por preços divergentes no caixa?",
-                a: "A VLYNE audita e padroniza as etiquetas, sincronizando tudo com seu ERP.",
-                icon: <AlertTriangle className="w-6 h-6 text-cyan-400" />,
-                tag: "Vlyne Etiquetas"
-              },
-              {
-                q: "Como garantir a validade dos produtos e evitar perdas ou descartes indevidos?",
-                a: "A VLYNE controla datas críticas, gera alertas preventivos e automatiza a rastreabilidade.",
-                icon: <Calendar className="w-6 h-6 text-cyan-400" />,
-                tag: "Vlyne Etiquetas"
+                tag: "VLYNE Event Intelligence"
               },
               {
                 q: "Tenho visibilidade total e controle da minha empresa em tempo real?",
                 a: "A VLYNE centraliza todas as áreas em um único painel inteligente para decisões rápidas.",
                 icon: <Eye className="w-6 h-6 text-cyan-400" />,
-                tag: "Event Intelligence"
+                tag: "VLYNE Event Intelligence"
+              },
+              {
+                q: "Estou correndo o risco de sofrer multas por preços divergentes no caixa?",
+                a: "A VLYNE audita e padroniza as etiquetas, sincronizando tudo com seu ERP.",
+                icon: <AlertTriangle className="w-6 h-6 text-cyan-400" />,
+                tag: "VLYNE Etiquetas Intelligence"
+              },
+              {
+                q: "Como garantir a validade dos produtos e evitar perdas ou descartes indevidos?",
+                a: "A VLYNE controla datas críticas, gera alertas preventivos e automatiza a rastreabilidade.",
+                icon: <Calendar className="w-6 h-6 text-cyan-400" />,
+                tag: "VLYNE Etiquetas Intelligence"
+              },
+              {
+                q: "Minha operação perde muito tempo atualizando preços manualmente?",
+                a: "A VLYNE automatiza a impressão de etiquetas e preços, eliminando erros humanos e desperdício de tempo.",
+                icon: <Tag className="w-6 h-6 text-cyan-400" />,
+                tag: "VLYNE Etiquetas Intelligence"
               }
             ].map((faq, idx) => (
               <div key={idx} className="group flex flex-col md:flex-row items-center gap-4 bg-[#020a24]/80 border border-white/5 p-4 rounded-2xl hover:border-cyan-500/30 transition-colors">
