@@ -473,7 +473,7 @@ export default function LandingPage() {
                 </div>
 
                 <h3 className="text-2xl font-bold mb-3 tracking-tight text-white group-hover:text-emerald-300 transition-colors duration-200">
-                  VLYNE Etiquetas Intelligence Intelligence
+                  VLYNE Etiquetas Intelligence
                 </h3>
                 <p className="text-xs sm:text-sm text-gray-400 mb-8 leading-relaxed">
                   Sistema inteligente para gestão, auditoria e emissão de etiquetas. Focado em precificação dinâmica, controle de gôndolas e total conformidade operacional no PDV.
@@ -668,19 +668,19 @@ export default function LandingPage() {
                 q: "Estou correndo o risco de sofrer multas por preços divergentes no caixa?",
                 a: "A VLYNE audita e padroniza as etiquetas, sincronizando tudo com seu ERP.",
                 icon: <AlertTriangle className="w-6 h-6 text-cyan-400" />,
-                tag: "VLYNE Etiquetas Intelligence Intelligence"
+                tag: "VLYNE Etiquetas Intelligence"
               },
               {
                 q: "Como garantir a validade dos produtos e evitar perdas ou descartes indevidos?",
                 a: "A VLYNE controla datas críticas, gera alertas preventivos e automatiza a rastreabilidade.",
                 icon: <Calendar className="w-6 h-6 text-cyan-400" />,
-                tag: "VLYNE Etiquetas Intelligence Intelligence"
+                tag: "VLYNE Etiquetas Intelligence"
               },
               {
                 q: "Minha operação perde muito tempo atualizando preços manualmente?",
                 a: "A VLYNE automatiza a impressão de etiquetas e preços, eliminando erros humanos e desperdício de tempo.",
                 icon: <Tag className="w-6 h-6 text-cyan-400" />,
-                tag: "VLYNE Etiquetas Intelligence Intelligence"
+                tag: "VLYNE Etiquetas Intelligence"
               }
             ].map((faq, idx) => (
               <div key={idx} className="group flex flex-col md:flex-row items-center gap-4 bg-[#020a24]/80 border border-white/5 p-4 rounded-2xl hover:border-cyan-500/30 transition-colors">
@@ -941,7 +941,7 @@ export default function LandingPage() {
                       >
                         <option value="VLYNE Pulse Intelligence">VLYNE Pulse Intelligence</option>
                         <option value="VLYNE Event Intelligence">VLYNE Event Intelligence</option>
-                        <option value="VLYNE Etiquetas Intelligence Intelligence">VLYNE Etiquetas Intelligence Intelligence</option>
+                        <option value="VLYNE Etiquetas Intelligence">VLYNE Etiquetas Intelligence</option>
                         <option value="Múltiplos Sistemas">Múltiplos Sistemas</option>
                       </select>
                     </div>
@@ -1052,7 +1052,7 @@ export default function LandingPage() {
                     className="w-full flex items-center justify-between p-4 bg-white/[0.03] hover:bg-emerald-500/10 border border-white/5 hover:border-emerald-500/30 rounded-2xl transition duration-200 group text-left"
                   >
                     <div>
-                      <h4 className="text-xs sm:text-sm font-bold text-white group-hover:text-emerald-300 transition-colors">VLYNE Etiquetas Intelligence Intelligence</h4>
+                      <h4 className="text-xs sm:text-sm font-bold text-white group-hover:text-emerald-300 transition-colors">VLYNE Etiquetas Intelligence</h4>
                       <p className="text-[10px] text-gray-500 mt-0.5">Sistema inteligente de emissão de etiquetas e auditoria</p>
                     </div>
                     <ArrowRight className="w-4 h-4 text-gray-500 group-hover:text-emerald-300 transition-colors" />
