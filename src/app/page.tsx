@@ -244,15 +244,6 @@ export default function LandingPage() {
         <div className="max-w-6xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* Hero Content */}
           <div className="lg:col-span-7 space-y-8 text-center lg:text-left">
-            <motion.div 
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-cyan-500/10 border border-cyan-500/20 rounded-full"
-            >
-              <Sparkles className="w-4 h-4 text-cyan-400 animate-pulse" />
-              <span className="text-[10px] font-bold uppercase tracking-wider text-cyan-300">Inteligência que Impulsiona Decisões</span>
-            </motion.div>
 
             <motion.h1 
               initial={{ opacity: 0, y: 20 }}
@@ -262,7 +253,7 @@ export default function LandingPage() {
             >
               Inteligência que <br />
               <span className="bg-gradient-to-r from-cyan-400 via-indigo-300 to-white bg-clip-text text-transparent">
-                Impulsiona Decisão.
+                Impulsiona Decisões.
               </span>
             </motion.h1>
 
@@ -325,9 +316,7 @@ export default function LandingPage() {
               
               <div className="relative z-10 w-full p-8 flex flex-col items-center justify-center">
                 <VlyneLogo showText={true} className="w-full max-w-[240px]" />
-                <div className="mt-6 inline-flex items-center gap-1.5 text-[10px] font-mono uppercase text-gray-400 bg-white/5 border border-white/5 px-3 py-1 rounded-full">
-                  <Cpu className="w-3.5 h-3.5 text-cyan-400 animate-pulse" /> Data SaaS Platform v4.0
-                </div>
+
               </div>
             </motion.div>
           </div>
