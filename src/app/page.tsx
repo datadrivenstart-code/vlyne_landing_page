@@ -468,7 +468,7 @@ export default function LandingPage() {
                     <Tag className="w-6 h-6" />
                   </div>
                   <span className="text-[10px] font-mono font-bold tracking-wider uppercase text-emerald-300 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
-                    SAAS ETIQUETAS
+                    SaaS FOOD SAFETY
                   </span>
                 </div>
 
@@ -476,7 +476,7 @@ export default function LandingPage() {
                   VLYNE Etiquetas Intelligence
                 </h3>
                 <p className="text-xs sm:text-sm text-gray-400 mb-8 leading-relaxed">
-                  Sistema inteligente para gestão, auditoria e emissão de etiquetas. Focado em precificação dinâmica, controle de gôndolas e total conformidade operacional no PDV.
+                  Plataforma de rotulagem nutricional, controle de validades em abertura/descongelamento, rastreabilidade sanitária e logs de auditoria automatizados para ANVISA.
                 </p>
 
                 {/* Features Grid */}
@@ -1042,7 +1042,7 @@ export default function LandingPage() {
                   >
                     <div>
                       <h4 className="text-xs sm:text-sm font-bold text-white group-hover:text-indigo-300 transition-colors">VLYNE Event Intelligence</h4>
-                      <p className="text-[10px] text-gray-500 mt-0.5">SaaS para eventos e cenografia</p>
+                      <p className="text-[10px] text-gray-500 mt-0.5">SaaS para cenografia e controle operacional de eventos</p>
                     </div>
                     <ArrowRight className="w-4 h-4 text-gray-500 group-hover:text-indigo-300 transition-colors" />
                   </a>
@@ -1053,7 +1053,7 @@ export default function LandingPage() {
                   >
                     <div>
                       <h4 className="text-xs sm:text-sm font-bold text-white group-hover:text-emerald-300 transition-colors">VLYNE Etiquetas Intelligence</h4>
-                      <p className="text-[10px] text-gray-500 mt-0.5">Sistema inteligente de emissão de etiquetas e auditoria</p>
+                      <p className="text-[10px] text-gray-500 mt-0.5">SaaS de rotulagem e segurança alimentar (Food Safety)</p>
                     </div>
                     <ArrowRight className="w-4 h-4 text-gray-500 group-hover:text-emerald-300 transition-colors" />
                   </a>
