@@ -385,7 +385,7 @@ export default function LandingPage() {
                     'Excesso de Estoque',
                     'Indicadores Inteligentes',
                     'Insights Automatizados',
-                    'Curva ABC',
+                    'Classificação Estratégica',
                     'Sugestão de Compra',
                     'Alertas Inteligentes'
                   ].map((feat) => (
