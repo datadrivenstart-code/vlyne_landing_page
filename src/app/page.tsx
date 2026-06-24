@@ -49,7 +49,7 @@ export default function LandingPage() {
     empresa: '',
     email: '',
     telefone: '',
-    produto: 'VLYNE Retail Intelligence'
+    produto: 'VLYNE Pulse Intelligence'
   });
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -368,7 +368,7 @@ export default function LandingPage() {
                 </div>
 
                 <h3 className="text-2xl font-bold mb-3 tracking-tight text-white group-hover:text-cyan-300 transition-colors duration-200">
-                  VLYNE Retail Intelligence
+                  VLYNE Pulse Intelligence
                 </h3>
                 <p className="text-xs sm:text-sm text-gray-400 mb-8 leading-relaxed">
                   Plataforma avançada de business intelligence para o setor de varejo, focada no controle de estoques, acompanhamento de metas de vendas, visualizações estratégicas e detecção inteligente de rupturas.
@@ -401,7 +401,7 @@ export default function LandingPage() {
 
               <div className="flex gap-3 mt-5">
                 <button 
-                  onClick={() => handleOpenDemo('VLYNE Retail Intelligence')}
+                  onClick={() => handleOpenDemo('VLYNE Pulse Intelligence')}
                   className="w-full text-center bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-400 hover:to-cyan-500 text-[#01143F] hover:shadow-[0_0_15px_rgba(6,182,212,0.4)] font-bold text-xs py-3.5 rounded-xl transition duration-200 tracking-wide cursor-pointer flex items-center justify-center gap-1.5"
                 >
                   Solicitar Demonstração
@@ -643,7 +643,7 @@ export default function LandingPage() {
                 q: "Onde estou perdendo dinheiro sem perceber na minha operação?",
                 a: "A VLYNE identifica riscos operacionais, rupturas e oportunidades ocultas de ganho.",
                 icon: <Search className="w-6 h-6 text-cyan-400" />,
-                tag: "Retail Intelligence"
+                tag: "Pulse Intelligence"
               },
               {
                 q: "Qual projeto está dando lucro e qual está dando prejuízo?",
@@ -655,7 +655,7 @@ export default function LandingPage() {
                 q: "Minha equipe está entregando as tarefas dentro do prazo estabelecido?",
                 a: "A VLYNE monitora prazos, delega tarefas e acompanha o desempenho da sua equipe.",
                 icon: <Clock className="w-6 h-6 text-cyan-400" />,
-                tag: "Gestão Operacional"
+                tag: "Event Intelligence"
               },
               {
                 q: "Estou correndo o risco de sofrer multas por preços divergentes no caixa?",
@@ -667,13 +667,13 @@ export default function LandingPage() {
                 q: "Como garantir a validade dos produtos e evitar perdas ou descartes indevidos?",
                 a: "A VLYNE controla datas críticas, gera alertas preventivos e automatiza a rastreabilidade.",
                 icon: <Calendar className="w-6 h-6 text-cyan-400" />,
-                tag: "Food Safety"
+                tag: "Vlyne Etiquetas"
               },
               {
                 q: "Tenho visibilidade total e controle da minha empresa em tempo real?",
                 a: "A VLYNE centraliza todas as áreas em um único painel inteligente para decisões rápidas.",
                 icon: <Eye className="w-6 h-6 text-cyan-400" />,
-                tag: "Dashboards Executivos"
+                tag: "Event Intelligence"
               }
             ].map((faq, idx) => (
               <div key={idx} className="group flex flex-col md:flex-row items-center gap-4 bg-[#020a24]/80 border border-white/5 p-4 rounded-2xl hover:border-cyan-500/30 transition-colors">
@@ -932,7 +932,7 @@ export default function LandingPage() {
                         onChange={(e) => setFormData({ ...formData, produto: e.target.value })}
                         className="w-full bg-[#03061c] border border-white/10 rounded-xl py-3 px-4 text-xs text-white focus:outline-none focus:border-cyan-500 transition-all duration-200 cursor-pointer"
                       >
-                        <option value="VLYNE Retail Intelligence">VLYNE Retail Intelligence (SaaS Varejo)</option>
+                        <option value="VLYNE Pulse Intelligence">VLYNE Pulse Intelligence (SaaS Varejo)</option>
                         <option value="VLYNE Event Intelligence">VLYNE Event Intelligence (SaaS Cenografia/Eventos)</option>
                         <option value="VLYNE Etiquetas">VLYNE Etiquetas (SaaS Varejo & Logística)</option>
                         <option value="Ambos os Produtos">Múltiplos Sistemas</option>
@@ -1023,7 +1023,7 @@ export default function LandingPage() {
                     className="w-full flex items-center justify-between p-4 bg-white/[0.03] hover:bg-cyan-500/10 border border-white/5 hover:border-cyan-500/30 rounded-2xl transition duration-200 group text-left"
                   >
                     <div>
-                      <h4 className="text-xs sm:text-sm font-bold text-white group-hover:text-cyan-300 transition-colors">VLYNE Retail Intelligence</h4>
+                      <h4 className="text-xs sm:text-sm font-bold text-white group-hover:text-cyan-300 transition-colors">VLYNE Pulse Intelligence</h4>
                       <p className="text-[10px] text-gray-500 mt-0.5">SaaS para varejo e inteligência de estoque</p>
                     </div>
                     <ArrowRight className="w-4 h-4 text-gray-500 group-hover:text-cyan-300 transition-colors" />
