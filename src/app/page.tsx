@@ -25,7 +25,13 @@ import {
   LineChart,
   ShoppingBag,
   Award,
-  Tag
+  Tag,
+  Search,
+  AlertTriangle,
+  Clock,
+  Calendar,
+  Eye,
+  ChevronRight
 } from 'lucide-react';
 import TechBackground from '@/components/TechBackground';
 import VlyneLogo from '@/components/VlyneLogo';
@@ -634,40 +640,58 @@ export default function LandingPage() {
           <div className="space-y-4">
             {[
               {
-                q: "Você não tem indicadores de ruptura em tempo real e perde vendas porque o produto acabou na gôndola?",
-                a: "Com o VLYNE Etiquetas e o VLYNE Retail Intelligence, você unifica os dados do seu ERP e do PDV. O sistema dispara alertas automáticos e garante que a reposição e a auditoria da gôndola ocorram antes que o cliente sinta a falta do produto.",
-                tag: "Varejo & Etiquetas"
+                q: "Onde estou perdendo dinheiro sem perceber na minha operação?",
+                a: "A VLYNE identifica riscos operacionais, rupturas e oportunidades ocultas de ganho.",
+                icon: <Search className="w-6 h-6 text-cyan-400" />
               },
               {
-                q: "A montagem dos seus eventos ultrapassa o orçamento por falta de controle de materiais e equipes?",
-                a: "O VLYNE Event Intelligence atua na linha de frente da cenografia e organização de eventos. Acompanhe listas de produção, custos operacionais e alocação de equipe na palma da mão, garantindo margem de lucro e entregas no prazo.",
-                tag: "Eventos & Cenografia"
+                q: "Qual projeto está dando lucro e qual está dando prejuízo?",
+                a: "A VLYNE mostra em tempo real a rentabilidade exata e os custos de cada projeto.",
+                icon: <TrendingUp className="w-6 h-6 text-cyan-400" />
               },
               {
-                q: "Sua precificação dinâmica é lenta e gera divergência entre o preço da prateleira e o do caixa?",
-                a: "Nosso sistema VLYNE Etiquetas audita, formata e acelera a emissão de etiquetas promocionais. Toda a base sincroniza com seu ERP de forma instantânea, acabando com as multas do Procon e a perda de confiança do seu cliente.",
-                tag: "Etiquetas & PDV"
+                q: "Minha equipe está entregando as tarefas dentro do prazo estabelecido?",
+                a: "A VLYNE monitora prazos, delega tarefas e acompanha o desempenho da sua equipe.",
+                icon: <Clock className="w-6 h-6 text-cyan-400" />
               },
               {
-                q: "As informações da sua rede de lojas estão espalhadas em planilhas manuais gerando confusão?",
-                a: "O VLYNE Retail Intelligence consolida os números de todas as suas lojas (vendas, quebras, metas, tickets) num painel vivo, acessível por web ou mobile, para que a diretoria consiga agir e corrigir as rotas sem depender de analistas.",
-                tag: "Retail Intelligence"
+                q: "Estou correndo o risco de sofrer multas por preços divergentes no caixa?",
+                a: "A VLYNE audita e padroniza as etiquetas, sincronizando tudo com seu ERP.",
+                icon: <AlertTriangle className="w-6 h-6 text-cyan-400" />
+              },
+              {
+                q: "Como garantir a validade dos produtos e evitar perdas ou descartes indevidos?",
+                a: "A VLYNE controla datas críticas, gera alertas preventivos e automatiza a rastreabilidade.",
+                icon: <Calendar className="w-6 h-6 text-cyan-400" />
+              },
+              {
+                q: "Tenho visibilidade total e controle da minha empresa em tempo real?",
+                a: "A VLYNE centraliza todas as áreas em um único painel inteligente para decisões rápidas.",
+                icon: <Eye className="w-6 h-6 text-cyan-400" />
               }
             ].map((faq, idx) => (
-              <details key={idx} className="group bg-[#020a24]/80 border border-white/5 rounded-2xl overflow-hidden [&_summary::-webkit-details-marker]:hidden">
-                <summary className="flex items-center justify-between cursor-pointer p-6 hover:bg-white/[0.02] transition-colors">
-                  <div className="space-y-2 pr-6">
-                    <span className="text-[10px] font-mono font-bold tracking-wider uppercase text-cyan-400 bg-cyan-500/10 px-2.5 py-1 rounded-full border border-cyan-500/20">{faq.tag}</span>
-                    <h3 className="text-sm sm:text-base font-bold text-white leading-relaxed mt-2">{faq.q}</h3>
-                  </div>
-                  <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center shrink-0 group-open:rotate-180 transition-transform duration-300">
-                    <svg className="w-4 h-4 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
-                  </div>
-                </summary>
-                <div className="p-6 pt-0 text-xs sm:text-sm text-gray-400 leading-relaxed border-t border-white/5 bg-[#01081f]/50 mt-2">
-                  {faq.a}
+              <div key={idx} className="flex flex-col md:flex-row items-center gap-4 bg-[#020a24]/80 border border-white/5 p-4 rounded-2xl hover:border-cyan-500/30 transition-colors">
+                <div className="w-14 h-14 rounded-full bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center shrink-0">
+                  {faq.icon}
                 </div>
-              </details>
+                
+                <div className="flex-1 text-sm sm:text-base font-bold text-white text-center md:text-left">
+                  {faq.q}
+                </div>
+
+                <div className="hidden md:flex shrink-0 px-2 text-cyan-500/30">
+                  <ChevronRight className="w-6 h-6" />
+                </div>
+
+                <div className="flex-1 bg-cyan-500/5 rounded-xl p-4 flex items-center gap-4 border border-cyan-500/10 relative w-full md:w-auto">
+                  <p className="text-xs sm:text-sm text-gray-300 leading-relaxed pr-8">
+                    <strong className="text-cyan-400 font-bold">A VLYNE</strong> {faq.a.substring(8)}
+                  </p>
+                  <div className="absolute right-4 top-1/2 -translate-y-1/2 w-6 h-6 bg-gradient-to-br from-cyan-400 to-cyan-500 text-[#010a24] rounded-full flex items-center justify-center shrink-0 shadow-[0_0_10px_rgba(6,182,212,0.4)]">
+                    <Check className="w-4 h-4 stroke-[3]" />
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
         </div>
