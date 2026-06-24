@@ -642,32 +642,38 @@ export default function LandingPage() {
               {
                 q: "Onde estou perdendo dinheiro sem perceber na minha operação?",
                 a: "A VLYNE identifica riscos operacionais, rupturas e oportunidades ocultas de ganho.",
-                icon: <Search className="w-6 h-6 text-cyan-400" />
+                icon: <Search className="w-6 h-6 text-cyan-400" />,
+                tag: "Retail Intelligence"
               },
               {
                 q: "Qual projeto está dando lucro e qual está dando prejuízo?",
                 a: "A VLYNE mostra em tempo real a rentabilidade exata e os custos de cada projeto.",
-                icon: <TrendingUp className="w-6 h-6 text-cyan-400" />
+                icon: <TrendingUp className="w-6 h-6 text-cyan-400" />,
+                tag: "Event Intelligence"
               },
               {
                 q: "Minha equipe está entregando as tarefas dentro do prazo estabelecido?",
                 a: "A VLYNE monitora prazos, delega tarefas e acompanha o desempenho da sua equipe.",
-                icon: <Clock className="w-6 h-6 text-cyan-400" />
+                icon: <Clock className="w-6 h-6 text-cyan-400" />,
+                tag: "Gestão Operacional"
               },
               {
                 q: "Estou correndo o risco de sofrer multas por preços divergentes no caixa?",
                 a: "A VLYNE audita e padroniza as etiquetas, sincronizando tudo com seu ERP.",
-                icon: <AlertTriangle className="w-6 h-6 text-cyan-400" />
+                icon: <AlertTriangle className="w-6 h-6 text-cyan-400" />,
+                tag: "Vlyne Etiquetas"
               },
               {
                 q: "Como garantir a validade dos produtos e evitar perdas ou descartes indevidos?",
                 a: "A VLYNE controla datas críticas, gera alertas preventivos e automatiza a rastreabilidade.",
-                icon: <Calendar className="w-6 h-6 text-cyan-400" />
+                icon: <Calendar className="w-6 h-6 text-cyan-400" />,
+                tag: "Food Safety"
               },
               {
                 q: "Tenho visibilidade total e controle da minha empresa em tempo real?",
                 a: "A VLYNE centraliza todas as áreas em um único painel inteligente para decisões rápidas.",
-                icon: <Eye className="w-6 h-6 text-cyan-400" />
+                icon: <Eye className="w-6 h-6 text-cyan-400" />,
+                tag: "Dashboards Executivos"
               }
             ].map((faq, idx) => (
               <div key={idx} className="group flex flex-col md:flex-row items-center gap-4 bg-[#020a24]/80 border border-white/5 p-4 rounded-2xl hover:border-cyan-500/30 transition-colors">
@@ -683,7 +689,10 @@ export default function LandingPage() {
                   <ChevronRight className="w-6 h-6" />
                 </div>
 
-                <div className="flex-1 bg-cyan-500/5 rounded-xl p-4 flex items-center gap-4 border border-cyan-500/10 relative w-full md:w-auto">
+                <div className="flex-1 bg-cyan-500/5 rounded-xl p-4 flex flex-col justify-center border border-cyan-500/10 relative w-full md:w-auto min-h-[90px]">
+                  <span className="text-[9px] font-mono font-bold tracking-wider uppercase text-cyan-300 mb-1.5 opacity-80">
+                    {faq.tag}
+                  </span>
                   <p className="text-xs sm:text-sm text-gray-300 leading-relaxed pr-8">
                     <strong className="text-cyan-400 font-bold">A VLYNE</strong> {faq.a.substring(8)}
                   </p>
