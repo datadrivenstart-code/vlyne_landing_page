@@ -352,7 +352,7 @@ export default function LandingPage() {
                     <ShoppingBag className="w-6 h-6" />
                   </div>
                   <span className="text-[10px] font-mono font-bold tracking-wider uppercase text-cyan-300 bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/20">
-                    SaaS VAREJO
+                    SAAS PULSE
                   </span>
                 </div>
 
@@ -391,7 +391,7 @@ export default function LandingPage() {
               <div className="flex gap-3 mt-5">
                 <button 
                   onClick={() => handleOpenDemo('VLYNE Pulse Intelligence')}
-                  className="w-full text-center bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-400 hover:to-cyan-500 text-[#01143F] hover:shadow-[0_0_15px_rgba(6,182,212,0.4)] font-bold text-xs py-3.5 rounded-xl transition duration-200 tracking-wide cursor-pointer flex items-center justify-center gap-1.5"
+                  className="w-full text-center border border-cyan-500/50 bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 hover:shadow-[0_0_15px_rgba(6,182,212,0.4)] font-bold text-xs py-3.5 rounded-xl transition duration-200 tracking-wide cursor-pointer flex items-center justify-center gap-1.5"
                 >
                   Solicitar Demonstração
                 </button>
@@ -411,7 +411,7 @@ export default function LandingPage() {
                     <Award className="w-6 h-6" />
                   </div>
                   <span className="text-[10px] font-mono font-bold tracking-wider uppercase text-indigo-300 bg-indigo-500/10 px-3 py-1 rounded-full border border-indigo-500/20">
-                    SaaS PARQUE DE EXPOSIÇÕES
+                    SAAS EVENT
                   </span>
                 </div>
 
@@ -448,7 +448,7 @@ export default function LandingPage() {
               <div className="flex gap-3 mt-5">
                 <button 
                   onClick={() => handleOpenDemo('VLYNE Event Intelligence')}
-                  className="w-full text-center bg-gradient-to-r from-indigo-500 to-indigo-600 hover:from-indigo-400 hover:to-indigo-500 text-white hover:shadow-[0_0_15px_rgba(99,102,241,0.4)] font-bold text-xs py-3.5 rounded-xl transition duration-200 tracking-wide cursor-pointer flex items-center justify-center gap-1.5"
+                  className="w-full text-center border border-indigo-500/50 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 hover:shadow-[0_0_15px_rgba(99,102,241,0.4)] font-bold text-xs py-3.5 rounded-xl transition duration-200 tracking-wide cursor-pointer flex items-center justify-center gap-1.5"
                 >
                   Solicitar Demonstração
                 </button>
@@ -468,12 +468,12 @@ export default function LandingPage() {
                     <Tag className="w-6 h-6" />
                   </div>
                   <span className="text-[10px] font-mono font-bold tracking-wider uppercase text-emerald-300 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
-                    SaaS VAREJO & LOGÍSTICA
+                    SAAS ETIQUETAS
                   </span>
                 </div>
 
                 <h3 className="text-2xl font-bold mb-3 tracking-tight text-white group-hover:text-emerald-300 transition-colors duration-200">
-                  VLYNE Etiquetas Intelligence
+                  VLYNE Etiquetas Intelligence Intelligence
                 </h3>
                 <p className="text-xs sm:text-sm text-gray-400 mb-8 leading-relaxed">
                   Sistema inteligente para gestão, auditoria e emissão de etiquetas. Focado em precificação dinâmica, controle de gôndolas e total conformidade operacional no PDV.
@@ -505,7 +505,7 @@ export default function LandingPage() {
               <div className="flex gap-3 mt-5">
                 <button 
                   onClick={() => handleOpenDemo('VLYNE Etiquetas Intelligence')}
-                  className="w-full text-center bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-white hover:shadow-[0_0_15px_rgba(16,185,129,0.4)] font-bold text-xs py-3.5 rounded-xl transition duration-200 tracking-wide cursor-pointer flex items-center justify-center gap-1.5"
+                  className="w-full text-center border border-emerald-500/50 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 hover:shadow-[0_0_15px_rgba(16,185,129,0.4)] font-bold text-xs py-3.5 rounded-xl transition duration-200 tracking-wide cursor-pointer flex items-center justify-center gap-1.5"
                 >
                   Solicitar Demonstração
                 </button>
@@ -546,7 +546,7 @@ export default function LandingPage() {
                 transition={{ duration: 0.4, delay: index * 0.05 }}
                 className="bg-[#020a24]/80 border border-white/5 p-6 rounded-2xl hover:border-cyan-500/20 transition-all duration-300"
               >
-                <div className="w-10 h-10 rounded-xl bg-cyan-500/10 flex items-center justify-center mb-4">
+                <div className="w-10 h-10 rounded-xl border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 shadow-[0_0_10px_rgba(6,182,212,0.25)] flex items-center justify-center mb-4">
                   {diff.icon}
                 </div>
                 <h4 className="text-xs font-bold text-gray-100 mb-2 font-mono uppercase tracking-wide">
@@ -668,19 +668,19 @@ export default function LandingPage() {
                 q: "Estou correndo o risco de sofrer multas por preços divergentes no caixa?",
                 a: "A VLYNE audita e padroniza as etiquetas, sincronizando tudo com seu ERP.",
                 icon: <AlertTriangle className="w-6 h-6 text-cyan-400" />,
-                tag: "VLYNE Etiquetas Intelligence"
+                tag: "VLYNE Etiquetas Intelligence Intelligence"
               },
               {
                 q: "Como garantir a validade dos produtos e evitar perdas ou descartes indevidos?",
                 a: "A VLYNE controla datas críticas, gera alertas preventivos e automatiza a rastreabilidade.",
                 icon: <Calendar className="w-6 h-6 text-cyan-400" />,
-                tag: "VLYNE Etiquetas Intelligence"
+                tag: "VLYNE Etiquetas Intelligence Intelligence"
               },
               {
                 q: "Minha operação perde muito tempo atualizando preços manualmente?",
                 a: "A VLYNE automatiza a impressão de etiquetas e preços, eliminando erros humanos e desperdício de tempo.",
                 icon: <Tag className="w-6 h-6 text-cyan-400" />,
-                tag: "VLYNE Etiquetas Intelligence"
+                tag: "VLYNE Etiquetas Intelligence Intelligence"
               }
             ].map((faq, idx) => (
               <div key={idx} className="group flex flex-col md:flex-row items-center gap-4 bg-[#020a24]/80 border border-white/5 p-4 rounded-2xl hover:border-cyan-500/30 transition-colors">
@@ -894,7 +894,7 @@ export default function LandingPage() {
                         required
                         value={formData.empresa}
                         onChange={(e) => setFormData({ ...formData, empresa: e.target.value })}
-                        placeholder="Ex: Minha Empresa de Stand LTDA"
+                        placeholder="Ex: Minha Empresa"
                         className="w-full bg-[#03061c] border border-white/10 rounded-xl py-3 px-4 text-xs text-white placeholder-gray-600 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500/20 transition-all duration-200"
                       />
                     </div>
@@ -941,7 +941,7 @@ export default function LandingPage() {
                       >
                         <option value="VLYNE Pulse Intelligence">VLYNE Pulse Intelligence</option>
                         <option value="VLYNE Event Intelligence">VLYNE Event Intelligence</option>
-                        <option value="VLYNE Etiquetas Intelligence">VLYNE Etiquetas Intelligence</option>
+                        <option value="VLYNE Etiquetas Intelligence Intelligence">VLYNE Etiquetas Intelligence Intelligence</option>
                         <option value="Múltiplos Sistemas">Múltiplos Sistemas</option>
                       </select>
                     </div>
@@ -1052,7 +1052,7 @@ export default function LandingPage() {
                     className="w-full flex items-center justify-between p-4 bg-white/[0.03] hover:bg-emerald-500/10 border border-white/5 hover:border-emerald-500/30 rounded-2xl transition duration-200 group text-left"
                   >
                     <div>
-                      <h4 className="text-xs sm:text-sm font-bold text-white group-hover:text-emerald-300 transition-colors">VLYNE Etiquetas Intelligence</h4>
+                      <h4 className="text-xs sm:text-sm font-bold text-white group-hover:text-emerald-300 transition-colors">VLYNE Etiquetas Intelligence Intelligence</h4>
                       <p className="text-[10px] text-gray-500 mt-0.5">Sistema inteligente de emissão de etiquetas e auditoria</p>
                     </div>
                     <ArrowRight className="w-4 h-4 text-gray-500 group-hover:text-emerald-300 transition-colors" />
