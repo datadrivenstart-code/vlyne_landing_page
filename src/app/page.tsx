@@ -24,7 +24,8 @@ import {
   Smartphone,
   LineChart,
   ShoppingBag,
-  Award
+  Award,
+  Tag
 } from 'lucide-react';
 import TechBackground from '@/components/TechBackground';
 import VlyneLogo from '@/components/VlyneLogo';
@@ -342,7 +343,7 @@ export default function LandingPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Card Produto 1 */}
             <motion.div 
               whileHover={{ y: -6 }}
@@ -453,6 +454,63 @@ export default function LandingPage() {
                 <button 
                   onClick={() => handleOpenDemo('VLYNE Event Intelligence')}
                   className="w-full text-center bg-gradient-to-r from-indigo-500 to-indigo-600 hover:from-indigo-400 hover:to-indigo-500 text-white hover:shadow-[0_0_15px_rgba(99,102,241,0.4)] font-bold text-xs py-3.5 rounded-xl transition duration-200 tracking-wide cursor-pointer flex items-center justify-center gap-1.5"
+                >
+                  Solicitar Demonstração
+                </button>
+              </div>
+            </motion.div>
+
+            {/* Card Produto 3 */}
+            <motion.div 
+              whileHover={{ y: -6 }}
+              className="bg-[#020d2b] border border-white/5 rounded-3xl p-8 sm:p-10 relative overflow-hidden flex flex-col justify-between group shadow-xl shadow-cyan-950/20"
+            >
+              <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-2xl group-hover:bg-emerald-400/10 transition-colors duration-300" />
+              <div>
+                {/* Header card icon / indicator */}
+                <div className="flex items-center justify-between mb-6">
+                  <div className="p-3 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl text-white">
+                    <Tag className="w-6 h-6" />
+                  </div>
+                  <span className="text-[10px] font-mono font-bold tracking-wider uppercase text-emerald-300 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
+                    SaaS VAREJO & LOGÍSTICA
+                  </span>
+                </div>
+
+                <h3 className="text-2xl font-bold mb-3 tracking-tight text-white group-hover:text-emerald-300 transition-colors duration-200">
+                  VLYNE Etiquetas
+                </h3>
+                <p className="text-xs sm:text-sm text-gray-400 mb-8 leading-relaxed">
+                  Sistema inteligente para gestão, auditoria e emissão de etiquetas. Focado em precificação dinâmica, controle de gôndolas e total conformidade operacional no PDV.
+                </p>
+
+                {/* Features Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mb-8">
+                  {[
+                    'Emissão de Etiquetas',
+                    'Precificação Dinâmica',
+                    'Leitura de Códigos',
+                    'Auditoria de Gôndola',
+                    'Integração de ERP',
+                    'Layouts Customizáveis',
+                    'Gestão de Campanhas',
+                    'Mobilidade no PDV',
+                    'Indicadores de Ruptura'
+                  ].map((feat) => (
+                    <div key={feat} className="flex items-center gap-2.5">
+                      <div className="w-4 h-4 rounded-full bg-emerald-500/15 text-emerald-400 flex items-center justify-center shrink-0">
+                        <Check className="w-2.5 h-2.5 stroke-[3]" />
+                      </div>
+                      <span className="text-xs font-medium text-gray-300">{feat}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex gap-3 mt-5">
+                <button 
+                  onClick={() => handleOpenDemo('VLYNE Etiquetas')}
+                  className="w-full text-center bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-white hover:shadow-[0_0_15px_rgba(16,185,129,0.4)] font-bold text-xs py-3.5 rounded-xl transition duration-200 tracking-wide cursor-pointer flex items-center justify-center gap-1.5"
                 >
                   Solicitar Demonstração
                 </button>
@@ -789,7 +847,8 @@ export default function LandingPage() {
                       >
                         <option value="VLYNE Retail Intelligence">VLYNE Retail Intelligence (SaaS Varejo)</option>
                         <option value="VLYNE Event Intelligence">VLYNE Event Intelligence (SaaS Cenografia/Eventos)</option>
-                        <option value="Ambos os Produtos">Ambos os Sistemas</option>
+                        <option value="VLYNE Etiquetas">VLYNE Etiquetas (SaaS Varejo & Logística)</option>
+                        <option value="Ambos os Produtos">Múltiplos Sistemas</option>
                       </select>
                     </div>
 
@@ -889,9 +948,20 @@ export default function LandingPage() {
                   >
                     <div>
                       <h4 className="text-xs sm:text-sm font-bold text-white group-hover:text-indigo-300 transition-colors">VLYNE Event Intelligence</h4>
-                      <p className="text-[10px] text-gray-500 mt-0.5">SaaS para cenografia e controle operacional de eventos</p>
+                      <p className="text-[10px] text-gray-500 mt-0.5">SaaS para eventos e cenografia</p>
                     </div>
                     <ArrowRight className="w-4 h-4 text-gray-500 group-hover:text-indigo-300 transition-colors" />
+                  </a>
+
+                  <a 
+                    href="https://etiquetas.vlyne.com.br/login"
+                    className="w-full flex items-center justify-between p-4 bg-white/[0.03] hover:bg-emerald-500/10 border border-white/5 hover:border-emerald-500/30 rounded-2xl transition duration-200 group text-left"
+                  >
+                    <div>
+                      <h4 className="text-xs sm:text-sm font-bold text-white group-hover:text-emerald-300 transition-colors">VLYNE Etiquetas</h4>
+                      <p className="text-[10px] text-gray-500 mt-0.5">Sistema inteligente de emissão de etiquetas e auditoria</p>
+                    </div>
+                    <ArrowRight className="w-4 h-4 text-gray-500 group-hover:text-emerald-300 transition-colors" />
                   </a>
                 </div>
               </div>
