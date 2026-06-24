@@ -721,7 +721,7 @@ export default function LandingPage() {
             &copy; 2026 VLYNE. Todos os direitos reservados.
           </p>
           <div className="flex gap-4">
-            <span className="text-[9px] text-gray-600 font-mono">Brasília, DF, Brasil</span>
+            <span className="text-[9px] text-gray-600 font-mono">São Paulo, SP, Brasil</span>
           </div>
         </div>
       </footer>
