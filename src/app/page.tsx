@@ -921,10 +921,10 @@ export default function LandingPage() {
                         onChange={(e) => setFormData({ ...formData, produto: e.target.value })}
                         className="w-full bg-[#03061c] border border-white/10 rounded-xl py-3 px-4 text-xs text-white focus:outline-none focus:border-cyan-500 transition-all duration-200 cursor-pointer"
                       >
-                        <option value="VLYNE Pulse Intelligence">VLYNE Pulse Intelligence (SaaS Varejo)</option>
-                        <option value="VLYNE Event Intelligence">VLYNE Event Intelligence (SaaS Cenografia/Eventos)</option>
-                        <option value="VLYNE Etiquetas">VLYNE Etiquetas (SaaS Varejo & Logística)</option>
-                        <option value="Ambos os Produtos">Múltiplos Sistemas</option>
+                        <option value="VLYNE Pulse Intelligence">VLYNE Pulse Intelligence</option>
+                        <option value="VLYNE Event Intelligence">VLYNE Event Intelligence</option>
+                        <option value="VLYNE Etiquetas Intelligence">VLYNE Etiquetas Intelligence</option>
+                        <option value="Múltiplos Sistemas">Múltiplos Sistemas</option>
                       </select>
                     </div>
 
