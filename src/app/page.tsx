@@ -619,6 +619,60 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* FAQ / Dores e Soluções */}
+      <section id="faq" className="relative py-12 md:py-24 px-6 z-10 border-t border-white/[0.02]">
+        <div className="max-w-4xl mx-auto space-y-10 md:space-y-16">
+          <div className="text-center space-y-4 max-w-2xl mx-auto">
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
+              Identifique o seu gargalo operacional
+            </h2>
+            <p className="text-xs sm:text-sm text-gray-400">
+              Veja como os sistemas da VLYNE resolvem as principais dores do mercado através de inteligência de dados aplicada.
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            {[
+              {
+                q: "Você não tem indicadores de ruptura em tempo real e perde vendas porque o produto acabou na gôndola?",
+                a: "Com o VLYNE Etiquetas e o VLYNE Retail Intelligence, você unifica os dados do seu ERP e do PDV. O sistema dispara alertas automáticos e garante que a reposição e a auditoria da gôndola ocorram antes que o cliente sinta a falta do produto.",
+                tag: "Varejo & Etiquetas"
+              },
+              {
+                q: "A montagem dos seus eventos ultrapassa o orçamento por falta de controle de materiais e equipes?",
+                a: "O VLYNE Event Intelligence atua na linha de frente da cenografia e organização de eventos. Acompanhe listas de produção, custos operacionais e alocação de equipe na palma da mão, garantindo margem de lucro e entregas no prazo.",
+                tag: "Eventos & Cenografia"
+              },
+              {
+                q: "Sua precificação dinâmica é lenta e gera divergência entre o preço da prateleira e o do caixa?",
+                a: "Nosso sistema VLYNE Etiquetas audita, formata e acelera a emissão de etiquetas promocionais. Toda a base sincroniza com seu ERP de forma instantânea, acabando com as multas do Procon e a perda de confiança do seu cliente.",
+                tag: "Etiquetas & PDV"
+              },
+              {
+                q: "As informações da sua rede de lojas estão espalhadas em planilhas manuais gerando confusão?",
+                a: "O VLYNE Retail Intelligence consolida os números de todas as suas lojas (vendas, quebras, metas, tickets) num painel vivo, acessível por web ou mobile, para que a diretoria consiga agir e corrigir as rotas sem depender de analistas.",
+                tag: "Retail Intelligence"
+              }
+            ].map((faq, idx) => (
+              <details key={idx} className="group bg-[#020a24]/80 border border-white/5 rounded-2xl overflow-hidden [&_summary::-webkit-details-marker]:hidden">
+                <summary className="flex items-center justify-between cursor-pointer p-6 hover:bg-white/[0.02] transition-colors">
+                  <div className="space-y-2 pr-6">
+                    <span className="text-[10px] font-mono font-bold tracking-wider uppercase text-cyan-400 bg-cyan-500/10 px-2.5 py-1 rounded-full border border-cyan-500/20">{faq.tag}</span>
+                    <h3 className="text-sm sm:text-base font-bold text-white leading-relaxed mt-2">{faq.q}</h3>
+                  </div>
+                  <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center shrink-0 group-open:rotate-180 transition-transform duration-300">
+                    <svg className="w-4 h-4 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                  </div>
+                </summary>
+                <div className="p-6 pt-0 text-xs sm:text-sm text-gray-400 leading-relaxed border-t border-white/5 bg-[#01081f]/50 mt-2">
+                  {faq.a}
+                </div>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Call To Action Final */}
       <section className="relative py-16 md:py-24 px-6 z-10 border-t border-white/[0.02] flex items-center justify-center">
         <div className="max-w-4xl w-full mx-auto relative bg-gradient-to-b from-[#020d2b] to-[#010a24] border border-cyan-500/10 rounded-3xl p-8 sm:p-14 text-center overflow-hidden shadow-2xl">
