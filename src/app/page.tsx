@@ -348,7 +348,7 @@ export default function LandingPage() {
               <div>
                 {/* Header card icon / indicator */}
                 <div className="flex items-center justify-between mb-6">
-                  <div className="p-3 bg-gradient-to-br from-cyan-400 to-cyan-600 rounded-2xl text-white">
+                  <div className="p-3 rounded-2xl border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.25)]">
                     <ShoppingBag className="w-6 h-6" />
                   </div>
                   <span className="text-[10px] font-mono font-bold tracking-wider uppercase text-cyan-300 bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/20">
@@ -407,7 +407,7 @@ export default function LandingPage() {
               <div>
                 {/* Header card icon / indicator */}
                 <div className="flex items-center justify-between mb-6">
-                  <div className="p-3 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-2xl text-white">
+                  <div className="p-3 rounded-2xl border border-indigo-500/30 bg-indigo-500/10 text-indigo-400 shadow-[0_0_15px_rgba(99,102,241,0.25)]">
                     <Award className="w-6 h-6" />
                   </div>
                   <span className="text-[10px] font-mono font-bold tracking-wider uppercase text-indigo-300 bg-indigo-500/10 px-3 py-1 rounded-full border border-indigo-500/20">
@@ -464,7 +464,7 @@ export default function LandingPage() {
               <div>
                 {/* Header card icon / indicator */}
                 <div className="flex items-center justify-between mb-6">
-                  <div className="p-3 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl text-white">
+                  <div className="p-3 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.25)]">
                     <Tag className="w-6 h-6" />
                   </div>
                   <span className="text-[10px] font-mono font-bold tracking-wider uppercase text-emerald-300 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
