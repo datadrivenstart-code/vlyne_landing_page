@@ -954,7 +954,7 @@ export default function LandingPage() {
                   </a>
 
                   <a 
-                    href="https://etiquetas.vlyne.com.br/login"
+                    href="https://etiquetas.vlyne.com.br/"
                     className="w-full flex items-center justify-between p-4 bg-white/[0.03] hover:bg-emerald-500/10 border border-white/5 hover:border-emerald-500/30 rounded-2xl transition duration-200 group text-left"
                   >
                     <div>
