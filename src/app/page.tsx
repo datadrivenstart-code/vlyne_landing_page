@@ -35,8 +35,7 @@ import {
 } from 'lucide-react';
 import TechBackground from '@/components/TechBackground';
 import VlyneLogo from '@/components/VlyneLogo';
-import { db, isFirebaseConfigured } from '@/services/firebase';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { supabase, isSupabaseConfigured } from '@/services/supabase';
 
 export default function LandingPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -94,12 +93,16 @@ export default function LandingPage() {
 
     try {
       // 1. Try to persist to Firestore if configured
-      if (isFirebaseConfigured && db) {
-        await addDoc(collection(db, 'vlyne_leads'), {
-          ...formData,
-          createdAt: serverTimestamp(),
+      if (isSupabaseConfigured && supabase) {
+        const { error } = await supabase.from('vlyne_leads').insert([{
+          name: formData.nome,
+          email: formData.email,
+          company: formData.empresa,
+          timestamp: new Date().toISOString(),
+          status: 'novo',
           source: 'Landing Page Institucional'
-        });
+        }]);
+        if (error) throw error;
       }
 
       // 2. Also save to localStorage as fallback/backup
