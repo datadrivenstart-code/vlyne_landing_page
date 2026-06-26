@@ -1029,7 +1029,7 @@ export default function LandingPage() {
 
                 <div className="flex flex-col gap-3.5 pt-2">
                   <a 
-                    href="https://retail.vlyne.com.br/login"
+                    href="https://pulse.vlyne.com.br/login"
                     className="w-full flex items-center justify-between p-4 bg-white/[0.03] hover:bg-cyan-500/10 border border-white/5 hover:border-cyan-500/30 rounded-2xl transition duration-200 group text-left"
                   >
                     <div>
