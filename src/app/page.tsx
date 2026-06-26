@@ -303,7 +303,7 @@ export default function LandingPage() {
           </div>
 
           {/* Symmetrical Tech Visual Accent column */}
-          <div className="lg:col-span-5 flex justify-center items-center">
+          <div className="hidden lg:flex lg:col-span-5 justify-center items-center">
             <motion.div 
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}

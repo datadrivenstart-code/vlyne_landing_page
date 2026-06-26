@@ -49,7 +49,7 @@ export default function TechBackground() {
     // Generate random circuit paths
     const generatePaths = () => {
       paths = [];
-      const numPaths = Math.floor((width + height) / 45); // Scale density based on screen resolution
+      const numPaths = width < 768 ? Math.floor((width + height) / 100) : Math.floor((width + height) / 45);
       
       for (let i = 0; i < numPaths; i++) {
         const layer = Math.random() < 0.4 ? 1 : Math.random() < 0.75 ? 2 : 3;
