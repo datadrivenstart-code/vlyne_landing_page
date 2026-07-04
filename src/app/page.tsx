@@ -250,7 +250,7 @@ export default function LandingPage() {
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             aria-label="Voltar ao início"
           >
-            <VlyneLogo showText={true} className="h-14 sm:h-16 !justify-start" />
+            <VlyneLogo showText={true} className="h-16 sm:h-24 lg:h-28 !justify-start" />
           </button>
 
           <nav className="hidden md:flex items-center gap-8">
@@ -405,17 +405,17 @@ export default function LandingPage() {
                 <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
                   <div>
                     <p className="text-[10px] font-black uppercase tracking-[0.22em] text-cyan-300">Painel VLYNE</p>
-                    <h2 className="text-xl font-black mt-1">Gargalos operacionais</h2>
+                    <h2 className="text-xl font-black mt-1">Mapa de riscos da operação</h2>
                   </div>
                   <ShieldCheck className="w-8 h-8 text-cyan-300" />
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
                   {[
-                    ['R$ 184 mil', 'Capital parado em estoque', 'text-amber-300'],
-                    ['37 itens', 'Ruptura crítica por loja', 'text-rose-300'],
+                    ['R$ 184 mil', 'Capital parado e perdas ocultas', 'text-amber-300'],
+                    ['37 itens', 'Produtos sem giro ou ruptura', 'text-rose-300'],
                     ['12 projetos', 'Margem abaixo do planejado', 'text-amber-300'],
-                    ['28 alertas', 'Validade e etiqueta crítica', 'text-rose-300'],
+                    ['28 alertas', 'Etiquetas, validade e auditoria', 'text-rose-300'],
                   ].map(([value, label, color]) => (
                     <div key={label} className="rounded-lg border border-white/10 bg-white/[0.04] p-4">
                       <p className={`text-2xl font-black ${color}`}>{value}</p>
@@ -431,9 +431,9 @@ export default function LandingPage() {
                   </div>
                   <div className="space-y-3">
                     {[
-                      'Reduzir excesso da categoria mercearia',
-                      'Repor itens A com ruptura recorrente',
-                      'Revisar custo real dos projetos em aberto',
+                      'Identificar estoque parado, ruptura e excesso por loja',
+                      'Auditar etiquetas, validade e rastreabilidade crítica',
+                      'Revisar custo real e margem dos projetos em aberto',
                     ].map((item) => (
                       <div key={item} className="flex items-start gap-2 text-sm text-gray-200">
                         <CheckCircle2 className="w-4 h-4 text-cyan-300 mt-0.5 shrink-0" />
