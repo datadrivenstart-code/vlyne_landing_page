@@ -13,9 +13,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "VLYNE - Inteligência que Impulsiona Decisão",
-  description: "A VLYNE transforma dados complexos em insights estratégicos. Descubra como nossa inteligência de decisão impulsiona os resultados do seu negócio.",
-  keywords: "VLYNE, inteligência de decisão, tomada de decisão, dados, insights estratégicos, tecnologia empresarial",
+  title: "VLYNE - Controle operacional, estoque, eventos e etiquetas",
+  description:
+    "A VLYNE ajuda empresas a identificar perdas, controlar estoque, acompanhar projetos, reduzir rupturas e gerenciar etiquetas, validade e rastreabilidade.",
+  keywords:
+    "VLYNE, controle de estoque, ruptura de estoque, produtos sem giro, gestao de eventos, etiquetas, food safety, validade, rastreabilidade, inteligencia operacional",
 };
 
 export default function RootLayout({
