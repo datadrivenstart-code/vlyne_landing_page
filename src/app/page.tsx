@@ -73,8 +73,8 @@ const segments = [
     product: 'VLYNE Etiquetas Intelligence',
     title: 'Etiqueta incorreta pode custar caro.',
     description:
-      'Controle impressão de etiquetas, validade, rastreabilidade, auditoria, precificação e integração com ERP.',
-    bullets: ['Validades críticas', 'Auditoria de etiquetas', 'Rastreabilidade', 'Integração com ERP'],
+      'Controle impressão de etiquetas, validade, rastreabilidade, auditoria e conformidade sanitária para reduzir falhas que podem gerar autuação.',
+    bullets: ['Validades críticas', 'Auditoria de etiquetas', 'Rastreabilidade', 'Conformidade Anvisa'],
   },
 ];
 
@@ -115,7 +115,7 @@ const solutions = [
   {
     name: 'VLYNE Etiquetas Intelligence',
     tag: 'Etiquetas, validade e auditoria',
-    text: 'Controla etiquetas, validade, rastreabilidade, precificação, auditoria e integração com ERP.',
+    text: 'Controla etiquetas, validade, rastreabilidade e auditoria para reduzir riscos de autuação sanitária por falhas de rotulagem.',
   },
 ];
 
@@ -413,7 +413,7 @@ export default function LandingPage() {
                   {[
                     ['Pulse Intelligence', 'Varejo, estoque, vendas, ruptura e produtos parados.'],
                     ['Event Intelligence', 'Projetos, custos, equipes, contratos e margem real.'],
-                    ['Etiquetas Intelligence', 'Rotulagem, validade, rastreabilidade, auditoria e ERP.'],
+                    ['Etiquetas Intelligence', 'Rotulagem exigida, validade, rastreabilidade e risco de autuação sanitária.'],
                   ].map(([title, description]) => (
                     <div key={title} className="rounded-lg border border-white/10 bg-white/[0.04] p-4">
                       <div className="flex items-start gap-3">
