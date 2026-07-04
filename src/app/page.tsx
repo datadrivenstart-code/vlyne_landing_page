@@ -5,7 +5,6 @@ import { AnimatePresence, motion } from 'motion/react';
 import {
   AlertTriangle,
   ArrowRight,
-  BarChart3,
   Building,
   CalendarDays,
   CheckCircle2,
@@ -404,43 +403,38 @@ export default function LandingPage() {
               >
                 <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
                   <div>
-                    <p className="text-[10px] font-black uppercase tracking-[0.22em] text-cyan-300">Painel VLYNE</p>
-                    <h2 className="text-xl font-black mt-1">Mapa de riscos da operação</h2>
+                    <p className="text-[10px] font-black uppercase tracking-[0.22em] text-cyan-300">Ecossistema VLYNE</p>
+                    <h2 className="text-xl font-black mt-1">Onde a sua operação precisa de clareza?</h2>
                   </div>
                   <ShieldCheck className="w-8 h-8 text-cyan-300" />
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-3">
                   {[
-                    ['R$ 184 mil', 'Capital parado e perdas ocultas', 'text-amber-300'],
-                    ['37 itens', 'Produtos sem giro ou ruptura', 'text-rose-300'],
-                    ['12 projetos', 'Margem abaixo do planejado', 'text-amber-300'],
-                    ['28 alertas', 'Etiquetas, validade e auditoria', 'text-rose-300'],
-                  ].map(([value, label, color]) => (
-                    <div key={label} className="rounded-lg border border-white/10 bg-white/[0.04] p-4">
-                      <p className={`text-2xl font-black ${color}`}>{value}</p>
-                      <p className="text-[11px] text-gray-300 mt-2 leading-5">{label}</p>
+                    ['Pulse Intelligence', 'Varejo, estoque, vendas, ruptura e produtos parados.'],
+                    ['Event Intelligence', 'Projetos, custos, equipes, contratos e margem real.'],
+                    ['Etiquetas Intelligence', 'Rotulagem, validade, rastreabilidade, auditoria e ERP.'],
+                  ].map(([title, description]) => (
+                    <div key={title} className="rounded-lg border border-white/10 bg-white/[0.04] p-4">
+                      <div className="flex items-start gap-3">
+                        <CheckCircle2 className="w-5 h-5 text-cyan-300 mt-0.5 shrink-0" />
+                        <div>
+                          <p className="text-base font-black text-white">{title}</p>
+                          <p className="text-[12px] text-gray-300 mt-1 leading-5">{description}</p>
+                        </div>
+                      </div>
                     </div>
                   ))}
                 </div>
 
                 <div className="mt-4 rounded-lg border border-cyan-300/15 bg-cyan-300/10 p-4">
                   <div className="flex items-center gap-2 mb-3">
-                    <BarChart3 className="w-5 h-5 text-cyan-300" />
-                    <p className="text-sm font-black">Prioridades da semana</p>
+                    <Target className="w-5 h-5 text-cyan-300" />
+                    <p className="text-sm font-black">Diagnóstico antes da ferramenta</p>
                   </div>
-                  <div className="space-y-3">
-                    {[
-                      'Identificar estoque parado, ruptura e excesso por loja',
-                      'Auditar etiquetas, validade e rastreabilidade crítica',
-                      'Revisar custo real e margem dos projetos em aberto',
-                    ].map((item) => (
-                      <div key={item} className="flex items-start gap-2 text-sm text-gray-200">
-                        <CheckCircle2 className="w-4 h-4 text-cyan-300 mt-0.5 shrink-0" />
-                        <span>{item}</span>
-                      </div>
-                    ))}
-                  </div>
+                  <p className="text-sm text-gray-200 leading-6">
+                    A VLYNE identifica o gargalo primeiro e direciona a empresa para a solução certa, sem tratar negócios diferentes como se fossem o mesmo problema.
+                  </p>
                 </div>
               </motion.div>
             </div>
