@@ -53,6 +53,48 @@
   }
 }
 
+/*
+ * Hero fade-in, progressive enhancement.
+ * Default: fully visible, no dependency on JS running.
+ * Once JS hydrates, .js-ready is added to #home and the elements replay
+ * a short fade-in-up for polish. If JS never runs (or fails), content
+ * stays visible from first paint — no invisible-text risk.
+ */
+.reveal {
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes heroReveal {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .js-ready .reveal {
+    animation: heroReveal 0.55s ease-out both;
+  }
+  .js-ready .reveal.reveal-delay-0 { animation-delay: 0s; }
+  .js-ready .reveal.reveal-delay-1 { animation-delay: 0.05s; }
+  .js-ready .reveal.reveal-delay-2 { animation-delay: 0.12s; }
+  .js-ready .reveal.reveal-delay-3 { animation-delay: 0.18s; }
+  .js-ready .reveal.reveal-delay-4 { animation-delay: 0.14s; }
+}
+
+/* Safety net: forces visibility if the animation class is ever added
+   without completing (see the setTimeout fallback in page.tsx). */
+.reveal.reveal-visible {
+  opacity: 1 !important;
+  transform: none !important;
+  animation: none !important;
+}
+
 body {
   background-color: #01143F;
   color: #ffffff;

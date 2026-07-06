@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { AnimatePresence, motion } from 'motion/react';
 import {
   AlertTriangle,
@@ -160,6 +161,19 @@ export default function LandingPage() {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Progressive enhancement for the hero fade-in: content starts fully
+  // visible (see .reveal in globals.css) and only animates once JS has
+  // hydrated. The safety timeout guarantees the elements stay visible
+  // even if the animation class fails to apply for any reason.
+  useEffect(() => {
+    const root = document.getElementById('home');
+    root?.classList.add('js-ready');
+    const safety = setTimeout(() => {
+      document.querySelectorAll('.reveal').forEach((el) => el.classList.add('reveal-visible'));
+    }, 1200);
+    return () => clearTimeout(safety);
   }, []);
 
   const handleOpenDemo = (product?: string) => {
@@ -338,42 +352,30 @@ export default function LandingPage() {
         <section className="min-h-screen flex items-center px-5 sm:px-6 pt-24 sm:pt-28 pb-12 sm:pb-16 bg-landing-grid">
           <div className="max-w-7xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-7 text-center lg:text-left">
-              <motion.div
-                initial={{ opacity: 0, y: 18 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-cyan-400/20 bg-cyan-500/10 text-cyan-200 mb-5 sm:mb-6"
+              <div
+                className="reveal reveal-delay-0 inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-cyan-400/20 bg-cyan-500/10 text-cyan-200 mb-5 sm:mb-6"
               >
                 <AlertTriangle className="w-4 h-4" />
                   <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-[0.18em] sm:tracking-[0.22em]">Gestão orientada por perdas reais</span>
-              </motion.div>
+              </div>
 
-              <motion.h1
-                initial={{ opacity: 0, y: 18 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.55, delay: 0.05 }}
-                className="text-[2.35rem] sm:text-5xl lg:text-7xl font-black tracking-normal leading-[1.03]"
+              <h1
+                className="reveal reveal-delay-1 text-[2.35rem] sm:text-5xl lg:text-7xl font-black tracking-normal leading-[1.03]"
               >
                 O que você não vê na operação pode estar{' '}
                 <span className="bg-gradient-to-r from-cyan-300 via-white to-indigo-200 bg-clip-text text-transparent">
                   custando caro.
                 </span>
-              </motion.h1>
+              </h1>
 
-              <motion.p
-                initial={{ opacity: 0, y: 18 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.55, delay: 0.12 }}
-                className="mt-5 sm:mt-6 text-sm sm:text-lg text-gray-300 max-w-2xl mx-auto lg:mx-0 leading-7 sm:leading-8"
+              <p
+                className="reveal reveal-delay-2 mt-5 sm:mt-6 text-sm sm:text-lg text-gray-300 max-w-2xl mx-auto lg:mx-0 leading-7 sm:leading-8"
               >
                 Estoque parado, ruptura, etiquetas incorretas, projetos sem margem e decisões baseadas em planilhas podem gerar prejuízo todos os dias. A VLYNE mostra onde agir antes que o problema vire perda.
-              </motion.p>
+              </p>
 
-              <motion.div
-                initial={{ opacity: 0, y: 18 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.55, delay: 0.18 }}
-                className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4 mt-7 sm:mt-8"
+              <div
+                className="reveal reveal-delay-3 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4 mt-7 sm:mt-8"
               >
                 <button
                   onClick={() => handleOpenDemo()}
@@ -391,15 +393,12 @@ export default function LandingPage() {
                   <MessageCircle className="w-4 h-4" />
                   Falar no WhatsApp
                 </a>
-              </motion.div>
+              </div>
             </div>
 
             <div className="hidden lg:block lg:col-span-5">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.96 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.65, delay: 0.14 }}
-                className="bg-[#020d2b]/90 border border-cyan-400/15 rounded-lg p-5 shadow-2xl shadow-cyan-950/40 backdrop-blur"
+              <div
+                className="reveal reveal-delay-4 bg-[#020d2b]/90 border border-cyan-400/15 rounded-lg p-5 shadow-2xl shadow-cyan-950/40 backdrop-blur"
               >
                 <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
                   <div>
@@ -436,7 +435,7 @@ export default function LandingPage() {
                     A VLYNE identifica o gargalo primeiro e direciona a empresa para a solução certa, sem tratar negócios diferentes como se fossem o mesmo problema.
                   </p>
                 </div>
-              </motion.div>
+              </div>
             </div>
           </div>
         </section>
@@ -507,7 +506,7 @@ export default function LandingPage() {
                       onClick={() => handleOpenDemo(segment.product)}
                       className="mt-6 w-full rounded-lg border border-cyan-500/30 bg-cyan-500/10 py-3 text-xs font-black uppercase tracking-wider text-cyan-200 hover:bg-cyan-500/20 transition"
                     >
-                      Ver solução
+                      Ver solução para {segment.label}
                     </button>
                   </motion.article>
                 );
@@ -686,7 +685,12 @@ export default function LandingPage() {
 
         <div className="max-w-7xl mx-auto border-t border-white/5 mt-12 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-[10px] text-gray-600 font-mono">&copy; 2026 VLYNE. Todos os direitos reservados.</p>
-          <span className="text-[9px] text-gray-600 font-mono">São Paulo, SP, Brasil</span>
+          <div className="flex items-center gap-4">
+            <Link href="/politica-de-privacidade" className="text-[10px] text-gray-500 hover:text-cyan-400 font-mono transition">
+              Política de Privacidade
+            </Link>
+            <span className="text-[9px] text-gray-600 font-mono">São Paulo, SP, Brasil</span>
+          </div>
         </div>
       </footer>
 
