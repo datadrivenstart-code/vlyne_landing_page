@@ -24,6 +24,9 @@ import {
   Smile,
   Target,
   TrendingDown,
+  Truck,
+  Users,
+  Workflow,
   X,
 } from 'lucide-react';
 import TechBackground from '@/components/TechBackground';
@@ -34,39 +37,54 @@ const WHATSAPP_URL =
   'https://wa.me/5511920480770?text=Ol%C3%A1!%20Quero%20solicitar%20um%20diagn%C3%B3stico%20operacional%20da%20VLYNE.';
 
 const menuItems = [
+  { label: 'Event Intelligence', href: '#event' },
   { label: 'Dores', href: '#dores' },
-  { label: 'Soluções', href: '#solucoes' },
-  { label: 'Indicadores', href: '#indicadores' },
+  { label: 'Portfólio', href: '#solucoes' },
   { label: 'Contato', href: '#contato' },
 ];
 
+// Linha do tempo real do processo que o Event Intelligence acompanha - a
+// mesma matriz de 13 etapas usada dentro do produto, aqui como prova
+// concreta de profundidade (não é só um slide de vendas genérico).
+const eventStages = [
+  'Prospecção',
+  'Proposta',
+  'Orçamento',
+  'Contrato',
+  'Produção',
+  'Montagem',
+  'Evento',
+  'Desmontagem',
+  'Reaproveitamento',
+  'Fechamento',
+];
+
+const eventFeatures = [
+  { icon: Workflow, text: 'Linha do tempo do projeto, do prospect ao pagamento' },
+  { icon: DollarSign, text: 'Margem real por evento, não só faturamento' },
+  { icon: Truck, text: 'Remessas, montagem e retorno de material ao estoque' },
+  { icon: Users, text: 'Equipes, contratos e fornecedores num só lugar' },
+];
+
 const painQuestions = [
-  'Você sabe quanto dinheiro está parado no seu estoque?',
-  'Sabe quais produtos estão sem giro nas lojas?',
-  'Sabe se suas etiquetas seguem os padrões exigidos?',
-  'Sabe se cada projeto de evento realmente deu lucro?',
+  'Você sabe se cada projeto de evento realmente deu lucro?',
   'Sabe onde sua equipe perde tempo todos os dias?',
   'Sabe quais decisões precisam ser tomadas hoje?',
+  'Sabe quanto dinheiro está parado no seu estoque?',
+  'Sabe quais produtos estão sem giro nas lojas?',
+  'Sabe se suas etiquetas seguem os padrões exigidos?',
 ];
 
 const segments = [
-  {
-    icon: ShoppingBag,
-    label: 'Varejo e estoque',
-    product: 'VLYNE Pulse Intelligence',
-    title: 'Produto parado e ruptura viram perda todos os dias.',
-    description:
-      'Controle produtos sem giro, excesso de estoque, rupturas, metas de venda e sugestões de compra com indicadores em tempo real.',
-    bullets: ['Produtos sem giro', 'Ruptura por loja', 'Sugestão de compra', 'Metas de venda'],
-  },
   {
     icon: CalendarDays,
     label: 'Eventos e projetos',
     product: 'VLYNE Event Intelligence',
     title: 'Faturamento alto não garante margem.',
     description:
-      'Acompanhe custos, contratos, equipes, tarefas, suprimentos, faturamento e rentabilidade real de cada projeto.',
-    bullets: ['Custo operacional', 'Margem por projeto', 'Controle de equipes', 'Contratos e faturamento'],
+      'Acompanhe custos, contratos, equipes, tarefas, suprimentos, faturamento e rentabilidade real de cada projeto, do orçamento ao pagamento.',
+    bullets: ['Margem por projeto', 'Controle de equipes', 'Remessas e logística', 'Contratos e faturamento'],
+    featured: true,
   },
   {
     icon: ClipboardCheck,
@@ -76,61 +94,75 @@ const segments = [
     description:
       'Controle impressão de etiquetas, validade, rastreabilidade, auditoria e conformidade sanitária para reduzir falhas que podem gerar autuação.',
     bullets: ['Validades críticas', 'Auditoria de etiquetas', 'Rastreabilidade', 'Conformidade Anvisa'],
+    featured: false,
+  },
+  {
+    icon: ShoppingBag,
+    label: 'Varejo e estoque',
+    product: 'VLYNE Pulse Intelligence',
+    title: 'Produto parado e ruptura viram perda todos os dias.',
+    description:
+      'Controle produtos sem giro, excesso de estoque, rupturas, metas de venda e sugestões de compra com indicadores em tempo real.',
+    bullets: ['Produtos sem giro', 'Ruptura por loja', 'Sugestão de compra', 'Metas de venda'],
+    featured: false,
   },
 ];
 
 const risks = [
   {
+    icon: DollarSign,
+    title: 'Projeto sem controle',
+    text: 'Sem custo real por projeto, a margem desaparece antes da gestão perceber.',
+  },
+  {
     icon: FileWarning,
     title: 'Etiqueta incorreta',
-    text: 'Pode gerar retrabalho, perda de produto, risco sanitário, autuação, multas e dano à confiança do consumidor.',
+    text: 'Pode gerar retrabalho, perda de produto, risco sanitário, autuação e multas.',
   },
   {
     icon: PackageSearch,
     title: 'Estoque parado',
-    text: 'Capital preso em produtos que não giram, enquanto o caixa poderia estar comprando melhor.',
+    text: 'Capital preso em produtos que não giram, enquanto o caixa poderia comprar melhor.',
   },
   {
     icon: TrendingDown,
     title: 'Ruptura',
     text: 'Venda perdida, cliente insatisfeito e oportunidade entregue ao concorrente.',
   },
-  {
-    icon: DollarSign,
-    title: 'Projeto sem controle',
-    text: 'Sem custo real por projeto, a margem desaparece antes da gestão perceber.',
-  },
 ];
 
 const solutions = [
   {
-    name: 'VLYNE Pulse Intelligence',
-    tag: 'Varejo, vendas e estoque',
-    text: 'Mostra produtos parados, rupturas, excesso, metas, compras sugeridas e indicadores executivos para agir antes da perda.',
-  },
-  {
     name: 'VLYNE Event Intelligence',
     tag: 'Eventos, stands e projetos',
-    text: 'Centraliza CRM, contratos, suprimentos, equipes, financeiro, tarefas e rentabilidade por projeto.',
+    text: 'Centraliza CRM, contratos, suprimentos, equipes, financeiro, tarefas e rentabilidade por projeto — do prospect ao pagamento.',
+    featured: true,
   },
   {
     name: 'VLYNE Etiquetas Intelligence',
     tag: 'Etiquetas, validade e auditoria',
     text: 'Controla etiquetas, validade, rastreabilidade e auditoria para reduzir riscos de autuação sanitária por falhas de rotulagem.',
+    featured: false,
+  },
+  {
+    name: 'VLYNE Pulse Intelligence',
+    tag: 'Varejo, vendas e estoque',
+    text: 'Mostra produtos parados, rupturas, excesso, metas, compras sugeridas e indicadores executivos para agir antes da perda.',
+    featured: false,
   },
 ];
 
 const indicators = [
+  'Margem por projeto',
+  'Custo operacional',
+  'Rentabilidade',
+  'Validades próximas',
+  'Divergência de preço',
   'Produtos sem giro',
   'Excesso de estoque',
   'Ruptura por loja',
-  'Margem por projeto',
-  'Validades próximas',
-  'Divergência de preço',
   'Metas de venda',
   'Sugestão de compra',
-  'Custo operacional',
-  'Rentabilidade',
 ];
 
 type FormData = {
@@ -151,7 +183,7 @@ export default function LandingPage() {
     empresa: '',
     email: '',
     telefone: '',
-    produto: 'VLYNE Pulse Intelligence',
+    produto: 'VLYNE Event Intelligence',
   });
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -349,39 +381,42 @@ export default function LandingPage() {
       </AnimatePresence>
 
       <main className="relative z-10">
-        <section className="min-h-screen flex items-center px-5 sm:px-6 pt-24 sm:pt-28 pb-12 sm:pb-16 bg-landing-grid">
+        {/* HERO - ancorado em Event Intelligence: a dor de margem de projeto
+            abre o discurso, e o painel lateral já mostra a linha do tempo
+            real das etapas do produto, não uma lista genérica de bullets. */}
+        <section id="event" className="min-h-screen flex items-center px-5 sm:px-6 pt-24 sm:pt-28 pb-12 sm:pb-16 bg-landing-grid">
           <div className="max-w-7xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-7 text-center lg:text-left">
               <div
                 className="reveal reveal-delay-0 inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-cyan-400/20 bg-cyan-500/10 text-cyan-200 mb-5 sm:mb-6"
               >
-                <AlertTriangle className="w-4 h-4" />
-                  <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-[0.18em] sm:tracking-[0.22em]">Gestão orientada por perdas reais</span>
+                <Workflow className="w-4 h-4" />
+                <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-[0.18em] sm:tracking-[0.22em]">Inteligência que impulsiona decisões</span>
               </div>
 
               <h1
                 className="reveal reveal-delay-1 text-[2.35rem] sm:text-5xl lg:text-7xl font-black tracking-normal leading-[1.03]"
               >
-                O que você não vê na operação pode estar{' '}
+                Faturamento alto{' '}
                 <span className="bg-gradient-to-r from-cyan-300 via-white to-indigo-200 bg-clip-text text-transparent">
-                  custando caro.
+                  não garante margem.
                 </span>
               </h1>
 
               <p
                 className="reveal reveal-delay-2 mt-5 sm:mt-6 text-sm sm:text-lg text-gray-300 max-w-2xl mx-auto lg:mx-0 leading-7 sm:leading-8"
               >
-                Estoque parado, ruptura, etiquetas incorretas, projetos sem margem e decisões baseadas em planilhas podem gerar prejuízo todos os dias. A VLYNE mostra onde agir antes que o problema vire perda.
+                O VLYNE Event Intelligence acompanha cada projeto do prospect ao pagamento — contratos, equipes, remessas, custo real e rentabilidade — pra você decidir com dado, não com planilha solta.
               </p>
 
               <div
                 className="reveal reveal-delay-3 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4 mt-7 sm:mt-8"
               >
                 <button
-                  onClick={() => handleOpenDemo()}
+                  onClick={() => handleOpenDemo('VLYNE Event Intelligence')}
                   className="w-full sm:w-auto bg-[#00D4FF] hover:bg-cyan-300 text-[#01143F] px-8 py-4 rounded-lg text-xs font-black uppercase tracking-wider shadow-lg shadow-cyan-400/20 transition cursor-pointer flex items-center justify-center gap-2"
                 >
-                  Quero identificar meus gargalos
+                  Quero ver a margem real dos meus projetos
                   <ArrowRight className="w-4 h-4" />
                 </button>
                 <a
@@ -394,6 +429,10 @@ export default function LandingPage() {
                   Falar no WhatsApp
                 </a>
               </div>
+
+              <p className="reveal reveal-delay-3 mt-6 text-[11px] font-mono uppercase tracking-widest text-gray-500">
+                Também operamos VLYNE Etiquetas Intelligence e VLYNE Pulse Intelligence — veja o portfólio completo abaixo.
+              </p>
             </div>
 
             <div className="hidden lg:block lg:col-span-5">
@@ -402,37 +441,47 @@ export default function LandingPage() {
               >
                 <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
                   <div>
-                    <p className="text-[10px] font-black uppercase tracking-[0.22em] text-cyan-300">Ecossistema VLYNE</p>
-                    <h2 className="text-xl font-black mt-1">Onde a sua operação precisa de clareza?</h2>
+                    <p className="text-[10px] font-black uppercase tracking-[0.22em] text-cyan-300">VLYNE Event Intelligence</p>
+                    <h2 className="text-xl font-black mt-1">Do prospect ao pagamento, num só fio condutor.</h2>
                   </div>
-                  <ShieldCheck className="w-8 h-8 text-cyan-300" />
+                  <ShieldCheck className="w-8 h-8 text-cyan-300 shrink-0" />
                 </div>
 
-                <div className="space-y-3">
-                  {[
-                    ['Pulse Intelligence', 'Varejo, estoque, vendas, ruptura e produtos parados.'],
-                    ['Event Intelligence', 'Projetos, custos, equipes, contratos e margem real.'],
-                    ['Etiquetas Intelligence', 'Rotulagem exigida, validade, rastreabilidade e risco de autuação sanitária.'],
-                  ].map(([title, description]) => (
-                    <div key={title} className="rounded-lg border border-white/10 bg-white/[0.04] p-4">
-                      <div className="flex items-start gap-3">
-                        <CheckCircle2 className="w-5 h-5 text-cyan-300 mt-0.5 shrink-0" />
-                        <div>
-                          <p className="text-base font-black text-white">{title}</p>
-                          <p className="text-[12px] text-gray-300 mt-1 leading-5">{description}</p>
-                        </div>
+                <div className="flex items-center gap-1 overflow-x-auto pb-2 mb-4">
+                  {eventStages.map((stage, i) => (
+                    <div key={stage} className="flex items-center shrink-0">
+                      <div
+                        className={`w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-black ${
+                          i === 0 ? 'bg-cyan-300 text-[#01143F]' : 'bg-white/10 text-gray-300'
+                        }`}
+                        title={stage}
+                      >
+                        {i + 1}
                       </div>
+                      {i < eventStages.length - 1 && <div className="w-3 h-[1.5px] bg-white/15 shrink-0" />}
                     </div>
                   ))}
                 </div>
 
+                <div className="space-y-3">
+                  {eventFeatures.map((feature) => {
+                    const Icon = feature.icon;
+                    return (
+                      <div key={feature.text} className="rounded-lg border border-white/10 bg-white/[0.04] p-3.5 flex items-center gap-3">
+                        <Icon className="w-4.5 h-4.5 text-cyan-300 shrink-0" />
+                        <p className="text-[12.5px] font-bold text-gray-200 leading-5">{feature.text}</p>
+                      </div>
+                    );
+                  })}
+                </div>
+
                 <div className="mt-4 rounded-lg border border-cyan-300/15 bg-cyan-300/10 p-4">
-                  <div className="flex items-center gap-2 mb-3">
+                  <div className="flex items-center gap-2 mb-2">
                     <Target className="w-5 h-5 text-cyan-300" />
                     <p className="text-sm font-black">Diagnóstico antes da ferramenta</p>
                   </div>
-                  <p className="text-sm text-gray-200 leading-6">
-                    A VLYNE identifica o gargalo primeiro e direciona a empresa para a solução certa, sem tratar negócios diferentes como se fossem o mesmo problema.
+                  <p className="text-[13px] text-gray-200 leading-6">
+                    Identificamos o gargalo do seu projeto primeiro e direcionamos pra solução certa do ecossistema VLYNE.
                   </p>
                 </div>
               </div>
@@ -486,8 +535,15 @@ export default function LandingPage() {
                   <motion.article
                     whileHover={{ y: -4 }}
                     key={segment.label}
-                    className="bg-[#020d2b] border border-white/10 rounded-lg p-6 shadow-xl shadow-cyan-950/20"
+                    className={`rounded-lg p-6 shadow-xl shadow-cyan-950/20 ${
+                      segment.featured
+                        ? 'bg-gradient-to-b from-cyan-500/[0.08] to-[#020d2b] border-2 border-cyan-400/30 lg:scale-[1.03]'
+                        : 'bg-[#020d2b] border border-white/10'
+                    }`}
                   >
+                    {segment.featured && (
+                      <p className="text-[9px] font-black uppercase tracking-[0.2em] text-cyan-300 mb-3">Produto principal VLYNE</p>
+                    )}
                     <div className="w-11 h-11 rounded-lg bg-cyan-500/10 border border-cyan-400/20 flex items-center justify-center text-cyan-300 mb-5">
                       <Icon className="w-6 h-6" />
                     </div>
@@ -504,7 +560,11 @@ export default function LandingPage() {
                     </div>
                     <button
                       onClick={() => handleOpenDemo(segment.product)}
-                      className="mt-6 w-full rounded-lg border border-cyan-500/30 bg-cyan-500/10 py-3 text-xs font-black uppercase tracking-wider text-cyan-200 hover:bg-cyan-500/20 transition"
+                      className={`mt-6 w-full rounded-lg py-3 text-xs font-black uppercase tracking-wider transition ${
+                        segment.featured
+                          ? 'bg-[#00D4FF] hover:bg-cyan-300 text-[#01143F]'
+                          : 'border border-cyan-500/30 bg-cyan-500/10 text-cyan-200 hover:bg-cyan-500/20'
+                      }`}
                     >
                       Ver solução para {segment.label}
                     </button>
@@ -515,6 +575,8 @@ export default function LandingPage() {
           </div>
         </section>
 
+        {/* Risco/urgência: reformatado como faixa de estatísticas, não mais
+            um 4º grid de cards idêntico aos anteriores. */}
         <section className="py-16 md:py-24 px-5 sm:px-6 bg-[#f8fafc] text-slate-950">
           <div className="max-w-7xl mx-auto">
             <div className="max-w-3xl">
@@ -523,15 +585,17 @@ export default function LandingPage() {
                 Pequenas falhas operacionais viram grandes prejuízos.
               </h2>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-10">
+            <div className="mt-10 divide-y divide-slate-200 border-y border-slate-200">
               {risks.map((risk) => {
                 const Icon = risk.icon;
                 return (
-                  <article key={risk.title} className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
-                    <Icon className="w-7 h-7 text-[#0047FF] mb-5" />
-                    <h3 className="text-xl font-black">{risk.title}</h3>
-                    <p className="text-sm text-slate-600 leading-6 mt-3">{risk.text}</p>
-                  </article>
+                  <div key={risk.title} className="py-6 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8">
+                    <div className="flex items-center gap-3 sm:w-64 shrink-0">
+                      <Icon className="w-6 h-6 text-[#0047FF] shrink-0" />
+                      <h3 className="text-xl font-black">{risk.title}</h3>
+                    </div>
+                    <p className="text-sm text-slate-600 leading-6">{risk.text}</p>
+                  </div>
                 );
               })}
             </div>
@@ -541,14 +605,21 @@ export default function LandingPage() {
         <section className="py-16 md:py-24 px-5 sm:px-6 bg-[#01143F]">
           <div className="max-w-7xl mx-auto">
             <div className="max-w-3xl">
-              <p className="text-[10px] font-black uppercase tracking-[0.24em] text-cyan-300">Soluções VLYNE</p>
+              <p className="text-[10px] font-black uppercase tracking-[0.24em] text-cyan-300">Portfólio VLYNE</p>
               <h2 className="mt-4 text-3xl sm:text-5xl font-black tracking-normal">
                 Uma plataforma inteligente para cada gargalo da sua operação.
               </h2>
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mt-10">
               {solutions.map((solution) => (
-                <article key={solution.name} className="rounded-lg border border-cyan-300/15 bg-white/[0.04] p-6">
+                <article
+                  key={solution.name}
+                  className={`rounded-lg p-6 ${
+                    solution.featured
+                      ? 'border-2 border-cyan-400/30 bg-gradient-to-b from-cyan-500/[0.08] to-white/[0.04]'
+                      : 'border border-cyan-300/15 bg-white/[0.04]'
+                  }`}
+                >
                   <p className="text-[10px] font-black uppercase tracking-[0.22em] text-cyan-300">{solution.tag}</p>
                   <h3 className="mt-4 text-2xl font-black">{solution.name}</h3>
                   <p className="mt-4 text-sm text-gray-400 leading-7">{solution.text}</p>
@@ -566,7 +637,7 @@ export default function LandingPage() {
                 O que a VLYNE ajuda sua empresa a enxergar.
               </h2>
               <p className="mt-5 text-base text-gray-300 leading-8">
-                A gestão deixa de reagir tarde e passa a enxergar prioridades: o que comprar, o que reduzir, onde cobrar, qual projeto revisar e qual risco corrigir primeiro.
+                A gestão deixa de reagir tarde e passa a enxergar prioridades: qual projeto revisar, o que comprar, o que reduzir, onde cobrar e qual risco corrigir primeiro.
               </p>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -586,7 +657,7 @@ export default function LandingPage() {
               <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[#0047FF]">Antes</p>
               <h2 className="mt-3 text-3xl font-black">Operação reativa</h2>
               <div className="space-y-3 mt-6">
-                {['Planilhas soltas', 'Falta de visão por loja', 'Produtos parados sem alerta', 'Etiquetas manuais', 'Projetos sem margem clara', 'Decisões atrasadas'].map((item) => (
+                {['Projetos sem margem clara', 'Planilhas soltas', 'Decisões atrasadas', 'Falta de visão por loja', 'Produtos parados sem alerta', 'Etiquetas manuais'].map((item) => (
                   <div key={item} className="flex items-center gap-3 rounded-lg border border-slate-200 bg-white p-3 text-sm font-bold text-slate-700">
                     <AlertTriangle className="w-4 h-4 text-amber-500" />
                     {item}
@@ -598,7 +669,7 @@ export default function LandingPage() {
               <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[#0047FF]">Depois com VLYNE</p>
               <h2 className="mt-3 text-3xl font-black">Gestão inteligente</h2>
               <div className="space-y-3 mt-6">
-                {['Indicadores em tempo real', 'Alertas automáticos', 'Controle por loja, projeto ou setor', 'Auditoria e rastreabilidade', 'Visão de lucro e perda', 'Decisão baseada em dados'].map((item) => (
+                {['Visão de lucro e perda por projeto', 'Decisão baseada em dados', 'Indicadores em tempo real', 'Alertas automáticos', 'Controle por loja, projeto ou setor', 'Auditoria e rastreabilidade'].map((item) => (
                   <div key={item} className="flex items-center gap-3 rounded-lg border border-cyan-200 bg-cyan-50 p-3 text-sm font-bold text-slate-800">
                     <CheckCircle2 className="w-4 h-4 text-[#0047FF]" />
                     {item}
@@ -613,14 +684,14 @@ export default function LandingPage() {
           <div className="max-w-5xl mx-auto">
             <p className="text-[10px] font-black uppercase tracking-[0.24em] text-cyan-300">Próximo passo</p>
             <h2 className="mt-4 text-3xl sm:text-5xl font-black tracking-normal">
-              Descubra onde sua operação está perdendo dinheiro.
+              Descubra a margem real dos seus projetos.
             </h2>
             <p className="mt-5 text-base text-gray-300 leading-8 max-w-3xl mx-auto">
-              Agende uma demonstração e veja como a VLYNE transforma dados operacionais em controle, economia e decisões mais rápidas.
+              Agende uma demonstração e veja como o VLYNE Event Intelligence transforma dados operacionais em controle, economia e decisões mais rápidas.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
               <button
-                onClick={() => handleOpenDemo()}
+                onClick={() => handleOpenDemo('VLYNE Event Intelligence')}
                 className="w-full sm:w-auto bg-[#00D4FF] hover:bg-cyan-300 text-[#01143F] px-8 py-4 rounded-lg text-xs font-black uppercase tracking-wider shadow-lg shadow-cyan-400/20 transition cursor-pointer"
               >
                 Quero meu diagnóstico
@@ -646,7 +717,7 @@ export default function LandingPage() {
               Inteligência que impulsiona decisões.
             </p>
             <p className="text-[11px] text-gray-500 leading-relaxed max-w-sm">
-              Plataformas dedicadas a controle operacional, redução de perdas e tomada de decisão com dados claros.
+              VLYNE Event Intelligence: gestão de eventos, stands e projetos do prospect ao pagamento. Também operamos Etiquetas Intelligence e Pulse Intelligence.
             </p>
           </div>
 
@@ -773,9 +844,9 @@ function DemoModal({
                       onChange={(e) => setFormData({ ...formData, produto: e.target.value })}
                       className="w-full bg-[#03061c] border border-white/10 rounded-lg py-3 px-4 text-xs text-white focus:outline-none focus:border-cyan-500 transition cursor-pointer"
                     >
-                      <option value="VLYNE Pulse Intelligence">VLYNE Pulse Intelligence</option>
                       <option value="VLYNE Event Intelligence">VLYNE Event Intelligence</option>
                       <option value="VLYNE Etiquetas Intelligence">VLYNE Etiquetas Intelligence</option>
+                      <option value="VLYNE Pulse Intelligence">VLYNE Pulse Intelligence</option>
                       <option value="Múltiplos Sistemas">Múltiplos Sistemas</option>
                     </select>
                   </div>
@@ -869,9 +940,9 @@ function ClientAreaModal({ open, onClose }: { open: boolean; onClose: () => void
               </div>
 
               <div className="flex flex-col gap-3.5 pt-2">
-                <ClientLink href="https://pulse.vlyne.com.br/login" title="VLYNE Pulse Intelligence" description="SaaS para varejo e inteligência de estoque" tone="cyan" />
                 <ClientLink href="https://eventos.vlyne.com.br/" title="VLYNE Event Intelligence" description="SaaS para cenografia e controle operacional de eventos" tone="indigo" />
                 <ClientLink href="https://etiquetas.vlyne.com.br/" title="VLYNE Etiquetas Intelligence" description="SaaS de rotulagem e segurança alimentar" tone="emerald" />
+                <ClientLink href="https://pulse.vlyne.com.br/login" title="VLYNE Pulse Intelligence" description="SaaS para varejo e inteligência de estoque" tone="cyan" />
               </div>
             </div>
           </motion.div>
