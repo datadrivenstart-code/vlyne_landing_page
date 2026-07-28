@@ -15,14 +15,14 @@ const geistMono = Geist_Mono({
 const SITE_URL = "https://vlyne.com.br";
 const TITLE = "VLYNE - Inteligência que Impulsiona Decisões";
 const DESCRIPTION =
-  "Plataformas VLYNE dedicadas a controle operacional, redução de perdas e tomada de decisão com dados claros: gestão de eventos, estoque, varejo e etiquetas.";
+  "VLYNE Event Intelligence: gestão de eventos, stands e projetos do prospect ao pagamento - margem real por projeto, contratos, equipes e logística num só lugar.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: TITLE,
   description: DESCRIPTION,
   keywords:
-    "VLYNE, inteligencia operacional, controle de estoque, ruptura de estoque, gestao de eventos, etiquetas, food safety, validade, rastreabilidade",
+    "VLYNE, inteligencia operacional, gestao de eventos, margem por projeto, cenografia, stands, controle de projetos",
   openGraph: {
     title: TITLE,
     description: DESCRIPTION,
