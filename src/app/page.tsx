@@ -380,7 +380,15 @@ export default function LandingPage() {
                   ))}
                 </div>
 
-                <div className="mt-4 rounded-lg border border-cyan-300/15 bg-cyan-300/10 p-4">
+                <div className="flex flex-wrap gap-1.5 mb-4">
+                  {['CRM e Propostas', 'Financeiro', 'Canteiro e Checklist', 'Envios e Transporte', 'Equipes', 'Contratos'].map((mod) => (
+                    <span key={mod} className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/10 text-gray-300">
+                      {mod}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="rounded-lg border border-cyan-300/15 bg-cyan-300/10 p-4">
                   <div className="flex items-center gap-2 mb-2">
                     <Target className="w-5 h-5 text-cyan-300" />
                     <p className="text-sm font-black">Diagnóstico antes da ferramenta</p>
