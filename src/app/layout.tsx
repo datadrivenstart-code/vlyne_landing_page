@@ -13,11 +13,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "VLYNE - Controle operacional, estoque, eventos e etiquetas",
+  title: "VLYNE - Inteligência que Impulsiona Decisões",
   description:
-    "A VLYNE ajuda empresas a identificar perdas, controlar estoque, acompanhar projetos, reduzir rupturas e gerenciar etiquetas, validade e rastreabilidade.",
+    "Plataformas VLYNE dedicadas a controle operacional, redução de perdas e tomada de decisão com dados claros: gestão de eventos, estoque, varejo e etiquetas.",
   keywords:
-    "VLYNE, controle de estoque, ruptura de estoque, produtos sem giro, gestao de eventos, etiquetas, food safety, validade, rastreabilidade, inteligencia operacional",
+    "VLYNE, inteligencia operacional, controle de estoque, ruptura de estoque, gestao de eventos, etiquetas, food safety, validade, rastreabilidade",
   manifest: "/manifest.webmanifest",
   icons: {
     icon: [
