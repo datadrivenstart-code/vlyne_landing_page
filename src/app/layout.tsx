@@ -12,12 +12,39 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const SITE_URL = "https://vlyne.com.br";
+const TITLE = "VLYNE - Inteligência que Impulsiona Decisões";
+const DESCRIPTION =
+  "VLYNE Event Intelligence: gestão de eventos, stands e projetos do prospect ao pagamento - margem real por projeto, contratos, equipes e logística num só lugar.";
+
 export const metadata: Metadata = {
-  title: "VLYNE - Controle operacional, estoque, eventos e etiquetas",
-  description:
-    "A VLYNE ajuda empresas a identificar perdas, controlar estoque, acompanhar projetos, reduzir rupturas e gerenciar etiquetas, validade e rastreabilidade.",
+  metadataBase: new URL(SITE_URL),
+  title: TITLE,
+  description: DESCRIPTION,
   keywords:
-    "VLYNE, controle de estoque, ruptura de estoque, produtos sem giro, gestao de eventos, etiquetas, food safety, validade, rastreabilidade, inteligencia operacional",
+    "VLYNE, inteligencia operacional, gestao de eventos, margem por projeto, cenografia, stands, controle de projetos",
+  openGraph: {
+    title: TITLE,
+    description: DESCRIPTION,
+    url: SITE_URL,
+    siteName: "VLYNE",
+    locale: "pt_BR",
+    type: "website",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: TITLE,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+    images: ["/og-image.png"],
+  },
   manifest: "/manifest.webmanifest",
   icons: {
     icon: [
