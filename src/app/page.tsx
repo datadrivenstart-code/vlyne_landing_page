@@ -101,16 +101,16 @@ const risks = [
 ];
 
 const indicators = [
-  'Produtos sem giro',
-  'Excesso de estoque',
-  'Ruptura por loja',
   'Margem por projeto',
-  'Validades próximas',
-  'Divergência de preço',
-  'Metas de venda',
-  'Sugestão de compra',
+  'Documentos pendentes',
+  'Comissão por parcela',
+  'Aditivos aprovados',
+  'Carga por projetista',
   'Custo operacional',
-  'Rentabilidade',
+  'Prazo de cronograma',
+  'Estoque de almoxarifado',
+  'Rentabilidade por evento',
+  'Divergência de contrato',
 ];
 
 type FormData = {
@@ -457,26 +457,6 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section className="py-16 md:py-24 px-5 sm:px-6 bg-[#01143F]">
-          <div className="max-w-7xl mx-auto">
-            <div className="max-w-3xl">
-              <p className="text-[10px] font-black uppercase tracking-[0.24em] text-cyan-300">Soluções VLYNE</p>
-              <h2 className="mt-4 text-3xl sm:text-5xl font-black tracking-normal">
-                Uma plataforma inteligente para cada gargalo da sua operação.
-              </h2>
-            </div>
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mt-10">
-              {solutions.map((solution) => (
-                <article key={solution.name} className="rounded-lg border border-cyan-300/15 bg-white/[0.04] p-6">
-                  <p className="text-[10px] font-black uppercase tracking-[0.22em] text-cyan-300">{solution.tag}</p>
-                  <h3 className="mt-4 text-2xl font-black">{solution.name}</h3>
-                  <p className="mt-4 text-sm text-gray-400 leading-7">{solution.text}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
         <section id="indicadores" className="py-16 md:py-24 px-5 sm:px-6">
           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-10 items-center">
             <div>
@@ -505,7 +485,7 @@ export default function LandingPage() {
               <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[#0047FF]">Antes</p>
               <h2 className="mt-3 text-3xl font-black">Operação reativa</h2>
               <div className="space-y-3 mt-6">
-                {['Planilhas soltas', 'Falta de visão por loja', 'Produtos parados sem alerta', 'Etiquetas manuais', 'Projetos sem margem clara', 'Decisões atrasadas'].map((item) => (
+                {['Planilhas soltas', 'Contrato redigitado do zero', 'Documento de promotora sem controle', 'Comissão calculada na mão', 'Cronograma no feeling', 'Decisões atrasadas'].map((item) => (
                   <div key={item} className="flex items-center gap-3 rounded-lg border border-slate-200 bg-white p-3 text-sm font-bold text-slate-700">
                     <AlertTriangle className="w-4 h-4 text-amber-500" />
                     {item}
@@ -517,7 +497,7 @@ export default function LandingPage() {
               <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[#0047FF]">Depois com VLYNE</p>
               <h2 className="mt-3 text-3xl font-black">Gestão inteligente</h2>
               <div className="space-y-3 mt-6">
-                {['Indicadores em tempo real', 'Alertas automáticos', 'Controle por loja, projeto ou setor', 'Auditoria e rastreabilidade', 'Visão de lucro e perda', 'Decisão baseada em dados'].map((item) => (
+                {['Indicadores em tempo real', 'Contrato com valor herdado da proposta', 'Checklist de documentos automático', 'Comissão vinculada à parcela paga', 'Cronograma com cálculo de prazo', 'Decisão baseada em dado'].map((item) => (
                   <div key={item} className="flex items-center gap-3 rounded-lg border border-cyan-200 bg-cyan-50 p-3 text-sm font-bold text-slate-800">
                     <CheckCircle2 className="w-4 h-4 text-[#0047FF]" />
                     {item}
@@ -532,10 +512,10 @@ export default function LandingPage() {
           <div className="max-w-5xl mx-auto">
             <p className="text-[10px] font-black uppercase tracking-[0.24em] text-cyan-300">Próximo passo</p>
             <h2 className="mt-4 text-3xl sm:text-5xl font-black tracking-normal">
-              Descubra onde sua operação está perdendo dinheiro.
+              Descubra a margem real dos seus projetos.
             </h2>
             <p className="mt-5 text-base text-gray-300 leading-8 max-w-3xl mx-auto">
-              Agende uma demonstração e veja como a VLYNE transforma dados operacionais em controle, economia e decisões mais rápidas.
+              Agende uma demonstração e veja como o VLYNE Event Intelligence transforma dados operacionais em controle, economia e decisões mais rápidas.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
               <button
