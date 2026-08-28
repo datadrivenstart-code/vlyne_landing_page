@@ -106,7 +106,7 @@ cada um com screenshot real (não ícone):
 |---|---|---|---|---|
 | Comercial | "Cada proposta, do primeiro contato ao fechamento." | Funil visual, motivo de perda categorizado, projeto criado automaticamente ao aceitar. | Funil por estágio · Motivo de perda categorizado · Projeto criado automaticamente | CRM (Kanban de Propostas) |
 | Contrato & Fechamento | "Contrato gerado com um clique, valor puxado da proposta." | Cláusulas por marca, valor herdado e travado, aviso se diverge do orçamento aprovado. | Cláusulas por marca · Valor herdado e travado · Aviso de divergência com orçamento | Gerador de Contrato |
-| Pré-Produção | "Cronograma, documentos da promotora e cliente acompanhando tudo." | Cálculo automático de prazo, checklist de documentos gerado pela promotora, portal do cliente com progresso real. | Cálculo de compressão de prazo · Checklist automático por promotora · Portal do cliente ao vivo | Cronograma Dinâmico ou Portal do Cliente |
+| Pré-Produção | "Cronograma, documentos da promotora e cliente acompanhando tudo." | Cálculo automático de prazo, checklist de documentos gerado pela promotora, portal do cliente com progresso atualizado. | Cálculo de compressão de prazo · Checklist automático por promotora · Portal do cliente com progresso atualizado | Cronograma Dinâmico ou Portal do Cliente |
 | Financeiro | "Margem real por projeto, não estimativa." | Orçamento por metragem com aprovação do CEO, comissão vinculada à parcela paga, lucratividade real por evento. | Orçamento por m² com aprovação · Comissão por parcela paga · Lucratividade por evento | Financeiro / Lucratividade |
 
 Botão da seção mantido: "Agendar demonstração".
@@ -200,6 +200,34 @@ Intelligence está zerado (reset completo de 2026-08-27).
 - `public/` — novos arquivos de screenshot (formato a decidir na implementação:
   PNG otimizado, provavelmente via `next/image`).
 - Cleanup opcional: remover os 5 SVGs de boilerplate não referenciados.
+
+## Correção pós-revisão: nenhuma promessa que não corresponda ao que já funciona
+
+Pedido explícito do usuário: nada nesta spec pode prometer algo que não está
+validado em funcionamento real. Auditei cada bullet novo contra o estado
+confirmado no `CLAUDE.md` do repo `vlyne_event_intelligence` (não contra o que
+foi só construído, sem confirmação de que funciona).
+
+**Achado real, corrigido:** o bloco "Pré-Produção" da Seção 4 dizia "Portal do
+cliente ao vivo". Os selos de progresso do Portal do Cliente vêm do checklist
+interno (`event_checklist`) — que é justamente a única das 12 coleções
+sincronizadas em tempo real cujo realtime **nunca funcionou** (investigação
+exaustiva registrada em 2026-08-27, causa raiz externa ao Supabase, nunca
+resolvida — mitigada só com polling de 20 segundos). "Ao vivo" superestimava
+isso. Trocado por "portal do cliente com progresso atualizado" (Seção 4 e
+tabela acima já refletem a correção).
+
+**Revisado e mantido sem alteração** (perguntei ao usuário antes de presumir):
+o texto do formulário de diagnóstico ("Nossa equipe entrará em contato" / "um
+especialista da VLYNE") permanece — decisão explícita de manter como voz
+comercial padrão, mesmo a operação sendo solo hoje.
+
+**Resto das afirmações novas (checklist de documento atrasado, divergência
+contrato×orçamento, carga de projetista, CRM/Kanban, Gerador de Contrato com
+valor travado, checklist automático por promotora, comissão por parcela,
+orçamento com aprovação do CEO) — todas conferidas contra funcionalidade
+construída E confirmada em teste real** (não só "existe no código"), sem
+achado adicional.
 
 ## Auto-revisão (placeholder scan / consistência)
 
