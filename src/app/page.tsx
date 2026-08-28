@@ -118,20 +118,17 @@ type FormData = {
   empresa: string;
   email: string;
   telefone: string;
-  produto: string;
 };
 
 export default function LandingPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [demoModalOpen, setDemoModalOpen] = useState(false);
-  const [clientModalOpen, setClientModalOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     nome: '',
     empresa: '',
     email: '',
     telefone: '',
-    produto: 'VLYNE Pulse Intelligence',
   });
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -156,10 +153,7 @@ export default function LandingPage() {
     return () => clearTimeout(safety);
   }, []);
 
-  const handleOpenDemo = (product?: string) => {
-    if (product) {
-      setFormData((prev) => ({ ...prev, produto: product }));
-    }
+  const handleOpenDemo = () => {
     setDemoModalOpen(true);
     setSuccess(false);
     setErrorText('');
@@ -191,7 +185,7 @@ export default function LandingPage() {
             email: formData.email,
             company: formData.empresa,
             phone: formData.telefone,
-            product: formData.produto,
+            product: 'VLYNE Event Intelligence',
             timestamp: new Date().toISOString(),
             status: 'novo',
             source: 'Landing Page - Diagnostico Operacional',
@@ -213,7 +207,6 @@ export default function LandingPage() {
         empresa: '',
         email: '',
         telefone: '',
-        produto: formData.produto,
       });
     } catch (err) {
       console.error('Erro ao salvar lead:', err);
@@ -259,13 +252,13 @@ export default function LandingPage() {
           </nav>
 
           <div className="hidden md:flex items-center gap-3">
-            <button
-              onClick={() => setClientModalOpen(true)}
-              className="text-xs font-bold text-cyan-300 hover:text-white px-4 py-2.5 bg-[#01143F]/80 hover:bg-[#01143F]/90 border border-cyan-500/20 hover:border-cyan-400 rounded-lg transition cursor-pointer uppercase tracking-wider flex items-center gap-1.5"
+            <a
+              href="https://eventos.vlyne.com.br/"
+              className="text-xs font-bold text-cyan-300 hover:text-white px-4 py-2.5 bg-[#01143F]/80 hover:bg-[#01143F]/90 border border-cyan-500/20 hover:border-cyan-400 rounded-lg transition uppercase tracking-wider flex items-center gap-1.5"
             >
               <Lock className="w-3.5 h-3.5" />
               Área do Cliente
-            </button>
+            </a>
             <button
               onClick={() => handleOpenDemo()}
               className="bg-[#00D4FF] hover:bg-cyan-300 text-[#01143F] text-xs font-black uppercase tracking-wider px-5 py-3 rounded-lg shadow-lg shadow-cyan-500/20 transition cursor-pointer"
@@ -305,15 +298,13 @@ export default function LandingPage() {
               ))}
             </nav>
             <div className="border-t border-white/5 pt-4 flex flex-col gap-3">
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  setClientModalOpen(true);
-                }}
+              <a
+                href="https://eventos.vlyne.com.br/"
+                onClick={() => setMobileMenuOpen(false)}
                 className="w-full py-3 border border-white/10 hover:border-cyan-500/30 rounded-lg text-gray-300 text-xs font-bold uppercase tracking-wider transition flex items-center justify-center gap-1.5"
               >
                 <Lock className="w-3.5 h-3.5" /> Área do Cliente
-              </button>
+              </a>
               <button
                 onClick={() => {
                   setMobileMenuOpen(false);
@@ -589,9 +580,9 @@ export default function LandingPage() {
                 </li>
               ))}
               <li>
-                <button onClick={() => setClientModalOpen(true)} className="text-xs text-gray-400 hover:text-cyan-400 transition cursor-pointer text-left">
+                <a href="https://eventos.vlyne.com.br/" className="text-xs text-gray-400 hover:text-cyan-400 transition">
                   Área do Cliente
-                </button>
+                </a>
               </li>
             </ul>
           </div>
@@ -632,7 +623,6 @@ export default function LandingPage() {
         onClose={() => setDemoModalOpen(false)}
         onSubmit={handleFormSubmit}
       />
-      <ClientAreaModal open={clientModalOpen} onClose={() => setClientModalOpen(false)} />
     </div>
   );
 }
@@ -691,22 +681,6 @@ function DemoModal({
                   <FormField icon={Building} label="Nome da Empresa" value={formData.empresa} placeholder="Ex: Minha Empresa" onChange={(value) => setFormData({ ...formData, empresa: value })} />
                   <FormField icon={Mail} label="E-mail Comercial" type="email" value={formData.email} placeholder="Ex: carlos@empresa.com" onChange={(value) => setFormData({ ...formData, email: value })} />
                   <FormField icon={Phone} label="Telefone / WhatsApp" type="tel" value={formData.telefone} placeholder="Ex: (11) 99999-9999" onChange={(value) => setFormData({ ...formData, telefone: value })} />
-
-                  <div className="space-y-1.5">
-                    <label className="text-[9px] font-mono uppercase text-gray-400 font-extrabold flex items-center gap-1">
-                      <Cpu className="w-3.5 h-3.5 text-cyan-400" /> Produto de Interesse
-                    </label>
-                    <select
-                      value={formData.produto}
-                      onChange={(e) => setFormData({ ...formData, produto: e.target.value })}
-                      className="w-full bg-[#03061c] border border-white/10 rounded-lg py-3 px-4 text-xs text-white focus:outline-none focus:border-cyan-500 transition cursor-pointer"
-                    >
-                      <option value="VLYNE Pulse Intelligence">VLYNE Pulse Intelligence</option>
-                      <option value="VLYNE Event Intelligence">VLYNE Event Intelligence</option>
-                      <option value="VLYNE Etiquetas Intelligence">VLYNE Etiquetas Intelligence</option>
-                      <option value="Múltiplos Sistemas">Múltiplos Sistemas</option>
-                    </select>
-                  </div>
 
                   <button type="submit" disabled={submitting} className="w-full bg-[#00D4FF] hover:bg-cyan-300 text-[#01143F] py-3.5 rounded-lg font-black text-xs tracking-wider uppercase transition disabled:opacity-55 cursor-pointer mt-4">
                     {submitting ? 'Enviando solicitação...' : 'Enviar solicitação'}
@@ -768,61 +742,3 @@ function FormField({
   );
 }
 
-function ClientAreaModal({ open, onClose }: { open: boolean; onClose: () => void }) {
-  return (
-    <AnimatePresence>
-      {open && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 0.6 }} exit={{ opacity: 0 }} onClick={onClose} className="absolute inset-0 bg-black" />
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 10 }}
-            className="relative w-full max-w-md bg-[#020c24]/95 border border-cyan-500/20 rounded-lg p-6 sm:p-8 shadow-2xl overflow-hidden backdrop-blur-xl z-10 text-center"
-          >
-            <button onClick={onClose} className="absolute top-4 right-4 p-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition" aria-label="Fechar">
-              <X className="w-5 h-5" />
-            </button>
-
-            <div className="space-y-6">
-              <div className="space-y-2">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-cyan-500/10 rounded-lg">
-                  <Lock className="w-3.5 h-3.5 text-cyan-400" />
-                  <span className="font-mono text-[9px] uppercase font-bold text-cyan-300">Área do Cliente</span>
-                </div>
-                <h3 className="text-xl sm:text-2xl font-bold tracking-tight">Qual plataforma deseja acessar?</h3>
-                <p className="text-xs text-gray-400">
-                  Selecione o produto correspondente ao seu contrato para ser direcionado à tela de login segura.
-                </p>
-              </div>
-
-              <div className="flex flex-col gap-3.5 pt-2">
-                <ClientLink href="https://pulse.vlyne.com.br/login" title="VLYNE Pulse Intelligence" description="SaaS para varejo e inteligência de estoque" tone="cyan" />
-                <ClientLink href="https://eventos.vlyne.com.br/" title="VLYNE Event Intelligence" description="SaaS para cenografia e controle operacional de eventos" tone="indigo" />
-                <ClientLink href="https://etiquetas.vlyne.com.br/" title="VLYNE Etiquetas Intelligence" description="SaaS de rotulagem e segurança alimentar" tone="emerald" />
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      )}
-    </AnimatePresence>
-  );
-}
-
-function ClientLink({ href, title, description, tone }: { href: string; title: string; description: string; tone: 'cyan' | 'indigo' | 'emerald' }) {
-  const hoverClasses = {
-    cyan: 'hover:bg-cyan-500/10 hover:border-cyan-500/30 group-hover:text-cyan-300',
-    indigo: 'hover:bg-indigo-500/10 hover:border-indigo-500/30 group-hover:text-indigo-300',
-    emerald: 'hover:bg-emerald-500/10 hover:border-emerald-500/30 group-hover:text-emerald-300',
-  };
-
-  return (
-    <a href={href} className={`w-full flex items-center justify-between p-4 bg-white/[0.03] border border-white/5 rounded-lg transition group text-left ${hoverClasses[tone]}`}>
-      <div>
-        <h4 className="text-xs sm:text-sm font-bold text-white transition-colors">{title}</h4>
-        <p className="text-[10px] text-gray-500 mt-0.5">{description}</p>
-      </div>
-      <ArrowRight className="w-4 h-4 text-gray-500 transition-colors" />
-    </a>
-  );
-}
