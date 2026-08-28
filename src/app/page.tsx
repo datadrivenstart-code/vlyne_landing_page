@@ -373,7 +373,7 @@ export default function LandingPage() {
                   <span className="w-2.5 h-2.5 rounded-full bg-rose-400/60" />
                   <span className="w-2.5 h-2.5 rounded-full bg-amber-400/60" />
                   <span className="w-2.5 h-2.5 rounded-full bg-emerald-400/60" />
-                  <span className="ml-3 text-[10px] font-mono text-gray-400">event.vlyne.com.br/dashboard</span>
+                  <span className="ml-3 text-[10px] font-mono text-gray-400">eventos.vlyne.com.br/dashboard</span>
                 </div>
                 <Image src="/screenshots/dashboard.png" alt="Dashboard do VLYNE Event Intelligence" width={1440} height={900} className="w-full h-auto" />
               </div>
@@ -414,7 +414,14 @@ export default function LandingPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-10">
               {howItWorks.map((step) => (
                 <article key={step.tag} className="bg-[#020d2b] border border-white/10 rounded-lg overflow-hidden shadow-xl shadow-cyan-950/20">
-                  <Image src={step.image} alt={step.title} width={1440} height={900} className="w-full h-auto border-b border-white/10" />
+                  <Image
+                    src={step.image}
+                    alt={step.title}
+                    width={1440}
+                    height={900}
+                    sizes="(min-width: 1024px) 50vw, 100vw"
+                    className="w-full h-auto border-b border-white/10"
+                  />
                   <div className="p-6">
                     <p className="text-[10px] font-black uppercase tracking-[0.22em] text-cyan-300">{step.tag}</p>
                     <h3 className="text-xl font-black leading-7 mt-3">{step.title}</h3>
@@ -430,6 +437,15 @@ export default function LandingPage() {
                   </div>
                 </article>
               ))}
+            </div>
+            <div className="flex justify-center mt-10">
+              <button
+                onClick={() => handleOpenDemo()}
+                className="w-full sm:w-auto bg-[#00D4FF] hover:bg-cyan-300 text-[#01143F] px-8 py-4 rounded-lg text-xs font-black uppercase tracking-wider shadow-lg shadow-cyan-400/20 transition cursor-pointer flex items-center justify-center gap-2"
+              >
+                Agendar demonstração
+                <ArrowRight className="w-4 h-4" />
+              </button>
             </div>
           </div>
         </section>
