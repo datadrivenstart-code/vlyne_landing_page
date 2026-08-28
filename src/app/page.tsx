@@ -2,27 +2,28 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { AnimatePresence, motion } from 'motion/react';
 import {
+  AlertTriangle,
   ArrowRight,
   Building,
   CheckCircle2,
-  Clock,
   Cpu,
   DollarSign,
+  FileWarning,
   Lock,
   Mail,
   Menu,
   MessageCircle,
+  PackageSearch,
   Phone,
-  ShieldCheck,
   Smile,
   Target,
-  Truck,
-  Users,
-  Workflow,
+  TrendingDown,
   X,
 } from 'lucide-react';
+import TechBackground from '@/components/TechBackground';
 import VlyneLogo from '@/components/VlyneLogo';
 import { supabase, isSupabaseConfigured } from '@/services/supabase';
 
@@ -30,39 +31,50 @@ const WHATSAPP_URL =
   'https://wa.me/5511920480770?text=Ol%C3%A1!%20Quero%20solicitar%20um%20diagn%C3%B3stico%20operacional%20da%20VLYNE.';
 
 const menuItems = [
-  { label: 'Como funciona', href: '#como-funciona' },
   { label: 'Dores', href: '#dores' },
+  { label: 'Como funciona', href: '#como-funciona' },
   { label: 'Indicadores', href: '#indicadores' },
   { label: 'Contato', href: '#contato' },
 ];
 
-// Linha do tempo real do processo que o Event Intelligence acompanha - a
-// mesma matriz de 13 etapas usada dentro do produto, aqui como prova
-// concreta de profundidade (não é só um slide de vendas genérico).
-const eventStages = [
-  'Prospecção',
-  'Proposta',
-  'Orçamento',
-  'Contrato',
-  'Produção',
-  'Montagem',
-  'Evento',
-  'Desmontagem',
-  'Reaproveitamento',
-  'Fechamento',
-];
-
-const eventFeatures = [
-  { icon: Workflow, title: 'Linha do tempo do projeto', text: 'Do prospect ao pagamento, sem perder o fio da meada em nenhuma etapa.' },
-  { icon: DollarSign, title: 'Margem real por evento', text: 'Não só faturamento — custo real de cada projeto, comparado ao orçado.' },
-  { icon: Truck, title: 'Logística de ponta a ponta', text: 'Remessas, montagem, desmontagem e retorno de material ao estoque.' },
-  { icon: Users, title: 'Equipes e contratos', text: 'Contratos, fornecedores e equipe alocada, tudo no mesmo lugar.' },
-];
-
 const painQuestions = [
-  { icon: DollarSign, text: 'Você sabe se cada projeto de evento realmente deu lucro?' },
-  { icon: Clock, text: 'Sabe onde sua equipe perde tempo todos os dias?' },
-  { icon: Target, text: 'Sabe quais decisões precisam ser tomadas hoje?' },
+  'Sabe se cada projeto de evento realmente deu lucro?',
+  'Sabe onde sua equipe perde tempo todos os dias?',
+  'Sabe quais decisões precisam ser tomadas hoje?',
+  'Sabe qual documento da promotora está atrasado?',
+  'Sabe se o valor do contrato bate com o orçamento aprovado?',
+  'Sabe quanto cada projetista tem de carga em aberto?',
+];
+
+const howItWorks = [
+  {
+    tag: 'Comercial',
+    title: 'Cada proposta, do primeiro contato ao fechamento.',
+    description: 'Funil visual por estágio, motivo de perda categorizado, projeto criado automaticamente ao aceitar.',
+    bullets: ['Funil por estágio', 'Motivo de perda categorizado', 'Projeto criado automaticamente'],
+    image: '/screenshots/crm.png',
+  },
+  {
+    tag: 'Contrato & Fechamento',
+    title: 'Contrato gerado com um clique, valor puxado da proposta.',
+    description: 'Cláusulas por marca, valor herdado e travado, aviso se diverge do orçamento aprovado.',
+    bullets: ['Cláusulas por marca', 'Valor herdado e travado', 'Aviso de divergência com orçamento'],
+    image: '/screenshots/contrato.png',
+  },
+  {
+    tag: 'Pré-Produção',
+    title: 'Cronograma, documentos da promotora e cliente acompanhando tudo.',
+    description: 'Cálculo automático de prazo, checklist de documentos gerado pela promotora, portal do cliente com progresso atualizado.',
+    bullets: ['Cálculo de compressão de prazo', 'Checklist automático por promotora', 'Portal do cliente com progresso atualizado'],
+    image: '/screenshots/cronograma.png',
+  },
+  {
+    tag: 'Financeiro',
+    title: 'Margem real por projeto, não estimativa.',
+    description: 'Orçamento por metragem com aprovação do CEO, comissão vinculada à parcela paga, lucratividade real por evento.',
+    bullets: ['Orçamento por m² com aprovação', 'Comissão por parcela paga', 'Lucratividade por evento'],
+    image: '/screenshots/financeiro.png',
+  },
 ];
 
 const risks = [
@@ -72,24 +84,33 @@ const risks = [
     text: 'Sem custo real por projeto, a margem desaparece antes da gestão perceber.',
   },
   {
-    icon: Clock,
-    title: 'Prazo e equipe sem visibilidade',
-    text: 'Tarefa atrasada, equipe mal alocada e ninguém percebe até o evento estar em cima.',
+    icon: FileWarning,
+    title: 'Documento de promotora atrasado',
+    text: 'RRT, seguro ou memorial vencido pode barrar a montagem no pavilhão.',
   },
   {
-    icon: Truck,
-    title: 'Material perdido na logística',
-    text: 'Remessa sem status claro, material que não volta pro estoque e vira prejuízo invisível.',
+    icon: PackageSearch,
+    title: 'Carga e descarga sem conferência',
+    text: 'Sem dupla confirmação, material extraviado só aparece quando já é tarde.',
+  },
+  {
+    icon: TrendingDown,
+    title: 'Aditivo sem aprovação formal',
+    text: 'Serviço extra feito sem registro vira retrabalho que ninguém paga.',
   },
 ];
 
 const indicators = [
   'Margem por projeto',
+  'Documentos pendentes',
+  'Comissão por parcela',
+  'Aditivos aprovados',
+  'Carga por projetista',
   'Custo operacional',
-  'Rentabilidade real',
-  'Prazo de entrega',
-  'Equipe alocada',
-  'Reaproveitamento de material',
+  'Prazo de cronograma',
+  'Estoque de almoxarifado',
+  'Rentabilidade por evento',
+  'Divergência de contrato',
 ];
 
 type FormData = {
@@ -97,20 +118,17 @@ type FormData = {
   empresa: string;
   email: string;
   telefone: string;
-  produto: string;
 };
 
 export default function LandingPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [demoModalOpen, setDemoModalOpen] = useState(false);
-  const [clientModalOpen, setClientModalOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     nome: '',
     empresa: '',
     email: '',
     telefone: '',
-    produto: 'VLYNE Event Intelligence',
   });
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -167,7 +185,7 @@ export default function LandingPage() {
             email: formData.email,
             company: formData.empresa,
             phone: formData.telefone,
-            product: formData.produto,
+            product: 'VLYNE Event Intelligence',
             timestamp: new Date().toISOString(),
             status: 'novo',
             source: 'Landing Page - Diagnostico Operacional',
@@ -189,7 +207,6 @@ export default function LandingPage() {
         empresa: '',
         email: '',
         telefone: '',
-        produto: 'VLYNE Event Intelligence',
       });
     } catch (err) {
       console.error('Erro ao salvar lead:', err);
@@ -201,7 +218,9 @@ export default function LandingPage() {
 
   return (
     <div id="home" className="min-h-screen bg-[#01143F] text-white font-sans relative overflow-x-hidden scroll-smooth">
-      <div className="fixed inset-0 z-0 overflow-hidden bg-[#01143F] bg-landing-grid" />
+      <div className="fixed inset-0 z-0 overflow-hidden bg-[#01143F]">
+        <TechBackground />
+      </div>
 
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -210,14 +229,14 @@ export default function LandingPage() {
             : 'bg-transparent py-5 border-b border-transparent'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-5 sm:px-6 flex items-center justify-between gap-4">
+        <div className="max-w-7xl mx-auto px-5 sm:px-6 flex items-center justify-between">
           <button
             type="button"
-            className="flex items-center gap-2 cursor-pointer shrink-0"
+            className="flex items-center gap-2 cursor-pointer"
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             aria-label="Voltar ao início"
           >
-            <VlyneLogo showText={true} className="h-12 sm:h-16 lg:h-20 !justify-start" />
+            <VlyneLogo showText={true} className="h-16 sm:h-24 lg:h-28 !justify-start" />
           </button>
 
           <nav className="hidden md:flex items-center gap-8">
@@ -225,23 +244,23 @@ export default function LandingPage() {
               <a
                 key={item.label}
                 href={item.href}
-                className="text-xs font-bold uppercase tracking-wider text-gray-300 hover:text-cyan-400 transition whitespace-nowrap"
+                className="text-xs font-bold uppercase tracking-wider text-gray-300 hover:text-cyan-400 transition"
               >
                 {item.label}
               </a>
             ))}
           </nav>
 
-          <div className="hidden md:flex items-center gap-3 shrink-0">
-            <button
-              onClick={() => setClientModalOpen(true)}
-              className="text-xs font-bold text-cyan-300 hover:text-white px-4 py-2.5 bg-[#01143F]/80 hover:bg-[#01143F]/90 border border-cyan-500/20 hover:border-cyan-400 rounded-lg transition cursor-pointer uppercase tracking-wider flex items-center gap-1.5"
+          <div className="hidden md:flex items-center gap-3">
+            <a
+              href="https://eventos.vlyne.com.br/"
+              className="text-xs font-bold text-cyan-300 hover:text-white px-4 py-2.5 bg-[#01143F]/80 hover:bg-[#01143F]/90 border border-cyan-500/20 hover:border-cyan-400 rounded-lg transition uppercase tracking-wider flex items-center gap-1.5"
             >
               <Lock className="w-3.5 h-3.5" />
               Área do Cliente
-            </button>
+            </a>
             <button
-              onClick={handleOpenDemo}
+              onClick={() => handleOpenDemo()}
               className="bg-[#00D4FF] hover:bg-cyan-300 text-[#01143F] text-xs font-black uppercase tracking-wider px-5 py-3 rounded-lg shadow-lg shadow-cyan-500/20 transition cursor-pointer"
             >
               Diagnóstico
@@ -279,15 +298,13 @@ export default function LandingPage() {
               ))}
             </nav>
             <div className="border-t border-white/5 pt-4 flex flex-col gap-3">
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  setClientModalOpen(true);
-                }}
+              <a
+                href="https://eventos.vlyne.com.br/"
+                onClick={() => setMobileMenuOpen(false)}
                 className="w-full py-3 border border-white/10 hover:border-cyan-500/30 rounded-lg text-gray-300 text-xs font-bold uppercase tracking-wider transition flex items-center justify-center gap-1.5"
               >
                 <Lock className="w-3.5 h-3.5" /> Área do Cliente
-              </button>
+              </a>
               <button
                 onClick={() => {
                   setMobileMenuOpen(false);
@@ -303,16 +320,14 @@ export default function LandingPage() {
       </AnimatePresence>
 
       <main className="relative z-10">
-        {/* HERO - 100% Event Intelligence: uma promessa, um produto, uma
-            prova concreta (a linha do tempo real das etapas). */}
         <section className="min-h-screen flex items-center px-5 sm:px-6 pt-24 sm:pt-28 pb-12 sm:pb-16 bg-landing-grid">
           <div className="max-w-7xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-7 text-center lg:text-left">
               <div
                 className="reveal reveal-delay-0 inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-cyan-400/20 bg-cyan-500/10 text-cyan-200 mb-5 sm:mb-6"
               >
-                <Workflow className="w-4 h-4" />
-                <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-[0.18em] sm:tracking-[0.22em]">Inteligência que impulsiona decisões</span>
+                <AlertTriangle className="w-4 h-4" />
+                  <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-[0.18em] sm:tracking-[0.22em]">Gestão orientada por margem real</span>
               </div>
 
               <h1
@@ -327,14 +342,14 @@ export default function LandingPage() {
               <p
                 className="reveal reveal-delay-2 mt-5 sm:mt-6 text-sm sm:text-lg text-gray-300 max-w-2xl mx-auto lg:mx-0 leading-7 sm:leading-8"
               >
-                O VLYNE Event Intelligence acompanha cada projeto do prospect ao pagamento — contratos, equipes, remessas, custo real e rentabilidade — pra você decidir com dado, não com planilha solta.
+                O VLYNE Event Intelligence acompanha cada projeto do prospect ao pagamento — contratos, equipes, remessas, custo real e rentabilidade, pra você decidir com dado, não com planilha solta.
               </p>
 
               <div
                 className="reveal reveal-delay-3 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4 mt-7 sm:mt-8"
               >
                 <button
-                  onClick={handleOpenDemo}
+                  onClick={() => handleOpenDemo()}
                   className="w-full sm:w-auto bg-[#00D4FF] hover:bg-cyan-300 text-[#01143F] px-8 py-4 rounded-lg text-xs font-black uppercase tracking-wider shadow-lg shadow-cyan-400/20 transition cursor-pointer flex items-center justify-center gap-2"
                 >
                   Quero ver a margem real dos meus projetos
@@ -353,50 +368,14 @@ export default function LandingPage() {
             </div>
 
             <div className="hidden lg:block lg:col-span-5">
-              <div
-                className="reveal reveal-delay-4 bg-[#020d2b]/90 border border-cyan-400/15 rounded-lg p-5 shadow-2xl shadow-cyan-950/40 backdrop-blur"
-              >
-                <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
-                  <div>
-                    <p className="text-[10px] font-black uppercase tracking-[0.22em] text-cyan-300">VLYNE Event Intelligence</p>
-                    <h2 className="text-xl font-black mt-1">Do prospect ao pagamento, num só fio condutor.</h2>
-                  </div>
-                  <ShieldCheck className="w-8 h-8 text-cyan-300 shrink-0" />
+              <div className="reveal reveal-delay-4 bg-[#020d2b]/90 border border-cyan-400/15 rounded-lg overflow-hidden shadow-2xl shadow-cyan-950/40 backdrop-blur">
+                <div className="flex items-center gap-1.5 px-4 py-3 border-b border-white/10 bg-[#01143F]/60">
+                  <span className="w-2.5 h-2.5 rounded-full bg-rose-400/60" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-amber-400/60" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-400/60" />
+                  <span className="ml-3 text-[10px] font-mono text-gray-400">eventos.vlyne.com.br/dashboard</span>
                 </div>
-
-                <div className="flex items-center gap-1 overflow-x-auto pb-2 mb-4">
-                  {eventStages.map((stage, i) => (
-                    <div key={stage} className="flex items-center shrink-0">
-                      <div
-                        className={`w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-black ${
-                          i === 0 ? 'bg-cyan-300 text-[#01143F]' : 'bg-white/10 text-gray-300'
-                        }`}
-                        title={stage}
-                      >
-                        {i + 1}
-                      </div>
-                      {i < eventStages.length - 1 && <div className="w-3 h-[1.5px] bg-white/15 shrink-0" />}
-                    </div>
-                  ))}
-                </div>
-
-                <div className="flex flex-wrap gap-1.5 mb-4">
-                  {['CRM e Propostas', 'Financeiro', 'Canteiro e Checklist', 'Envios e Transporte', 'Equipes', 'Contratos'].map((mod) => (
-                    <span key={mod} className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/10 text-gray-300">
-                      {mod}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="rounded-lg border border-cyan-300/15 bg-cyan-300/10 p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Target className="w-5 h-5 text-cyan-300" />
-                    <p className="text-sm font-black">Diagnóstico antes da ferramenta</p>
-                  </div>
-                  <p className="text-[13px] text-gray-200 leading-6">
-                    Identificamos o gargalo do seu projeto e mostramos exatamente onde a margem está vazando.
-                  </p>
-                </div>
+                <Image src="/screenshots/dashboard.png" alt="Dashboard do VLYNE Event Intelligence" width={1440} height={900} className="w-full h-auto" />
               </div>
             </div>
           </div>
@@ -410,16 +389,13 @@ export default function LandingPage() {
                 Sua empresa tem controle real ou apenas relatórios espalhados?
               </h2>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-10">
-              {painQuestions.map((question) => {
-                const Icon = question.icon;
-                return (
-                  <div key={question.text} className="rounded-lg border border-white/10 bg-[#020d2b] p-6">
-                    <Icon className="w-6 h-6 text-cyan-300 mb-4" />
-                    <p className="text-lg font-black leading-7">{question.text}</p>
-                  </div>
-                );
-              })}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
+              {painQuestions.map((question) => (
+                <div key={question} className="rounded-lg border border-white/10 bg-[#020d2b] p-5">
+                  <PackageSearch className="w-6 h-6 text-cyan-300 mb-4" />
+                  <p className="text-lg font-black leading-7">{question}</p>
+                </div>
+              ))}
             </div>
             <p className="mt-8 text-lg font-bold text-gray-200">
               Se a resposta não é clara, sua operação está decidindo no escuro.
@@ -427,41 +403,50 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* Como funciona - substitui as antigas seções de "portfólio" e
-            "segmentos" por 4 pilares do mesmo produto, não uma vitrine de
-            produtos diferentes. */}
         <section id="como-funciona" className="py-16 md:py-24 px-5 sm:px-6">
           <div className="max-w-7xl mx-auto">
             <div className="max-w-3xl">
               <p className="text-[10px] font-black uppercase tracking-[0.24em] text-cyan-300">Como funciona</p>
               <h2 className="mt-4 text-3xl sm:text-5xl font-black tracking-normal">
-                Um único fio condutor pra cada projeto de evento.
+                Do prospect ao pagamento, numa linha só.
               </h2>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-10">
-              {eventFeatures.map((feature) => {
-                const Icon = feature.icon;
-                return (
-                  <motion.article
-                    whileHover={{ y: -4 }}
-                    key={feature.title}
-                    className="bg-[#020d2b] border border-white/10 rounded-lg p-6 shadow-xl shadow-cyan-950/20"
-                  >
-                    <div className="w-11 h-11 rounded-lg bg-cyan-500/10 border border-cyan-400/20 flex items-center justify-center text-cyan-300 mb-5">
-                      <Icon className="w-6 h-6" />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-10">
+              {howItWorks.map((step) => (
+                <article key={step.tag} className="bg-[#020d2b] border border-white/10 rounded-lg overflow-hidden shadow-xl shadow-cyan-950/20">
+                  <Image
+                    src={step.image}
+                    alt={step.title}
+                    width={1440}
+                    height={900}
+                    sizes="(min-width: 1024px) 50vw, 100vw"
+                    className="w-full h-auto border-b border-white/10"
+                  />
+                  <div className="p-6">
+                    <p className="text-[10px] font-black uppercase tracking-[0.22em] text-cyan-300">{step.tag}</p>
+                    <h3 className="text-xl font-black leading-7 mt-3">{step.title}</h3>
+                    <p className="text-sm text-gray-400 leading-6 mt-3">{step.description}</p>
+                    <div className="space-y-2 mt-4">
+                      {step.bullets.map((bullet) => (
+                        <div key={bullet} className="flex items-center gap-2 text-sm font-bold text-gray-200">
+                          <CheckCircle2 className="w-4 h-4 text-cyan-300 shrink-0" />
+                          {bullet}
+                        </div>
+                      ))}
                     </div>
-                    <h3 className="text-lg font-black leading-6">{feature.title}</h3>
-                    <p className="text-sm text-gray-400 leading-7 mt-3">{feature.text}</p>
-                  </motion.article>
-                );
-              })}
+                  </div>
+                </article>
+              ))}
             </div>
-            <button
-              onClick={handleOpenDemo}
-              className="mt-10 inline-flex items-center gap-2 text-sm font-black uppercase tracking-wide text-cyan-300 hover:text-cyan-100 transition"
-            >
-              Agendar demonstração <ArrowRight className="w-4 h-4" />
-            </button>
+            <div className="flex justify-center mt-10">
+              <button
+                onClick={() => handleOpenDemo()}
+                className="w-full sm:w-auto bg-[#00D4FF] hover:bg-cyan-300 text-[#01143F] px-8 py-4 rounded-lg text-xs font-black uppercase tracking-wider shadow-lg shadow-cyan-400/20 transition cursor-pointer flex items-center justify-center gap-2"
+              >
+                Agendar demonstração
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
           </div>
         </section>
 
@@ -473,17 +458,15 @@ export default function LandingPage() {
                 Pequenas falhas operacionais viram grandes prejuízos.
               </h2>
             </div>
-            <div className="mt-10 divide-y divide-slate-200 border-y border-slate-200">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-10">
               {risks.map((risk) => {
                 const Icon = risk.icon;
                 return (
-                  <div key={risk.title} className="py-6 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8">
-                    <div className="flex items-center gap-3 sm:w-72 shrink-0">
-                      <Icon className="w-6 h-6 text-[#0047FF] shrink-0" />
-                      <h3 className="text-xl font-black">{risk.title}</h3>
-                    </div>
-                    <p className="text-sm text-slate-600 leading-6">{risk.text}</p>
-                  </div>
+                  <article key={risk.title} className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+                    <Icon className="w-7 h-7 text-[#0047FF] mb-5" />
+                    <h3 className="text-xl font-black">{risk.title}</h3>
+                    <p className="text-sm text-slate-600 leading-6 mt-3">{risk.text}</p>
+                  </article>
                 );
               })}
             </div>
@@ -495,10 +478,10 @@ export default function LandingPage() {
             <div>
               <p className="text-[10px] font-black uppercase tracking-[0.24em] text-cyan-300">Prova de valor</p>
               <h2 className="mt-4 text-3xl sm:text-5xl font-black tracking-normal">
-                O que o VLYNE Event Intelligence ajuda você a enxergar.
+                O que a VLYNE ajuda sua empresa a enxergar.
               </h2>
               <p className="mt-5 text-base text-gray-300 leading-8">
-                A gestão deixa de reagir tarde e passa a enxergar prioridades: qual projeto revisar, onde cobrar e qual risco corrigir primeiro.
+                A gestão deixa de reagir tarde e passa a enxergar prioridades: o que comprar, o que reduzir, onde cobrar, qual projeto revisar e qual risco corrigir primeiro.
               </p>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -508,6 +491,35 @@ export default function LandingPage() {
                   <p className="text-sm font-black leading-5">{indicator}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="py-16 md:py-24 px-5 sm:px-6 bg-[#f8fafc] text-slate-950">
+          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div>
+              <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[#0047FF]">Antes</p>
+              <h2 className="mt-3 text-3xl font-black">Operação reativa</h2>
+              <div className="space-y-3 mt-6">
+                {['Planilhas soltas', 'Contrato redigitado do zero', 'Documento de promotora sem controle', 'Comissão calculada na mão', 'Cronograma no feeling', 'Decisões atrasadas'].map((item) => (
+                  <div key={item} className="flex items-center gap-3 rounded-lg border border-slate-200 bg-white p-3 text-sm font-bold text-slate-700">
+                    <AlertTriangle className="w-4 h-4 text-amber-500" />
+                    {item}
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div>
+              <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[#0047FF]">Depois com VLYNE</p>
+              <h2 className="mt-3 text-3xl font-black">Gestão inteligente</h2>
+              <div className="space-y-3 mt-6">
+                {['Indicadores em tempo real', 'Contrato com valor herdado da proposta', 'Checklist de documentos automático', 'Comissão vinculada à parcela paga', 'Cronograma com cálculo de prazo', 'Decisão baseada em dado'].map((item) => (
+                  <div key={item} className="flex items-center gap-3 rounded-lg border border-cyan-200 bg-cyan-50 p-3 text-sm font-bold text-slate-800">
+                    <CheckCircle2 className="w-4 h-4 text-[#0047FF]" />
+                    {item}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </section>
@@ -523,7 +535,7 @@ export default function LandingPage() {
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
               <button
-                onClick={handleOpenDemo}
+                onClick={() => handleOpenDemo()}
                 className="w-full sm:w-auto bg-[#00D4FF] hover:bg-cyan-300 text-[#01143F] px-8 py-4 rounded-lg text-xs font-black uppercase tracking-wider shadow-lg shadow-cyan-400/20 transition cursor-pointer"
               >
                 Quero meu diagnóstico
@@ -549,7 +561,7 @@ export default function LandingPage() {
               Inteligência que impulsiona decisões.
             </p>
             <p className="text-[11px] text-gray-500 leading-relaxed max-w-sm">
-              VLYNE Event Intelligence: gestão de eventos, stands e projetos do prospect ao pagamento.
+              Plataformas dedicadas a controle operacional, redução de perdas e tomada de decisão com dados claros.
             </p>
           </div>
 
@@ -564,9 +576,9 @@ export default function LandingPage() {
                 </li>
               ))}
               <li>
-                <button onClick={() => setClientModalOpen(true)} className="text-xs text-gray-400 hover:text-cyan-400 transition cursor-pointer text-left">
+                <a href="https://eventos.vlyne.com.br/" className="text-xs text-gray-400 hover:text-cyan-400 transition">
                   Área do Cliente
-                </button>
+                </a>
               </li>
             </ul>
           </div>
@@ -607,7 +619,6 @@ export default function LandingPage() {
         onClose={() => setDemoModalOpen(false)}
         onSubmit={handleFormSubmit}
       />
-      <ClientAreaModal open={clientModalOpen} onClose={() => setClientModalOpen(false)} />
     </div>
   );
 }
@@ -727,57 +738,3 @@ function FormField({
   );
 }
 
-// Área do Cliente: só o essencial pra clientes existentes de Etiquetas e
-// Pulse conseguirem logar - sem descrição comercial, sem destaque visual
-// igual ao Event Intelligence. Menor evidência pública possível, mantendo a
-// função de acesso.
-function ClientAreaModal({ open, onClose }: { open: boolean; onClose: () => void }) {
-  return (
-    <AnimatePresence>
-      {open && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 0.6 }} exit={{ opacity: 0 }} onClick={onClose} className="absolute inset-0 bg-black" />
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 10 }}
-            className="relative w-full max-w-md bg-[#020c24]/95 border border-cyan-500/20 rounded-lg p-6 sm:p-8 shadow-2xl overflow-hidden backdrop-blur-xl z-10 text-center"
-          >
-            <button onClick={onClose} className="absolute top-4 right-4 p-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition" aria-label="Fechar">
-              <X className="w-5 h-5" />
-            </button>
-
-            <div className="space-y-6">
-              <div className="space-y-2">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-cyan-500/10 rounded-lg">
-                  <Lock className="w-3.5 h-3.5 text-cyan-400" />
-                  <span className="font-mono text-[9px] uppercase font-bold text-cyan-300">Área do Cliente</span>
-                </div>
-                <h3 className="text-xl sm:text-2xl font-bold tracking-tight">Acessar minha plataforma</h3>
-              </div>
-
-              <a
-                href="https://eventos.vlyne.com.br/"
-                className="w-full flex items-center justify-between p-4 bg-white/[0.03] border border-white/5 rounded-lg transition group text-left hover:bg-cyan-500/10 hover:border-cyan-500/30"
-              >
-                <h4 className="text-sm font-bold text-white group-hover:text-cyan-300 transition-colors">VLYNE Event Intelligence</h4>
-                <ArrowRight className="w-4 h-4 text-gray-500" />
-              </a>
-
-              <p className="text-[10.5px] text-gray-500 pt-1">
-                Cliente de outra plataforma VLYNE?{' '}
-                <a href="https://etiquetas.vlyne.com.br/" className="text-gray-400 hover:text-cyan-400 underline transition">
-                  Etiquetas
-                </a>
-                {' · '}
-                <a href="https://pulse.vlyne.com.br/login" className="text-gray-400 hover:text-cyan-400 underline transition">
-                  Pulse
-                </a>
-              </p>
-            </div>
-          </motion.div>
-        </div>
-      )}
-    </AnimatePresence>
-  );
-}
