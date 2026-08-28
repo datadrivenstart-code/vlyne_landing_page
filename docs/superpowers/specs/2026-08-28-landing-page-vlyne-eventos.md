@@ -99,7 +99,7 @@ decidindo no escuro."
 
 ### 4. Como funciona (substitui a seção `#solucoes` de 3 segmentos)
 
-Троca os 3 cards "por tipo de cliente" por **4 blocos por etapa do funil real**,
+Troca os 3 cards "por tipo de cliente" por **4 blocos por etapa do funil real**,
 cada um com screenshot real (não ícone):
 
 | Etapa | Título | Descrição | Bullets | Screenshot |
