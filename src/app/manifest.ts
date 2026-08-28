@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "VLYNE",
     short_name: "VLYNE",
     description:
-      "Controle operacional, estoque, eventos, etiquetas e inteligência para reduzir perdas.",
+      "VLYNE Event Intelligence: gestão de eventos, stands e projetos do prospect ao pagamento.",
     start_url: "/",
     scope: "/",
     display: "standalone",
