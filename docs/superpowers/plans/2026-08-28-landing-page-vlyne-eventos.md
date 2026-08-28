@@ -56,7 +56,7 @@ essencialmente de conteúdo + um novo diretório de assets (`public/screenshots/
 
 ---
 
-### Tarefa 1: Popular tenant de demonstração fictício
+### Task 1: Popular tenant de demonstração fictício (Tarefa 1)
 
 **Arquivos:**
 - Nenhum arquivo deste repo — script one-off roda contra o Supabase do repo
@@ -195,7 +195,7 @@ node caminho/pro/seed_demo_landing.mjs
 
 ---
 
-### Tarefa 2: Capturar as 5 screenshots via Playwright
+### Task 2: Capturar as 5 screenshots via Playwright (Tarefa 2)
 
 **Arquivos:**
 - Create: `public/screenshots/dashboard.png`, `public/screenshots/crm.png`,
@@ -307,7 +307,7 @@ git commit -m "assets: adiciona screenshots reais do produto (dados ficticios) p
 
 ---
 
-### Tarefa 3: Reescrever hero, dores, "Como funciona" e riscos em `page.tsx`
+### Task 3: Reescrever hero, dores, "Como funciona" e riscos em `page.tsx` (Tarefa 3)
 
 **Arquivos:**
 - Modify: `src/app/page.tsx:43-134` (arrays `painQuestions`, `segments`,
@@ -500,7 +500,7 @@ git commit -m "feat: reescreve hero, dores e como-funciona com prints reais do p
 
 ---
 
-### Tarefa 4: Simplificar Área do Cliente e formulário de diagnóstico
+### Task 4: Simplificar Área do Cliente e formulário de diagnóstico (Tarefa 4)
 
 **Arquivos:**
 - Modify: `src/app/page.tsx` (header, menu mobile, footer, `DemoModal`,
@@ -572,7 +572,7 @@ git commit -m "feat: simplifica Area do Cliente (link direto) e formulario de di
 
 ---
 
-### Tarefa 5: Riscos restantes, antes/depois, prova de valor e CTA final
+### Task 5: Riscos restantes, antes/depois, prova de valor e CTA final (Tarefa 5)
 
 **Arquivos:**
 - Modify: `src/app/page.tsx:518-638` (JSX das seções risco, antes/depois,
@@ -644,7 +644,7 @@ git commit -m "feat: reescreve riscos, antes/depois, indicadores e CTA final; re
 
 ---
 
-### Tarefa 6: Meta tags, cleanup e QA visual final
+### Task 6: Meta tags, cleanup e QA visual final (Tarefa 6)
 
 **Arquivos:**
 - Modify: `src/app/layout.tsx` (meta tags), remove os 5 SVGs de boilerplate.
