@@ -37,6 +37,13 @@ essencialmente de conteúdo + um novo diretório de assets (`public/screenshots/
   run lint` limpo, e checagem visual real (dev server + screenshot via
   Playwright), não TDD tradicional. Não inventar teste automatizado que não
   existe na convenção do repo.
+- **Números de linha citados nas Tarefas 3, 4, 5 e 6 são baseados no
+  `page.tsx` original (antes de qualquer edição deste plano) — ficam
+  desatualizados assim que a Tarefa 3 começa a editar o arquivo.** A partir
+  da Tarefa 4 em diante, localizar o trecho certo pelo conteúdo descrito
+  (nome de função, texto do JSX, nome de variável) e não confiar no número de
+  linha citado como exato — ele é só uma pista de onde procurar no arquivo
+  original, não uma coordenada garantida no arquivo já editado.
 - Deploy continua **manual** (mesmo padrão documentado no resto do ecossistema
   Vlyne: `vercel --prod` depois de qualquer push que deva ir ao ar) — este
   plano não inclui o passo de deploy; fica pra confirmação explícita do
@@ -192,9 +199,12 @@ node caminho/pro/seed_demo_landing.mjs
 
 **Arquivos:**
 - Create: `public/screenshots/dashboard.png`, `public/screenshots/crm.png`,
-  `public/screenshots/contrato.png`, `public/screenshots/cronograma.png` (ou
-  `portal-cliente.png` — decisão adiada da spec, resolvida no Passo 3 abaixo),
+  `public/screenshots/contrato.png`, `public/screenshots/cronograma.png`,
   `public/screenshots/financeiro.png` (repo `vlyne_landing_page`).
+  **O nome do arquivo `cronograma.png` é fixo independente de qual tela for
+  escolhida no Passo 3** (Cronograma Dinâmico ou Portal do Cliente) — só o
+  CONTEÚDO capturado varia, nunca o nome do arquivo, porque a Tarefa 3 já
+  referencia esse caminho fixo em `howItWorks`.
 
 **Interfaces:**
 - Consome: login de demonstração da Tarefa 1.
@@ -279,7 +289,11 @@ await admin.from('orcamentos').delete().eq('empresa_id', EMPRESA_ID);
 await admin.from('event_proposals').delete().eq('empresa_id', EMPRESA_ID);
 await admin.from('event_projetos').delete().eq('empresa_id', EMPRESA_ID);
 await admin.from('usuarios').delete().eq('empresa_id', EMPRESA_ID);
-await admin.auth.admin.deleteUser(authUser.user.id); // guardar o id da Tarefa 1
+// Não depende de variável carregada da Tarefa 1 (script separado) — busca o
+// usuário de demonstração pelo e-mail, mesmo padrão já usado nesta sessão:
+const { data: listUsers } = await admin.auth.admin.listUsers();
+const demoAuthUser = listUsers.users.find((u) => u.email === email);
+if (demoAuthUser) await admin.auth.admin.deleteUser(demoAuthUser.id);
 await admin.from('empresas').delete().eq('id', EMPRESA_ID);
 ```
 
@@ -592,11 +606,16 @@ const indicators = [
 ];
 ```
 
-- [ ] **Passo 3: Remover a seção `#solucoes` duplicada (linhas 541-559, "Uma
-  plataforma inteligente...")** — esse bloco usava o array `solutions` já
-  removido na Tarefa 3; o conteúdo equivalente já está coberto pela nova seção
-  "Como funciona" da Tarefa 3, então esta seção inteira é deletada (não
-  substituída) pra não repetir o mesmo funil duas vezes na página.
+- [ ] **Passo 3: Remover a segunda seção de soluções, duplicada** — o bloco
+  com título "Uma plataforma inteligente para cada gargalo da sua operação"
+  (h2), que mapeia o array `solutions` (já removido na Tarefa 3 — se essa
+  seção ainda referenciar `solutions`, é sinal de que sobrou código morto).
+  **Atenção:** essa seção não tem `id` no JSX original — não confundir com a
+  seção que tinha `id="solucoes"` (essa já foi renomeada pra
+  `id="como-funciona"` na Tarefa 3 e continua na página). Localizar pelo
+  texto do título, não pelo id. O conteúdo equivalente já está coberto pela
+  nova seção "Como funciona" da Tarefa 3, então esta seção inteira é deletada
+  (não substituída) pra não repetir o mesmo funil duas vezes na página.
 
 - [ ] **Passo 4: Reescrever o CTA final (linhas 612-638)**
 
