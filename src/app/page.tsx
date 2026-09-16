@@ -1,740 +1,735 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { AnimatePresence, motion } from 'motion/react';
+import React, { useState } from "react";
 import {
-  AlertTriangle,
+  ArrowDown,
   ArrowRight,
-  Building,
+  ArrowUpRight,
+  Box,
+  Check,
   CheckCircle2,
-  Cpu,
-  DollarSign,
-  FileWarning,
+  CheckSquare,
+  ChevronDown,
+  ChevronRight,
+  Compass,
+  FileCheck,
+  FileText,
+  Layers,
+  LayoutDashboard,
   Lock,
-  Mail,
   Menu,
   MessageCircle,
-  PackageSearch,
   Phone,
-  Smile,
-  Target,
-  TrendingDown,
+  ShieldCheck,
+  Sparkles,
   X,
-} from 'lucide-react';
-import TechBackground from '@/components/TechBackground';
-import VlyneLogo from '@/components/VlyneLogo';
-import { supabase, isSupabaseConfigured } from '@/services/supabase';
-
-const WHATSAPP_URL =
-  'https://wa.me/5511920480770?text=Ol%C3%A1!%20Quero%20solicitar%20um%20diagn%C3%B3stico%20operacional%20da%20VLYNE.';
-
-const menuItems = [
-  { label: 'Dores', href: '#dores' },
-  { label: 'Como funciona', href: '#como-funciona' },
-  { label: 'Indicadores', href: '#indicadores' },
-  { label: 'Contato', href: '#contato' },
-];
-
-const painQuestions = [
-  'Sabe se cada projeto de evento realmente deu lucro?',
-  'Sabe onde sua equipe perde tempo todos os dias?',
-  'Sabe quais decisões precisam ser tomadas hoje?',
-  'Sabe qual documento da promotora está atrasado?',
-  'Sabe se o valor do contrato bate com o orçamento aprovado?',
-  'Sabe quanto cada projetista tem de carga em aberto?',
-];
-
-const howItWorks = [
-  {
-    tag: 'Comercial',
-    title: 'Cada proposta, do primeiro contato ao fechamento.',
-    description: 'Funil visual por estágio, motivo de perda categorizado, projeto criado automaticamente ao aceitar.',
-    bullets: ['Funil por estágio', 'Motivo de perda categorizado', 'Projeto criado automaticamente'],
-    image: '/screenshots/crm.png',
-  },
-  {
-    tag: 'Contrato & Fechamento',
-    title: 'Contrato gerado com um clique, valor puxado da proposta.',
-    description: 'Cláusulas por marca, valor herdado e travado, aviso se diverge do orçamento aprovado.',
-    bullets: ['Cláusulas por marca', 'Valor herdado e travado', 'Aviso de divergência com orçamento'],
-    image: '/screenshots/contrato.png',
-  },
-  {
-    tag: 'Pré-Produção',
-    title: 'Cronograma, documentos da promotora e cliente acompanhando tudo.',
-    description: 'Cálculo automático de prazo, checklist de documentos gerado pela promotora, portal do cliente com progresso atualizado.',
-    bullets: ['Cálculo de compressão de prazo', 'Checklist automático por promotora', 'Portal do cliente com progresso atualizado'],
-    image: '/screenshots/cronograma.png',
-  },
-  {
-    tag: 'Financeiro',
-    title: 'Margem real por projeto, não estimativa.',
-    description: 'Orçamento por metragem com aprovação do CEO, comissão vinculada à parcela paga, lucratividade real por evento.',
-    bullets: ['Orçamento por m² com aprovação', 'Comissão por parcela paga', 'Lucratividade por evento'],
-    image: '/screenshots/financeiro.png',
-  },
-];
-
-const risks = [
-  {
-    icon: DollarSign,
-    title: 'Projeto sem controle de custo',
-    text: 'Sem custo real por projeto, a margem desaparece antes da gestão perceber.',
-  },
-  {
-    icon: FileWarning,
-    title: 'Documento de promotora atrasado',
-    text: 'RRT, seguro ou memorial vencido pode barrar a montagem no pavilhão.',
-  },
-  {
-    icon: PackageSearch,
-    title: 'Carga e descarga sem conferência',
-    text: 'Sem dupla confirmação, material extraviado só aparece quando já é tarde.',
-  },
-  {
-    icon: TrendingDown,
-    title: 'Aditivo sem aprovação formal',
-    text: 'Serviço extra feito sem registro vira retrabalho que ninguém paga.',
-  },
-];
-
-const indicators = [
-  'Margem por projeto',
-  'Documentos pendentes',
-  'Comissão por parcela',
-  'Aditivos aprovados',
-  'Carga por projetista',
-  'Custo operacional',
-  'Prazo de cronograma',
-  'Estoque de almoxarifado',
-  'Rentabilidade por evento',
-  'Divergência de contrato',
-];
-
-type FormData = {
-  nome: string;
-  empresa: string;
-  email: string;
-  telefone: string;
-};
+} from "lucide-react";
 
 export default function LandingPage() {
+  const [clientDropdownOpen, setClientDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [demoModalOpen, setDemoModalOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const [formData, setFormData] = useState<FormData>({
-    nome: '',
-    empresa: '',
-    email: '',
-    telefone: '',
-  });
-  const [submitting, setSubmitting] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [errorText, setErrorText] = useState('');
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // Progressive enhancement for the hero fade-in: content starts fully
-  // visible (see .reveal in globals.css) and only animates once JS has
-  // hydrated. The safety timeout guarantees the elements stay visible
-  // even if the animation class fails to apply for any reason.
-  useEffect(() => {
-    const root = document.getElementById('home');
-    root?.classList.add('js-ready');
-    const safety = setTimeout(() => {
-      document.querySelectorAll('.reveal').forEach((el) => el.classList.add('reveal-visible'));
-    }, 1200);
-    return () => clearTimeout(safety);
-  }, []);
-
-  const handleOpenDemo = () => {
-    setDemoModalOpen(true);
-    setSuccess(false);
-    setErrorText('');
-  };
-
-  const handleFormSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitting(true);
-    setErrorText('');
-
-    if (!formData.nome || !formData.empresa || !formData.email || !formData.telefone) {
-      setErrorText('Por favor, preencha todos os campos obrigatórios.');
-      setSubmitting(false);
-      return;
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email.trim())) {
-      setErrorText('Por favor, insira um e-mail válido.');
-      setSubmitting(false);
-      return;
-    }
-
-    try {
-      if (isSupabaseConfigured && supabase) {
-        const { error } = await supabase.from('vlyne_leads').insert([
-          {
-            name: formData.nome,
-            email: formData.email,
-            company: formData.empresa,
-            phone: formData.telefone,
-            product: 'VLYNE Event Intelligence',
-            timestamp: new Date().toISOString(),
-            status: 'novo',
-            source: 'Landing Page - Diagnostico Operacional',
-          },
-        ]);
-        if (error) throw error;
-      }
-
-      const savedLeads = JSON.parse(localStorage.getItem('vlyne_local_leads') || '[]');
-      savedLeads.push({
-        ...formData,
-        id: `lead_${Date.now()}`,
-        createdAt: new Date().toISOString(),
-      });
-      localStorage.setItem('vlyne_local_leads', JSON.stringify(savedLeads));
-      setSuccess(true);
-      setFormData({
-        nome: '',
-        empresa: '',
-        email: '',
-        telefone: '',
-      });
-    } catch (err) {
-      console.error('Erro ao salvar lead:', err);
-      setSuccess(true);
-    } finally {
-      setSubmitting(false);
-    }
-  };
 
   return (
-    <div id="home" className="min-h-screen bg-[#01143F] text-white font-sans relative overflow-x-hidden scroll-smooth">
-      <div className="fixed inset-0 z-0 overflow-hidden bg-[#01143F]">
-        <TechBackground />
+    <main className="min-h-screen bg-[#01143F] text-white selection:bg-cyan-500 selection:text-black overflow-x-hidden w-full">
+
+
+  {/*  HEADER NO TOPO 100% RESPONSIVO E CENTRALIZADO  */}
+  <header className="w-full bg-[#01143F]/95 backdrop-blur-xl border-b border-white/10 sticky top-0 z-50">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 sm:h-24 flex items-center justify-between gap-3 sm:gap-6">
+      
+      {/*  LOGO VLYNE (BASE64 INLINE)  */}
+      <a href="#" className="flex items-center gap-3 sm:gap-4 group shrink-0">
+        <img 
+          src="/vlyne_logo_horizontal.png" 
+          alt="VLYNE" 
+          className="h-10 sm:h-12 lg:h-14 w-auto object-contain filter drop-shadow-[0_0_20px_rgba(0,212,255,0.45)] group-hover:scale-105 transition-transform duration-300" 
+        />
+        <div className="hidden xl:block border-l border-white/20 pl-4 py-1">
+          <span className="text-[11px] font-mono tracking-wide text-cyan-300 block font-bold">Inteligência que impulsiona decisões.</span>
+          <span className="text-[9px] text-slate-400 font-mono block">Projetos 3D & Gestão de Montadoras</span>
+        </div>
+      </a>
+
+      {/*  MENU DESKTOP FLUIDO E CENTRALIZADO  */}
+      <nav className="hidden lg:flex items-center gap-6 xl:gap-8 text-xs font-bold uppercase tracking-wider text-slate-300">
+        <a href="#design-vlyne" className="hover:text-purple-300 transition-colors flex items-center gap-2 whitespace-nowrap">
+          <span className="w-2 h-2 rounded-full bg-purple-400"></span>
+          <span>DESIGN VLYNE</span>
+        </a>
+        <a href="#event-intelligence" className="hover:text-cyan-300 transition-colors flex items-center gap-2 whitespace-nowrap">
+          <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
+          <span>Event Intelligence</span>
+        </a>
+        <a href="#contratacao" className="hover:text-cyan-300 transition-colors whitespace-nowrap">Contratação</a>
+        <a href="#faq" className="hover:text-cyan-300 transition-colors whitespace-nowrap">FAQ</a>
+      </nav>
+
+      {/*  CTA BOTÕES DESKTOP  */}
+      <div className="hidden sm:flex items-center gap-2.5 sm:gap-3 shrink-0">
+        
+        {/*  DROPDOWN ÁREA DO CLIENTE (AMBOS OS SISTEMAS)  */}
+        <div className="relative group">
+          <button 
+            type="button"
+            onClick={() => setClientDropdownOpen(!clientDropdownOpen)}
+            className="flex items-center gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs font-bold border border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/10 transition uppercase tracking-wider whitespace-nowrap cursor-pointer"
+            
+          >
+            <Lock className="w-3.5 h-3.5" />
+            <span>Área do Cliente</span>
+            <ChevronDown className="w-3.5 h-3.5 transition-transform group-hover:rotate-180" />
+          </button>
+          
+          {/*  MENU SUSPENSO  */}
+          <div 
+            id="client-dropdown"
+            className={`absolute right-0 top-full pt-2 w-72 z-50 ${clientDropdownOpen ? "block" : "hidden group-hover:block"}`}
+          >
+            <div className="rounded-2xl bg-[#01143F] border border-cyan-500/30 shadow-[0_15px_50px_rgba(0,0,0,0.8)] p-2.5 flex flex-col gap-1.5 backdrop-blur-2xl">
+              <div className="px-3 py-1.5 text-[10px] font-mono uppercase tracking-widest text-slate-400 border-b border-white/10">
+                Acessar Plataforma:
+              </div>
+              <a href="https://design.vlyne.com.br/login" target="_blank" className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-purple-500/15 border border-transparent hover:border-purple-500/30 transition text-left group/item">
+                <div className="w-8 h-8 rounded-lg bg-purple-500/20 text-purple-300 flex items-center justify-center shrink-0 mt-0.5">
+                  <Box className="w-4 h-4" />
+                </div>
+                <div>
+                  <div className="text-xs font-bold text-white group-hover/item:text-purple-300 flex items-center gap-1.5">
+                    DESIGN VLYNE
+                    <ArrowUpRight className="w-3 h-3 opacity-60" />
+                  </div>
+                  <p className="text-[10px] text-slate-400 mt-0.5 font-sans leading-tight">Projetos 3D & Engenharia</p>
+                </div>
+              </a>
+              <a href="https://eventos.vlyne.com.br" target="_blank" className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-cyan-500/15 border border-transparent hover:border-cyan-500/30 transition text-left group/item">
+                <div className="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-300 flex items-center justify-center shrink-0 mt-0.5">
+                  <LayoutDashboard className="w-4 h-4" />
+                </div>
+                <div>
+                  <div className="text-xs font-bold text-white group-hover/item:text-cyan-300 flex items-center gap-1.5">
+                    Event Intelligence
+                    <ArrowUpRight className="w-3 h-3 opacity-60" />
+                  </div>
+                  <p className="text-[10px] text-slate-400 mt-0.5 font-sans leading-tight">ERP & Gestão de Montadoras</p>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <a href="https://wa.me/5511920480770?text=Ol%C3%A1!%20Quero%20conhecer%20as%20solu%C3%A7%C3%B5es%20da%20VLYNE." target="_blank" className="px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs font-black uppercase tracking-wider bg-[#00D4FF] text-[#01143F] hover:bg-cyan-300 transition glow-cyan flex items-center gap-2 whitespace-nowrap">
+          <span>Falar com Consultor</span>
+          <ArrowRight className="w-4 h-4" />
+        </a>
       </div>
 
-      <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled
-            ? 'bg-[#01143F]/92 backdrop-blur-md py-3 border-b border-cyan-500/10 shadow-lg shadow-cyan-950/20'
-            : 'bg-transparent py-5 border-b border-transparent'
-        }`}
-      >
-        <div className="max-w-7xl mx-auto px-5 sm:px-6 flex items-center justify-between">
-          <button
-            type="button"
-            className="flex items-center gap-2 cursor-pointer"
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            aria-label="Voltar ao início"
-          >
-            <VlyneLogo showText={true} className="h-16 sm:h-24 lg:h-28 !justify-start" />
-          </button>
+      {/*  BOTÃO MOBILE (TELAS MENORES QUE 1024px)  */}
+      <div className="flex items-center gap-2 lg:hidden">
+        <a href="https://wa.me/5511920480770?text=Ol%C3%A1!%20Quero%20conhecer%20as%20solu%C3%A7%C3%B5es%20da%20VLYNE." target="_blank" className="px-3 py-2 rounded-xl text-xs font-black uppercase tracking-wider bg-[#00D4FF] text-[#01143F] flex items-center gap-1">
+          <span>Contato</span>
+          <ArrowRight className="w-3.5 h-3.5" />
+        </a>
+        <button 
+          type="button"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="p-2 rounded-xl text-cyan-300 hover:bg-white/10 transition border border-cyan-500/30"
+          aria-label="Abrir Menu"
+        >
+          <Menu className="w-5 h-5" />
+        </button>
+      </div>
 
-          <nav className="hidden md:flex items-center gap-8">
-            {menuItems.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                className="text-xs font-bold uppercase tracking-wider text-gray-300 hover:text-cyan-400 transition"
-              >
-                {item.label}
-              </a>
-            ))}
-          </nav>
+    </div>
 
-          <div className="hidden md:flex items-center gap-3">
-            <a
-              href="https://eventos.vlyne.com.br/"
-              className="text-xs font-bold text-cyan-300 hover:text-white px-4 py-2.5 bg-[#01143F]/80 hover:bg-[#01143F]/90 border border-cyan-500/20 hover:border-cyan-400 rounded-lg transition uppercase tracking-wider flex items-center gap-1.5"
-            >
-              <Lock className="w-3.5 h-3.5" />
-              Área do Cliente
-            </a>
-            <button
-              onClick={() => handleOpenDemo()}
-              className="bg-[#00D4FF] hover:bg-cyan-300 text-[#01143F] text-xs font-black uppercase tracking-wider px-5 py-3 rounded-lg shadow-lg shadow-cyan-500/20 transition cursor-pointer"
-            >
-              Diagnóstico
-            </button>
-          </div>
+    {/*  GAVETA MENU MOBILE / TABLET  */}
+    <div id="mobile-drawer" className={`${mobileMenuOpen ? "block" : "hidden"} lg:hidden bg-[#01143F]/98 border-t border-white/10 px-6 py-6 space-y-5 backdrop-blur-2xl`}>
+      <div className="flex flex-col gap-3 text-sm font-bold uppercase tracking-wider text-slate-200">
+        <a href="#design-vlyne"  className="hover:text-purple-300 flex items-center gap-2 py-2 border-b border-white/5">
+          <span className="w-2.5 h-2.5 rounded-full bg-purple-400"></span>
+          DESIGN VLYNE (Projetos 3D)
+        </a>
+        <a href="#event-intelligence"  className="hover:text-cyan-300 flex items-center gap-2 py-2 border-b border-white/5">
+          <span className="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+          VLYNE Event Intelligence (ERP)
+        </a>
+        <a href="#contratacao"  className="hover:text-cyan-300 py-2 border-b border-white/5">
+          Contratação
+        </a>
+        <a href="#faq"  className="hover:text-cyan-300 py-2 border-b border-white/5">
+          FAQ
+        </a>
+      </div>
 
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg text-gray-300 hover:text-white hover:bg-white/5 transition"
-            aria-label="Abrir menu"
-          >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+      {/*  ÁREA DO CLIENTE MOBILE  */}
+      <div className="pt-2 border-t border-white/10">
+        <span className="text-[10px] font-mono uppercase tracking-widest text-slate-400 block mb-2 font-bold">Acessar Área do Cliente:</span>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="https://design.vlyne.com.br/login" target="_blank" className="p-3 rounded-xl bg-purple-950/40 border border-purple-500/30 text-purple-200 flex items-center justify-between text-xs font-bold">
+            <span>Login DESIGN VLYNE</span>
+            <ArrowUpRight className="w-4 h-4" />
+          </a>
+          <a href="https://eventos.vlyne.com.br" target="_blank" className="p-3 rounded-xl bg-cyan-950/40 border border-cyan-500/30 text-cyan-200 flex items-center justify-between text-xs font-bold">
+            <span>Login Event Intelligence</span>
+            <ArrowUpRight className="w-4 h-4" />
+          </a>
         </div>
-      </header>
+      </div>
+    </div>
+  </header>
 
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-x-0 top-[73px] bg-[#01143F]/95 backdrop-blur-xl border-b border-white/5 z-40 p-6 md:hidden flex flex-col gap-5 shadow-2xl"
-          >
-            <nav className="flex flex-col gap-4">
-              {menuItems.map((item) => (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="text-sm font-bold uppercase tracking-wider text-gray-300 hover:text-cyan-400 transition"
-                >
-                  {item.label}
-                </a>
-              ))}
-            </nav>
-            <div className="border-t border-white/5 pt-4 flex flex-col gap-3">
-              <a
-                href="https://eventos.vlyne.com.br/"
-                onClick={() => setMobileMenuOpen(false)}
-                className="w-full py-3 border border-white/10 hover:border-cyan-500/30 rounded-lg text-gray-300 text-xs font-bold uppercase tracking-wider transition flex items-center justify-center gap-1.5"
-              >
-                <Lock className="w-3.5 h-3.5" /> Área do Cliente
-              </a>
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  handleOpenDemo();
-                }}
-                className="w-full py-3 bg-[#00D4FF] rounded-lg text-[#01143F] text-xs font-black uppercase tracking-wider shadow-lg transition"
-              >
-                Solicitar Diagnóstico
-              </button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+  {/*  HERO SECTION: APRESENTAÇÃO CLARA DAS DUAS PLATAFORMAS APARTADAS  */}
+  <section className="relative min-h-[85vh] flex items-center justify-center grid-bg pt-12 pb-20 px-6 overflow-hidden">
+    <div className="max-w-7xl mx-auto w-full text-center relative z-10">
+      
+      {/*  BADGE  */}
+      <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-400/30 text-cyan-300 text-xs font-mono mb-6 uppercase tracking-widest backdrop-blur">
+        <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+        Tecnologias Especializadas para o Mercado de Feiras & Montadoras
+      </div>
 
-      <main className="relative z-10">
-        <section className="min-h-screen flex items-center px-5 sm:px-6 pt-24 sm:pt-28 pb-12 sm:pb-16 bg-landing-grid">
-          <div className="max-w-7xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-7 text-center lg:text-left">
-              <div
-                className="reveal reveal-delay-0 inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-cyan-400/20 bg-cyan-500/10 text-cyan-200 mb-5 sm:mb-6"
-              >
-                <AlertTriangle className="w-4 h-4" />
-                  <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-[0.18em] sm:tracking-[0.22em]">Gestão orientada por margem real</span>
-              </div>
+      {/*  HEADLINE  */}
+      <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.06] max-w-5xl mx-auto">
+        Software especializado<br/>
+        <span className="bg-gradient-to-r from-cyan-300 via-white to-purple-300 bg-clip-text text-transparent">
+          para quem projeta e para quem gerencia.
+        </span>
+      </h1>
 
-              <h1
-                className="reveal reveal-delay-1 text-[2.35rem] sm:text-5xl lg:text-7xl font-black tracking-normal leading-[1.03]"
-              >
-                Faturamento alto{' '}
-                <span className="bg-gradient-to-r from-cyan-300 via-white to-indigo-200 bg-clip-text text-transparent">
-                  não garante margem.
-                </span>
-              </h1>
+      {/*  SUBTITULO: FRASE EXATA DO CLIENTE  */}
+      <p className="mt-6 text-base sm:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed font-normal">
+        A VLYNE desenvolve softwares específicos para o ecossistema de estandes e eventos. Conheça as nossas soluções disponíveis:
+      </p>
 
-              <p
-                className="reveal reveal-delay-2 mt-5 sm:mt-6 text-sm sm:text-lg text-gray-300 max-w-2xl mx-auto lg:mx-0 leading-7 sm:leading-8"
-              >
-                O VLYNE Event Intelligence acompanha cada projeto do prospect ao pagamento — contratos, equipes, remessas, custo real e rentabilidade, pra você decidir com dado, não com planilha solta.
-              </p>
-
-              <div
-                className="reveal reveal-delay-3 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4 mt-7 sm:mt-8"
-              >
-                <button
-                  onClick={() => handleOpenDemo()}
-                  className="w-full sm:w-auto bg-[#00D4FF] hover:bg-cyan-300 text-[#01143F] px-8 py-4 rounded-lg text-xs font-black uppercase tracking-wider shadow-lg shadow-cyan-400/20 transition cursor-pointer flex items-center justify-center gap-2"
-                >
-                  Quero ver a margem real dos meus projetos
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-                <a
-                  href={WHATSAPP_URL}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="w-full sm:w-auto bg-white/5 hover:bg-white/10 text-white border border-white/10 hover:border-cyan-500/30 px-8 py-4 rounded-lg text-xs font-black uppercase tracking-wider transition flex items-center justify-center gap-2"
-                >
-                  <MessageCircle className="w-4 h-4" />
-                  Falar no WhatsApp
-                </a>
-              </div>
+      {/*  OS 2 CARDS DE ENTRADA (SISTEMAS APARTADOS)  */}
+      <div id="sistemas" className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 text-left max-w-5xl mx-auto items-stretch">
+        
+        {/*  CARD SISTEMA 01: DESIGN VLYNE  */}
+        <a href="#design-vlyne" className="group p-8 rounded-3xl bg-gradient-to-b from-[#031238] to-[#020d2b] border border-purple-500/30 hover:border-purple-400 transition-all duration-300 hover:-translate-y-1 shadow-xl hover:shadow-purple-500/20 relative overflow-hidden flex flex-col justify-between">
+          <div className="absolute top-0 right-0 w-40 h-40 bg-purple-500/10 rounded-full blur-3xl pointer-events-none group-hover:bg-purple-500/20 transition-all"></div>
+          
+          <div>
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-purple-300 bg-purple-500/20 px-3 py-1 rounded-full border border-purple-500/30 font-bold">SISTEMA 01 • PROJETO 3D</span>
+              <span className="text-xs text-slate-400 font-mono flex items-center gap-1 group-hover:text-purple-300">Conhecer <ChevronRight className="w-3.5 h-3.5" /></span>
             </div>
 
-            <div className="hidden lg:block lg:col-span-5">
-              <div className="reveal reveal-delay-4 bg-[#020d2b]/90 border border-cyan-400/15 rounded-lg overflow-hidden shadow-2xl shadow-cyan-950/40 backdrop-blur">
-                <div className="flex items-center gap-1.5 px-4 py-3 border-b border-white/10 bg-[#01143F]/60">
-                  <span className="w-2.5 h-2.5 rounded-full bg-rose-400/60" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-amber-400/60" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-400/60" />
-                  <span className="ml-3 text-[10px] font-mono text-gray-400">eventos.vlyne.com.br/dashboard</span>
-                </div>
-                <Image src="/screenshots/dashboard.png" alt="Dashboard do VLYNE Event Intelligence" width={1440} height={900} className="w-full h-auto" />
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section id="dores" className="py-16 md:py-24 px-5 sm:px-6 border-y border-white/10 bg-[#010b24]/70">
-          <div className="max-w-7xl mx-auto">
-            <div className="max-w-3xl">
-              <p className="text-[10px] font-black uppercase tracking-[0.24em] text-cyan-300">Diagnóstico comercial</p>
-              <h2 className="mt-4 text-3xl sm:text-5xl font-black tracking-normal">
-                Sua empresa tem controle real ou apenas relatórios espalhados?
-              </h2>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
-              {painQuestions.map((question) => (
-                <div key={question} className="rounded-lg border border-white/10 bg-[#020d2b] p-5">
-                  <PackageSearch className="w-6 h-6 text-cyan-300 mb-4" />
-                  <p className="text-lg font-black leading-7">{question}</p>
-                </div>
-              ))}
-            </div>
-            <p className="mt-8 text-lg font-bold text-gray-200">
-              Se a resposta não é clara, sua operação está decidindo no escuro.
-            </p>
-          </div>
-        </section>
-
-        <section id="como-funciona" className="py-16 md:py-24 px-5 sm:px-6">
-          <div className="max-w-7xl mx-auto">
-            <div className="max-w-3xl">
-              <p className="text-[10px] font-black uppercase tracking-[0.24em] text-cyan-300">Como funciona</p>
-              <h2 className="mt-4 text-3xl sm:text-5xl font-black tracking-normal">
-                Do prospect ao pagamento, numa linha só.
-              </h2>
-            </div>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-10">
-              {howItWorks.map((step) => (
-                <article key={step.tag} className="bg-[#020d2b] border border-white/10 rounded-lg overflow-hidden shadow-xl shadow-cyan-950/20">
-                  <Image
-                    src={step.image}
-                    alt={step.title}
-                    width={1440}
-                    height={900}
-                    sizes="(min-width: 1024px) 50vw, 100vw"
-                    className="w-full h-auto border-b border-white/10"
-                  />
-                  <div className="p-6">
-                    <p className="text-[10px] font-black uppercase tracking-[0.22em] text-cyan-300">{step.tag}</p>
-                    <h3 className="text-xl font-black leading-7 mt-3">{step.title}</h3>
-                    <p className="text-sm text-gray-400 leading-6 mt-3">{step.description}</p>
-                    <div className="space-y-2 mt-4">
-                      {step.bullets.map((bullet) => (
-                        <div key={bullet} className="flex items-center gap-2 text-sm font-bold text-gray-200">
-                          <CheckCircle2 className="w-4 h-4 text-cyan-300 shrink-0" />
-                          {bullet}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </article>
-              ))}
-            </div>
-            <div className="flex justify-center mt-10">
-              <button
-                onClick={() => handleOpenDemo()}
-                className="w-full sm:w-auto bg-[#00D4FF] hover:bg-cyan-300 text-[#01143F] px-8 py-4 rounded-lg text-xs font-black uppercase tracking-wider shadow-lg shadow-cyan-400/20 transition cursor-pointer flex items-center justify-center gap-2"
-              >
-                Agendar demonstração
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-        </section>
-
-        <section className="py-16 md:py-24 px-5 sm:px-6 bg-[#f8fafc] text-slate-950">
-          <div className="max-w-7xl mx-auto">
-            <div className="max-w-3xl">
-              <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[#0047FF]">Risco e urgência</p>
-              <h2 className="mt-4 text-3xl sm:text-5xl font-black tracking-normal">
-                Pequenas falhas operacionais viram grandes prejuízos.
-              </h2>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-10">
-              {risks.map((risk) => {
-                const Icon = risk.icon;
-                return (
-                  <article key={risk.title} className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
-                    <Icon className="w-7 h-7 text-[#0047FF] mb-5" />
-                    <h3 className="text-xl font-black">{risk.title}</h3>
-                    <p className="text-sm text-slate-600 leading-6 mt-3">{risk.text}</p>
-                  </article>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-
-        <section id="indicadores" className="py-16 md:py-24 px-5 sm:px-6">
-          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-10 items-center">
-            <div>
-              <p className="text-[10px] font-black uppercase tracking-[0.24em] text-cyan-300">Prova de valor</p>
-              <h2 className="mt-4 text-3xl sm:text-5xl font-black tracking-normal">
-                O que a VLYNE ajuda sua empresa a enxergar.
-              </h2>
-              <p className="mt-5 text-base text-gray-300 leading-8">
-                A gestão deixa de reagir tarde e passa a enxergar prioridades: o que comprar, o que reduzir, onde cobrar, qual projeto revisar e qual risco corrigir primeiro.
-              </p>
-            </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-              {indicators.map((indicator) => (
-                <div key={indicator} className="rounded-lg border border-white/10 bg-[#020d2b] p-4">
-                  <Target className="w-5 h-5 text-cyan-300 mb-3" />
-                  <p className="text-sm font-black leading-5">{indicator}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="py-16 md:py-24 px-5 sm:px-6 bg-[#f8fafc] text-slate-950">
-          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div>
-              <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[#0047FF]">Antes</p>
-              <h2 className="mt-3 text-3xl font-black">Operação reativa</h2>
-              <div className="space-y-3 mt-6">
-                {['Planilhas soltas', 'Contrato redigitado do zero', 'Documento de promotora sem controle', 'Comissão calculada na mão', 'Cronograma no feeling', 'Decisões atrasadas'].map((item) => (
-                  <div key={item} className="flex items-center gap-3 rounded-lg border border-slate-200 bg-white p-3 text-sm font-bold text-slate-700">
-                    <AlertTriangle className="w-4 h-4 text-amber-500" />
-                    {item}
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div>
-              <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[#0047FF]">Depois com VLYNE</p>
-              <h2 className="mt-3 text-3xl font-black">Gestão inteligente</h2>
-              <div className="space-y-3 mt-6">
-                {['Indicadores em tempo real', 'Contrato com valor herdado da proposta', 'Checklist de documentos automático', 'Comissão vinculada à parcela paga', 'Cronograma com cálculo de prazo', 'Decisão baseada em dado'].map((item) => (
-                  <div key={item} className="flex items-center gap-3 rounded-lg border border-cyan-200 bg-cyan-50 p-3 text-sm font-bold text-slate-800">
-                    <CheckCircle2 className="w-4 h-4 text-[#0047FF]" />
-                    {item}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="py-16 md:py-24 px-5 sm:px-6 bg-[#01143F] text-center">
-          <div className="max-w-5xl mx-auto">
-            <p className="text-[10px] font-black uppercase tracking-[0.24em] text-cyan-300">Próximo passo</p>
-            <h2 className="mt-4 text-3xl sm:text-5xl font-black tracking-normal">
-              Descubra a margem real dos seus projetos.
+            <h2 className="text-2xl sm:text-3xl font-black text-white group-hover:text-purple-200 transition-colors">
+              DESIGN VLYNE
             </h2>
-            <p className="mt-5 text-base text-gray-300 leading-8 max-w-3xl mx-auto">
-              Agende uma demonstração e veja como o VLYNE Event Intelligence transforma dados operacionais em controle, economia e decisões mais rápidas.
+            <p className="text-xs text-purple-300/80 font-mono mt-1">Software de IA, Engenharia Paramétrica & Plantas Técnicas</p>
+
+            <p className="mt-4 text-xs sm:text-sm text-slate-300 leading-relaxed">
+              Desenvolvido para cenógrafos, arquitetos e projetistas de stands. Gera layouts volumétricos por IA, motor 3D orbital Three.js 360°, pranchas técnicas A3 (ABNT NBR 6492) com especificação de materiais e exportação para CAD (.DXF) e 3D (.GLB).
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
-              <button
-                onClick={() => handleOpenDemo()}
-                className="w-full sm:w-auto bg-[#00D4FF] hover:bg-cyan-300 text-[#01143F] px-8 py-4 rounded-lg text-xs font-black uppercase tracking-wider shadow-lg shadow-cyan-400/20 transition cursor-pointer"
-              >
-                Quero meu diagnóstico
-              </button>
-              <a
-                href={WHATSAPP_URL}
-                target="_blank"
-                rel="noreferrer"
-                className="w-full sm:w-auto bg-white/5 hover:bg-white/10 text-white border border-white/10 hover:border-cyan-500/30 px-8 py-4 rounded-lg text-xs font-black uppercase tracking-wider transition"
-              >
-                Falar pelo WhatsApp
-              </a>
+          </div>
+
+          <div className="mt-6 pt-6 border-t border-white/10 flex items-center justify-between text-xs font-bold text-purple-400">
+            <span>Ver Telas Reais do Software</span>
+            <ArrowDown className="w-4 h-4" />
+          </div>
+        </a>
+
+        {/*  CARD SISTEMA 02: VLYNE EVENT INTELLIGENCE  */}
+        <a href="#event-intelligence" className="group p-8 rounded-3xl bg-gradient-to-b from-[#031238] to-[#020d2b] border border-cyan-500/30 hover:border-cyan-400 transition-all duration-300 hover:-translate-y-1 shadow-xl hover:shadow-cyan-500/20 relative overflow-hidden flex flex-col justify-between">
+          <div className="absolute top-0 right-0 w-40 h-40 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none group-hover:bg-cyan-500/20 transition-all"></div>
+          
+          <div>
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-cyan-300 bg-cyan-500/20 px-3 py-1 rounded-full border border-cyan-500/30 font-bold">SISTEMA 02 • ERP MONTADORAS</span>
+              <span className="text-xs text-slate-400 font-mono flex items-center gap-1 group-hover:text-cyan-300">Conhecer <ChevronRight className="w-3.5 h-3.5" /></span>
+            </div>
+
+            <h2 className="text-2xl sm:text-3xl font-black text-white group-hover:text-cyan-200 transition-colors">
+              VLYNE Event Intelligence
+            </h2>
+            <p className="text-xs text-cyan-300/80 font-mono mt-1">Software de Gestão Operacional, Pavilhões & Margem Real</p>
+
+            <p className="mt-4 text-xs sm:text-sm text-slate-300 leading-relaxed">
+              Desenvolvido para diretores, gerentes de produção e equipes financeiras de montadoras. Controla CRM de propostas, gerador de contratos com margem travada, checklists de promotoras (SP Expo, Anhembi, Expo Center Norte), cronograma de canteiro e lucro líquido real por stand.
+            </p>
+          </div>
+
+          <div className="mt-6 pt-6 border-t border-white/10 flex items-center justify-between text-xs font-bold text-cyan-400">
+            <span>Ver Telas Reais do Software</span>
+            <ArrowDown className="w-4 h-4" />
+          </div>
+        </a>
+
+      </div>
+
+    </div>
+  </section>
+
+  {/*  =========================================================================================  */}
+  {/*  SEÇÃO 01: DESIGN VLYNE (100% AUTÔNOMO - ENGENHARIA E 3D)  */}
+  {/*  =========================================================================================  */}
+  <section id="design-vlyne" className="py-24 px-6 border-t border-purple-500/20 bg-gradient-to-b from-[#020d2b] via-[#01143F] to-[#020d2b] relative overflow-hidden">
+    <div className="max-w-7xl mx-auto relative z-10">
+      
+      {/*  HEADER DO SISTEMA 01  */}
+      <div className="max-w-3xl mb-16">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-mono uppercase tracking-wider mb-4">
+          <span className="w-2 h-2 rounded-full bg-purple-400"></span>
+          SISTEMA 01 (AUTÔNOMO) • PROJETO & ENGENHARIA 3D
+        </div>
+        <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+          DESIGN VLYNE: Engenharia paramétrica e pranchas executivas em minutos.
+        </h2>
+        <p className="mt-4 text-slate-300 text-sm sm:text-base leading-relaxed">
+          O software de projeto da VLYNE foi criado especificamente para a arquitetura efêmera e montagem de estandes. Ele não depende de nenhum ERP para funcionar: você projeta, valida espacialmente, gera pranchas técnicas ABNT e exporta arquivos prontos para fabricação.
+        </p>
+        <div className="mt-6">
+          <a href="https://design.vlyne.com.br/login" target="_blank" className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold border border-purple-500/40 bg-purple-950/40 text-purple-300 hover:bg-purple-900/50 hover:text-white transition uppercase tracking-wider">
+            <Lock className="w-3.5 h-3.5" />
+            <span>Acessar Plataforma DESIGN VLYNE</span>
+            <ArrowUpRight className="w-3.5 h-3.5" />
+          </a>
+        </div>
+      </div>
+
+      {/*  CARDS AJUSTADOS: SEM VAZIOS VERTICAIS, IMAGEM LOGO ABAIXO DO TEXTO  */}
+      <div className="space-y-8">
+        
+        {/*  CARD 1: MOTOR THREE.JS 360° (FULL WIDTH, COMPACTO)  */}
+        <div className="bento-card rounded-2xl p-6 sm:p-8 border-purple-500/20 hover:border-purple-400/40">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2">
+            <div>
+              <span className="text-[10px] font-mono uppercase tracking-widest text-purple-300 bg-purple-500/10 px-2.5 py-1 rounded border border-purple-500/20">ETAPA 02 • VISUALIZAÇÃO</span>
+              <h3 className="text-xl sm:text-2xl font-bold text-white mt-1.5">Visualização 3D Interativa Orbital 360°</h3>
+            </div>
+            <span className="text-xs text-slate-400 font-mono">TELA REAL DO DESIGN VLYNE</span>
+          </div>
+          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-5 max-w-4xl">
+            Renderização em tempo real via Three.js direto no navegador. Inspeção de volumetria, teste de fluxos de circulação e validação estética sem travar sua máquina.
+          </p>
+          <div className="rounded-xl overflow-hidden border border-white/10 screen-zoom bg-[#000615]">
+            <img src="/design_vlyne_screens/design_02_motor_3d.png" alt="Motor 3D Orbital Real" className="w-full h-auto object-cover block" />
+          </div>
+        </div>
+
+        {/*  ROW 2: BRIEFING IA (PORTRAIT) + PRANCHA TÉCNICA A3  */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          
+          {/*  BRIEFING IA (5 COLS)  */}
+          <div className="lg:col-span-5 bento-card rounded-2xl p-6 border-purple-500/20 hover:border-purple-400/40">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-purple-300 bg-purple-500/10 px-2.5 py-1 rounded border border-purple-500/20">ETAPA 01 • FORMULAÇÃO</span>
+              <span className="text-xs text-slate-400 font-mono">TELA REAL</span>
+            </div>
+            <h3 className="text-xl font-bold text-white mb-1.5">Briefing Guiado por Inteligência Artificial</h3>
+            <p className="text-xs text-slate-300 leading-relaxed mb-5">
+              Entrada assistida de dimensões, posicionamento de esquinas, áreas de depósito, balcões de atendimento e lounges, convertendo requisitos em parâmetros estruturais.
+            </p>
+            <div className="rounded-xl overflow-hidden border border-white/10 screen-zoom bg-[#000615]">
+              <img src="/design_vlyne_screens/design_01_briefing_ia.png" alt="Tela Real do Briefing IA" className="w-full h-auto object-contain max-h-[640px] mx-auto block" />
             </div>
           </div>
-        </section>
-      </main>
 
-      <footer id="contato" className="relative z-10 bg-[#000615] border-t border-white/[0.03] py-12 px-5 sm:px-6">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-10">
-          <div className="md:col-span-5 space-y-4">
-            <VlyneLogo showText={true} className="h-12 !justify-start" />
-            <p className="text-[10px] text-cyan-400 font-mono tracking-widest uppercase font-bold">
-              Inteligência que impulsiona decisões.
+          {/*  PRANCHA TÉCNICA A3 COM LISTA MATERIAIS MAT-01 A MAT-11 (7 COLS)  */}
+          <div className="lg:col-span-7 bento-card rounded-2xl p-6 border-purple-500/20 hover:border-purple-400/40">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-purple-300 bg-purple-500/10 px-2.5 py-1 rounded border border-purple-500/20">ETAPA 03 • ENGENHARIA EXECUTIVA</span>
+              <span className="text-xs text-slate-400 font-mono">TELA REAL</span>
+            </div>
+            <h3 className="text-xl font-bold text-white mb-1.5">Prancha Executiva A3 com Codificação de Materiais</h3>
+            <p className="text-xs text-slate-300 leading-relaxed mb-5">
+              Geração de pranchas nos padrões ABNT/NBR 6492. Inclui tabela técnica com codificação precisa de materiais (MAT-01 a MAT-11): piso compensado, bagun, ripas de pinus, testeira e iluminação.
             </p>
-            <p className="text-[11px] text-gray-500 leading-relaxed max-w-sm">
-              Plataformas dedicadas a controle operacional, redução de perdas e tomada de decisão com dados claros.
-            </p>
+            <div className="rounded-xl overflow-hidden border border-white/10 screen-zoom bg-[#000615]">
+              <img src="/design_vlyne_screens/design_03_prancha_tecnica.png" alt="Prancha Técnica A3 Real" className="w-full h-auto object-cover block" />
+            </div>
           </div>
 
-          <div className="md:col-span-3 space-y-4">
-            <h4 className="text-[10px] font-mono uppercase tracking-wider text-gray-300 font-extrabold">Links rápidos</h4>
-            <ul className="space-y-2.5">
-              {menuItems.map((item) => (
-                <li key={item.label}>
-                  <a href={item.href} className="text-xs text-gray-400 hover:text-cyan-400 transition">
-                    {item.label}
-                  </a>
-                </li>
-              ))}
-              <li>
-                <a href="https://eventos.vlyne.com.br/" className="text-xs text-gray-400 hover:text-cyan-400 transition">
-                  Área do Cliente
-                </a>
-              </li>
+        </div>
+
+        {/*  ROW 3: COMPARADOR ESPACIAL 2D VS 3D (FULL WIDTH)  */}
+        <div className="bento-card rounded-2xl p-6 sm:p-8 border-purple-500/20 hover:border-purple-400/40">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2">
+            <div>
+              <span className="text-[10px] font-mono uppercase tracking-widest text-purple-300 bg-purple-500/10 px-2.5 py-1 rounded border border-purple-500/20">ETAPA 04 • FIDELIDADE</span>
+              <h3 className="text-xl sm:text-2xl font-bold text-white mt-1.5">Comparador de Fidelidade Espacial 2D vs 3D</h3>
+            </div>
+            <span className="text-xs text-slate-400 font-mono">TELA REAL DO DESIGN VLYNE</span>
+          </div>
+          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-5 max-w-4xl">
+            Checagem simultânea entre a planta baixa humanizada e a perspectiva volumétrica, eliminando erros de proporção antes do envio ao cliente.
+          </p>
+          <div className="rounded-xl overflow-hidden border border-white/10 screen-zoom bg-[#000615]">
+            <img src="/design_vlyne_screens/design_04_comparador_3d_2d.png" alt="Comparador 2D vs 3D Real" className="w-full h-auto object-cover block" />
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  {/*  =========================================================================================  */}
+  {/*  SEÇÃO 02: VLYNE EVENT INTELLIGENCE (100% AUTÔNOMO - ERP DE MONTADORAS)  */}
+  {/*  =========================================================================================  */}
+  <section id="event-intelligence" className="py-24 px-6 border-t border-cyan-500/20 bg-gradient-to-b from-[#01143F] via-[#010c2b] to-[#01143F] relative overflow-hidden">
+    <div className="max-w-7xl mx-auto relative z-10">
+      
+      {/*  HEADER DO SISTEMA 02  */}
+      <div className="max-w-3xl mb-16">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-mono uppercase tracking-wider mb-4">
+          <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
+          SISTEMA 02 (AUTÔNOMO) • GESTÃO OPERACIONAL DE MONTADORAS
+        </div>
+        <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+          VLYNE Event Intelligence: Controle de canteiro, promotoras e margem real.
+        </h2>
+        <p className="mt-4 text-slate-300 text-sm sm:text-base leading-relaxed">
+          O ERP da VLYNE foi construído sob medida para a dinâmica de montadoras de feiras. Não é um ERP genérico: ele gerencia a pressão de prazos de montagem, as exigências de promotoras como SP Expo, Anhembi e Center Norte, e apura o lucro real de cada estande.
+        </p>
+        <div className="mt-6">
+          <a href="https://eventos.vlyne.com.br" target="_blank" className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold border border-cyan-500/40 bg-cyan-950/40 text-cyan-300 hover:bg-cyan-900/50 hover:text-white transition uppercase tracking-wider">
+            <Lock className="w-3.5 h-3.5" />
+            <span>Acessar Plataforma Event Intelligence</span>
+            <ArrowUpRight className="w-3.5 h-3.5" />
+          </a>
+        </div>
+      </div>
+
+      {/*  CARDS AJUSTADOS: SEM VAZIOS VERTICAIS, ITEMS-START, IMAGEM LOGO ABAIXO DO TEXTO  */}
+      <div className="space-y-8">
+        
+        {/*  CARD 1: DASHBOARD OPERACIONAL (12 COLS)  */}
+        <div className="bento-card rounded-2xl p-6 sm:p-8">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2">
+            <div>
+              <span className="text-[10px] font-mono uppercase tracking-widest text-cyan-300 bg-cyan-500/10 px-2.5 py-1 rounded border border-cyan-500/20">PAINEL GERAL</span>
+              <h3 className="text-xl sm:text-2xl font-bold text-white mt-1.5">Visão Consolidada de Projetos e Canteiro</h3>
+            </div>
+            <span className="text-xs text-slate-400 font-mono">TELA REAL DO VLYNE EVENT INTELLIGENCE</span>
+          </div>
+          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-5 max-w-4xl">
+            Acompanhamento central de eventos por status, faturamento acumulado, projetos em produção, alertas de prazos de montagem e métricas financeiras.
+          </p>
+          <div className="rounded-xl overflow-hidden border border-white/10 screen-zoom bg-[#000615]">
+            <img src="/screenshots/geral-01-dashboard.png" alt="Dashboard Operacional Real" className="w-full h-auto object-cover block" />
+          </div>
+        </div>
+
+        {/*  ROW 2: CRM DE PROPOSTAS + GERADOR DE CONTRATO (ITEMS-START, SEM VAZIOS)  */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+          
+          {/*  CRM DE PROPOSTAS  */}
+          <div className="bento-card rounded-2xl p-6">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-cyan-300 bg-cyan-500/10 px-2.5 py-1 rounded border border-cyan-500/20">COMERCIAL</span>
+              <span className="text-xs text-slate-400 font-mono">TELA REAL</span>
+            </div>
+            <h3 className="text-xl font-bold text-white mb-1.5">CRM de Propostas & Motivos de Perda</h3>
+            <p className="text-xs text-slate-300 leading-relaxed mb-5">
+              Histórico completo por estande, valor por m², motivos reais de perda e conversão direta para ordem de serviço após aprovação comercial.
+            </p>
+            <div className="rounded-xl overflow-hidden border border-white/10 screen-zoom bg-[#000615]">
+              <img src="/screenshots/comercial-01-crm-propostas-card.png" alt="CRM de Propostas Real" className="w-full h-auto object-cover block" />
+            </div>
+          </div>
+
+          {/*  GERADOR DE CONTRATO (SEM VAZIO)  */}
+          <div className="bento-card rounded-2xl p-6">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-cyan-300 bg-cyan-500/10 px-2.5 py-1 rounded border border-cyan-500/20">JURÍDICO</span>
+              <span className="text-xs text-slate-400 font-mono">TELA REAL</span>
+            </div>
+            <h3 className="text-xl font-bold text-white mb-1.5">Gerador de Contrato Amarrado ao Orçamento</h3>
+            <p className="text-xs text-slate-300 leading-relaxed mb-5">
+              Geração de contratos com valor e escopo travados. O sistema impede divergências contratuais entre o que a montadora orçou e o que foi assinado.
+            </p>
+            <div className="rounded-xl overflow-hidden border border-white/10 screen-zoom bg-[#000615]">
+              <img src="/screenshots/contrato-01-gerador-contrato.png" alt="Gerador de Contrato Real" className="w-full h-auto object-cover block" />
+            </div>
+          </div>
+
+        </div>
+
+        {/*  ROW 3: CHECKLIST PROMOTORAS + MARGEM REAL (ITEMS-START, SEM VAZIOS)  */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+          
+          {/*  CHECKLIST PROMOTORAS (AJUSTADO E SEM VAZIOS)  */}
+          <div className="bento-card rounded-2xl p-6">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-cyan-300 bg-cyan-500/10 px-2.5 py-1 rounded border border-cyan-500/20">DOCUMENTAÇÃO</span>
+              <span className="text-xs text-slate-400 font-mono">TELA REAL</span>
+            </div>
+            <h3 className="text-xl font-bold text-white mb-1.5">Checklists de Pavilhões & Promotoras</h3>
+            <p className="text-xs text-slate-300 leading-relaxed mb-5">
+              Controle rígido de prazos para emissão de RRT, ART, apólices de seguro de montagem e aprovação de projetos nos principais pavilhões do Brasil.
+            </p>
+            <div className="rounded-xl overflow-hidden border border-white/10 screen-zoom bg-[#000615]">
+              <img src="/screenshots/documentacao-01-checklist-projeto.png" alt="Checklist de Promotora Real" className="w-full h-auto object-cover block" />
+            </div>
+          </div>
+
+          {/*  MARGEM REAL E FINANCEIRO (AJUSTADO E SEM VAZIOS)  */}
+          <div className="bento-card rounded-2xl p-6">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-emerald-300 bg-emerald-500/10 px-2.5 py-1 rounded border border-emerald-500/20">FINANCEIRO REAL</span>
+              <span className="text-xs text-slate-400 font-mono">TELA REAL</span>
+            </div>
+            <h3 className="text-xl font-bold text-white mb-1.5">Apuração de Lucro Líquido e Margem por Estande</h3>
+            <p className="text-xs text-slate-300 leading-relaxed mb-5">
+              Confronto direto da receita contratada contra diárias de equipe de canteiro, materiais de almoxarifado, locação de móveis e fretes, revelando a margem real.
+            </p>
+            <div className="rounded-xl overflow-hidden border border-white/10 screen-zoom bg-[#000615]">
+              <img src="/screenshots/financeiro-01-transacoes.png" alt="Transações e Margem Real" className="w-full h-auto object-cover block" />
+            </div>
+          </div>
+
+        </div>
+
+        {/*  ROW 4: CRONOGRAMA DINÂMICO (12 COLS, COMPACTO)  */}
+        <div className="bento-card rounded-2xl p-6 sm:p-8">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2">
+            <div>
+              <span className="text-[10px] font-mono uppercase tracking-widest text-cyan-300 bg-cyan-500/10 px-2.5 py-1 rounded border border-cyan-500/20">OPERAÇÃO & FÁBRICA</span>
+              <h3 className="text-xl sm:text-2xl font-bold text-white mt-1.5">Cronograma Dinâmico de Pavilhão & Linha de Produção</h3>
+            </div>
+            <span className="text-xs text-slate-400 font-mono">TELA REAL</span>
+          </div>
+          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-5 max-w-4xl">
+            Alertas de compressão de prazo, controle de dias restantes até o início da feira e acompanhamento de fases de marcenaria, serralheria, transporte e montagem.
+          </p>
+          <div className="rounded-xl overflow-hidden border border-white/10 screen-zoom bg-[#000615]">
+            <img src="/screenshots/preproducao-03-cronograma-dinamico.png" alt="Cronograma Dinâmico Real" className="w-full h-auto object-cover block" />
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  {/*  =========================================================================================  */}
+  {/*  SEÇÃO 03: CONTRATAÇÃO TOTALMENTE MODULAR E APARTADA  */}
+  {/*  =========================================================================================  */}
+  <section id="contratacao" className="py-24 px-6 border-t border-white/10 bg-[#010c2b]">
+    <div className="max-w-7xl mx-auto">
+      
+      <div className="text-center max-w-3xl mx-auto mb-16">
+        <p className="text-[10px] font-black uppercase tracking-[0.25em] text-[#00D4FF] mb-3 font-mono">CONTRATAÇÃO INDEPENDENTE</p>
+        <h2 className="text-3xl sm:text-5xl font-black text-white">Escolha a solução que sua empresa precisa</h2>
+        <p className="mt-4 text-slate-300 text-sm sm:text-base">
+          Com os softwares da VLYNE você tem liberdade para escolher a solução que resolve o gargalo atual da sua empresa:
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
+        
+        {/*  OPÇÃO 1: APENAS DESIGN VLYNE  */}
+        <div className="p-8 rounded-3xl bg-[#031238] border border-purple-500/30 flex flex-col justify-between relative">
+          <div>
+            <span className="text-[10px] font-mono uppercase text-purple-300 bg-purple-500/10 px-3 py-1 rounded-full border border-purple-500/20 font-bold block w-fit mb-4">MÓDULO DE PROJETO</span>
+            <h3 className="text-2xl font-black text-white mb-2">Apenas DESIGN VLYNE</h3>
+            <p className="text-xs text-purple-300 font-mono mb-4">Para projetistas, agências de cenografia & estúdios 3D</p>
+            <p className="text-xs text-slate-300 leading-relaxed mb-6">
+              Contrate exclusivamente o motor de criação paramétrica, pranchas técnicas A3 ABNT e exportação CAD/GLB para acelerar seu departamento de criação.
+            </p>
+            <ul className="space-y-2.5 text-xs text-slate-300">
+              <li className="flex items-center gap-2"><Check className="w-4 h-4 text-purple-400 shrink-0" /> Layout volumétrico guiado por IA</li>
+              <li className="flex items-center gap-2"><Check className="w-4 h-4 text-purple-400 shrink-0" /> Motor 3D Three.js orbital 360°</li>
+              <li className="flex items-center gap-2"><Check className="w-4 h-4 text-purple-400 shrink-0" /> Prancha A3 com tabela MAT-01 a MAT-11</li>
+              <li className="flex items-center gap-2"><Check className="w-4 h-4 text-purple-400 shrink-0" /> Exportação DXF e GLB nativa</li>
             </ul>
           </div>
-
-          <div className="md:col-span-4 space-y-4">
-            <h4 className="text-[10px] font-mono uppercase tracking-wider text-gray-300 font-extrabold">Fale Conosco</h4>
-            <div className="space-y-3">
-              <a href="https://wa.me/5511920480770" target="_blank" rel="noreferrer" className="flex items-center gap-2.5 text-xs text-gray-400 hover:text-cyan-400 transition">
-                <Phone className="w-4 h-4 text-cyan-300 shrink-0" />
-                <span>WhatsApp Comercial: +55 (11) 92048-0770</span>
-              </a>
-              <a href="mailto:contato@vlyne.com.br" className="flex items-center gap-2.5 text-xs text-gray-400 hover:text-cyan-400 transition">
-                <Mail className="w-4 h-4 text-cyan-300 shrink-0" />
-                <span>E-mail: contato@vlyne.com.br</span>
-              </a>
-            </div>
+          <div className="mt-8 pt-6 border-t border-white/10">
+            <a href="https://wa.me/5511920480770?text=Ol%C3%A1!%20Quero%20contratar%20o%20DESIGN%20VLYNE%20(Software%20de%20Projeto%203D)." target="_blank" className="w-full py-3 rounded-xl text-xs font-bold uppercase tracking-wider bg-purple-600 hover:bg-purple-500 text-white transition text-center block">
+              Contratar DESIGN VLYNE
+            </a>
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto border-t border-white/5 mt-12 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-[10px] text-gray-600 font-mono">&copy; 2026 VLYNE. Todos os direitos reservados.</p>
-          <div className="flex items-center gap-4">
-            <Link href="/politica-de-privacidade" className="text-[10px] text-gray-500 hover:text-cyan-400 font-mono transition">
-              Política de Privacidade
-            </Link>
-            <span className="text-[9px] text-gray-600 font-mono">São Paulo, SP, Brasil</span>
+        {/*  OPÇÃO 2: APENAS EVENT INTELLIGENCE  */}
+        <div className="p-8 rounded-3xl bg-[#031238] border border-cyan-500/30 flex flex-col justify-between relative">
+          <div>
+            <span className="text-[10px] font-mono uppercase text-cyan-300 bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/20 font-bold block w-fit mb-4">MÓDULO DE GESTÃO</span>
+            <h3 className="text-2xl font-black text-white mb-2">Apenas Event Intelligence</h3>
+            <p className="text-xs text-cyan-300 font-mono mb-4">Para montadoras de estandes & operadoras de feiras</p>
+            <p className="text-xs text-slate-300 leading-relaxed mb-6">
+              Contrate exclusivamente o ERP operacional de feiras para controlar seu funil comercial, contratos com margem travada, checklists e lucro líquido de cada stand.
+            </p>
+            <ul className="space-y-2.5 text-xs text-slate-300">
+              <li className="flex items-center gap-2"><Check className="w-4 h-4 text-cyan-400 shrink-0" /> CRM especializado por estande e feira</li>
+              <li className="flex items-center gap-2"><Check className="w-4 h-4 text-cyan-400 shrink-0" /> Contrato jurídico amarrado ao orçamento</li>
+              <li className="flex items-center gap-2"><Check className="w-4 h-4 text-cyan-400 shrink-0" /> Checklists de promotoras e prazos de RRT/ART</li>
+              <li className="flex items-center gap-2"><Check className="w-4 h-4 text-cyan-400 shrink-0" /> Apuração de margem e lucro real por projeto</li>
+            </ul>
+          </div>
+          <div className="mt-8 pt-6 border-t border-white/10">
+            <a href="https://wa.me/5511920480770?text=Ol%C3%A1!%20Quero%20contratar%20o%20VLYNE%20Event%20Intelligence%20(Software%20de%20Gest%C3%A3o)." target="_blank" className="w-full py-3 rounded-xl text-xs font-bold uppercase tracking-wider bg-[#00D4FF] hover:bg-cyan-300 text-[#01143F] transition text-center block">
+              Contratar Event Intelligence
+            </a>
           </div>
         </div>
-      </footer>
 
-      <DemoModal
-        open={demoModalOpen}
-        success={success}
-        submitting={submitting}
-        errorText={errorText}
-        formData={formData}
-        setFormData={setFormData}
-        onClose={() => setDemoModalOpen(false)}
-        onSubmit={handleFormSubmit}
-      />
-    </div>
-  );
-}
-
-function DemoModal({
-  open,
-  success,
-  submitting,
-  errorText,
-  formData,
-  setFormData,
-  onClose,
-  onSubmit,
-}: {
-  open: boolean;
-  success: boolean;
-  submitting: boolean;
-  errorText: string;
-  formData: FormData;
-  setFormData: React.Dispatch<React.SetStateAction<FormData>>;
-  onClose: () => void;
-  onSubmit: (event: React.FormEvent) => void;
-}) {
-  return (
-    <AnimatePresence>
-      {open && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 0.65 }} exit={{ opacity: 0 }} onClick={onClose} className="absolute inset-0 bg-black" />
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 10 }}
-            className="relative w-full max-w-lg bg-[#020c24] border border-cyan-500/20 rounded-lg p-6 sm:p-8 shadow-2xl overflow-hidden backdrop-blur-xl z-10"
-          >
-            <button onClick={onClose} className="absolute top-4 right-4 p-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition" aria-label="Fechar">
-              <X className="w-5 h-5" />
-            </button>
-
-            {!success ? (
-              <div className="space-y-5">
-                <div className="space-y-2">
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-cyan-500/10 rounded-lg">
-                    <Cpu className="w-3.5 h-3.5 text-cyan-400" />
-                    <span className="font-mono text-[9px] uppercase font-bold text-cyan-300">Diagnóstico operacional</span>
-                  </div>
-                  <h3 className="text-xl sm:text-2xl font-bold tracking-tight">Quer descobrir onde sua operação perde dinheiro?</h3>
-                  <p className="text-xs text-gray-400">
-                    Preencha os dados e um especialista da VLYNE entrará em contato para entender seu cenário.
-                  </p>
-                </div>
-
-                {errorText && <div className="p-3 bg-rose-500/10 border border-rose-500/20 text-rose-300 rounded-lg text-xs font-semibold">{errorText}</div>}
-
-                <form onSubmit={onSubmit} className="space-y-4 text-left">
-                  <FormField icon={Smile} label="Seu Nome" value={formData.nome} placeholder="Ex: Carlos Oliveira" onChange={(value) => setFormData({ ...formData, nome: value })} />
-                  <FormField icon={Building} label="Nome da Empresa" value={formData.empresa} placeholder="Ex: Minha Empresa" onChange={(value) => setFormData({ ...formData, empresa: value })} />
-                  <FormField icon={Mail} label="E-mail Comercial" type="email" value={formData.email} placeholder="Ex: carlos@empresa.com" onChange={(value) => setFormData({ ...formData, email: value })} />
-                  <FormField icon={Phone} label="Telefone / WhatsApp" type="tel" value={formData.telefone} placeholder="Ex: (11) 99999-9999" onChange={(value) => setFormData({ ...formData, telefone: value })} />
-
-                  <button type="submit" disabled={submitting} className="w-full bg-[#00D4FF] hover:bg-cyan-300 text-[#01143F] py-3.5 rounded-lg font-black text-xs tracking-wider uppercase transition disabled:opacity-55 cursor-pointer mt-4">
-                    {submitting ? 'Enviando solicitação...' : 'Enviar solicitação'}
-                  </button>
-                </form>
-              </div>
-            ) : (
-              <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="py-10 text-center space-y-6 flex flex-col items-center">
-                <div className="w-16 h-16 rounded-full bg-emerald-500/15 text-emerald-400 flex items-center justify-center border border-emerald-500/20">
-                  <CheckCircle2 className="w-10 h-10" />
-                </div>
-                <div className="space-y-2">
-                  <h3 className="text-xl sm:text-2xl font-bold tracking-tight">Solicitação recebida!</h3>
-                  <p className="text-xs text-gray-400 leading-relaxed max-w-sm mx-auto">
-                    Nossa equipe entrará em contato para apresentar como a VLYNE pode ajudar sua operação.
-                  </p>
-                </div>
-                <button onClick={onClose} className="bg-white/10 hover:bg-white/15 px-6 py-2.5 rounded-lg text-xs font-bold font-mono transition uppercase cursor-pointer">
-                  Fechar
-                </button>
-              </motion.div>
-            )}
-          </motion.div>
+        {/*  OPÇÃO 3: AMBAS AS SOLUÇÕES  */}
+        <div className="p-8 rounded-3xl bg-[#031238] border border-white/20 flex flex-col justify-between relative">
+          <div>
+            <span className="text-[10px] font-mono uppercase text-slate-300 bg-white/10 px-3 py-1 rounded-full border border-white/20 font-bold block w-fit mb-4">SOLUÇÃO COMPLETA</span>
+            <h3 className="text-2xl font-black text-white mb-2">Ambos os Softwares</h3>
+            <p className="text-xs text-slate-400 font-mono mb-4">Para montadoras completas com equipe de criação própria</p>
+            <p className="text-xs text-slate-300 leading-relaxed mb-6">
+              Adote as duas plataformas de forma autônoma na sua empresa: equipe de projeto equipada com o DESIGN VLYNE e equipe operacional equipada com o Event Intelligence.
+            </p>
+            <ul className="space-y-2.5 text-xs text-slate-300">
+              <li className="flex items-center gap-2"><Check className="w-4 h-4 text-white shrink-0" /> Acesso total ao DESIGN VLYNE (3D & Pranchas)</li>
+              <li className="flex items-center gap-2"><Check className="w-4 h-4 text-white shrink-0" /> Acesso total ao VLYNE Event Intelligence (ERP)</li>
+              <li className="flex items-center gap-2"><Check className="w-4 h-4 text-white shrink-0" /> Atendimento e suporte executivo prioritário</li>
+              <li className="flex items-center gap-2"><Check className="w-4 h-4 text-white shrink-0" /> Contratos e acessos independentes por departamento</li>
+            </ul>
+          </div>
+          <div className="mt-8 pt-6 border-t border-white/10">
+            <a href="https://wa.me/5511920480770?text=Ol%C3%A1!%20Tenho%20interesse%20em%20adotar%20ambos%20os%20softwares%20da%20VLYNE." target="_blank" className="w-full py-3 rounded-xl text-xs font-bold uppercase tracking-wider bg-white/10 hover:bg-white/20 text-white border border-white/30 transition text-center block">
+              Consultar Pacote Completo
+            </a>
+          </div>
         </div>
-      )}
-    </AnimatePresence>
-  );
-}
 
-function FormField({
-  icon: Icon,
-  label,
-  value,
-  onChange,
-  placeholder,
-  type = 'text',
-}: {
-  icon: typeof Smile;
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-  placeholder: string;
-  type?: string;
-}) {
-  return (
-    <div className="space-y-1.5">
-      <label className="text-[9px] font-mono uppercase text-gray-400 font-extrabold flex items-center gap-1">
-        <Icon className="w-3.5 h-3.5 text-cyan-400" /> {label}
-      </label>
-      <input
-        type={type}
-        required
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
-        className="w-full bg-[#03061c] border border-white/10 rounded-lg py-3 px-4 text-xs text-white placeholder-gray-600 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500/20 transition"
-      />
+      </div>
+
     </div>
+  </section>
+
+  {/*  =========================================================================================  */}
+  {/*  SEÇÃO 04: FAQ (ESCLARECENDO QUE SÃO APARTADOS)  */}
+  {/*  =========================================================================================  */}
+  <section id="faq" className="py-24 px-6 border-t border-white/10 bg-[#01143F]">
+    <div className="max-w-4xl mx-auto">
+      
+      <div className="text-center mb-16">
+        <p className="text-[10px] font-black uppercase tracking-[0.25em] text-[#00D4FF] mb-3 font-mono">DÚVIDAS FREQUENTES</p>
+        <h2 className="text-3xl sm:text-5xl font-black text-white">Perguntas Frequentes</h2>
+        <p className="mt-4 text-slate-300 text-sm">Respostas diretas sobre como os softwares operam:</p>
+      </div>
+
+      <div className="space-y-4">
+        
+        {/*  PERGUNTA CHAVE: OS SISTEMAS SÃO INTEGRADOS?  */}
+        <details className="group bento-card p-6 rounded-2xl cursor-pointer border-cyan-500/30" open>
+          <summary className="flex items-center justify-between text-base font-bold text-white select-none">
+            <span className="text-cyan-300">O DESIGN VLYNE e o VLYNE Event Intelligence são sistemas integrados?</span>
+            <ChevronDown className="w-4 h-4 text-cyan-400 transition-transform group-open:rotate-180" />
+          </summary>
+          <p className="mt-4 text-xs text-slate-300 leading-relaxed border-t border-white/10 pt-4">
+            <strong className="text-white">Não. São sistemas apartados e autônomos.</strong><br/><br/>
+            O <strong>DESIGN VLYNE</strong> é um software especializado para arquitetos e projetistas gerarem layouts por IA, visualizarem o estande em 3D orbital 360°, emitirem pranchas técnicas executivas ABNT e exportarem arquivos CAD/GLB.<br/><br/>
+            O <strong>VLYNE Event Intelligence</strong> é um software ERP de gestão operacional e financeira para montadoras de feiras (CRM, contratos com margem travada, checklists de promotoras como SP Expo, Anhembi e Center Norte, cronograma dinâmico de pavilhão e lucro real por projeto).<br/><br/>
+            Sua empresa pode contratar qualquer um dos sistemas de forma 100% independente, conforme sua necessidade.
+          </p>
+        </details>
+
+        <details className="group bento-card p-6 rounded-2xl cursor-pointer">
+          <summary className="flex items-center justify-between text-base font-bold text-white select-none">
+            <span>As telas exibidas no site são reais ou ilustrativas?</span>
+            <ChevronDown className="w-4 h-4 text-cyan-400 transition-transform group-open:rotate-180" />
+          </summary>
+          <p className="mt-4 text-xs text-slate-300 leading-relaxed">
+            Todas as imagens exibidas nesta página são <strong>capturas 100% autênticas das interfaces reais dos sistemas em funcionamento</strong>. Não utilizamos renders conceituais de estandes gerados por IA genérica para promover nossos sistemas.
+          </p>
+        </details>
+
+        <details className="group bento-card p-6 rounded-2xl cursor-pointer">
+          <summary className="flex items-center justify-between text-base font-bold text-white select-none">
+            <span>O DESIGN VLYNE exporta arquivos compatíveis com softwares de marcenaria e CAD?</span>
+            <ChevronDown className="w-4 h-4 text-cyan-400 transition-transform group-open:rotate-180" />
+          </summary>
+          <p className="mt-4 text-xs text-slate-300 leading-relaxed">
+            Sim. O sistema exporta arquivos técnicos <strong>CAD .DXF</strong> em camadas limpas de engenharia e arquivos tridimensionais <strong>.GLB</strong>, permitindo envio direto para usinagem CNC, modeladores ou marcenaria de canteiro.
+          </p>
+        </details>
+
+        <details className="group bento-card p-6 rounded-2xl cursor-pointer">
+          <summary className="flex items-center justify-between text-base font-bold text-white select-none">
+            <span>Quais regras de promotoras e pavilhões o Event Intelligence atende?</span>
+            <ChevronDown className="w-4 h-4 text-cyan-400 transition-transform group-open:rotate-180" />
+          </summary>
+          <p className="mt-4 text-xs text-slate-300 leading-relaxed">
+            O sistema vem pré-configurado com checklists das principais administradoras de feiras (SP Expo, Expo Center Norte, Distrito Anhembi, Transamerica Expo, entre outros), gerenciando prazos de RRT, ART, seguro e projetos de mezanino/elétrica.
+          </p>
+        </details>
+
+        <details className="group bento-card p-6 rounded-2xl cursor-pointer">
+          <summary className="flex items-center justify-between text-base font-bold text-white select-none">
+            <span>Como a margem real por projeto é apurada no Event Intelligence?</span>
+            <ChevronDown className="w-4 h-4 text-cyan-400 transition-transform group-open:rotate-180" />
+          </summary>
+          <p className="mt-4 text-xs text-slate-300 leading-relaxed">
+            O sistema confronta a receita contratada contra os custos lançados da montagem: almoxarifado, locação de mobiliário, fretes e remessas, diárias de montadores e aditivos, apurando a margem líquida real de cada estande.
+          </p>
+        </details>
+
+      </div>
+
+    </div>
+  </section>
+
+  {/*  CTA FINAL  */}
+  <section className="py-24 px-6 border-t border-white/10 bg-gradient-to-b from-[#01143F] to-[#000511] text-center relative overflow-hidden">
+    <div className="max-w-4xl mx-auto relative z-10">
+      <div className="w-16 h-16 rounded-2xl bg-cyan-400/10 border border-cyan-400/30 text-cyan-300 flex items-center justify-center mx-auto mb-6">
+        <Sparkles className="w-8 h-8" />
+      </div>
+      <h2 className="text-3xl sm:text-5xl font-black text-white">Pronto para transformar a sua operação?</h2>
+      <p className="mt-5 text-slate-300 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+        Converse diretamente com nossos especialistas e solicite uma demonstração ao vivo do DESIGN VLYNE ou do VLYNE Event Intelligence.
+      </p>
+
+      <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="https://wa.me/5511920480770?text=Ol%C3%A1!%20Quero%20uma%20demonstra%C3%A7%C3%A3o%20dos%20softwares%20da%20VLYNE." target="_blank" className="w-full sm:w-auto px-8 py-4 rounded-xl text-xs font-black uppercase tracking-wider bg-[#00D4FF] text-[#01143F] hover:bg-cyan-300 transition glow-cyan flex items-center justify-center gap-2">
+          <MessageCircle className="w-4 h-4" />
+          <span>Falar com Consultor no WhatsApp</span>
+        </a>
+        <a href="https://design.vlyne.com.br/login" target="_blank" className="w-full sm:w-auto px-6 py-4 rounded-xl text-xs font-bold uppercase tracking-wider border border-purple-500/40 bg-purple-950/30 hover:bg-purple-900/40 text-purple-300 transition flex items-center justify-center gap-2">
+          <Box className="w-4 h-4 text-purple-400" />
+          <span>Login DESIGN VLYNE</span>
+        </a>
+        <a href="https://eventos.vlyne.com.br" target="_blank" className="w-full sm:w-auto px-6 py-4 rounded-xl text-xs font-bold uppercase tracking-wider border border-cyan-500/40 bg-cyan-950/30 hover:bg-cyan-900/40 text-cyan-300 transition flex items-center justify-center gap-2">
+          <LayoutDashboard className="w-4 h-4 text-cyan-400" />
+          <span>Login Event Intelligence</span>
+        </a>
+      </div>
+
+      <p className="mt-12 text-xs font-mono text-slate-500">
+        Atendimento direto: (11) 92048-0770 • São Paulo / SP • VLYNE Softwares Especializados
+      </p>
+    </div>
+  </section>
+
+  {/*  FOOTER  */}
+  <footer className="py-12 px-6 bg-[#00040d] border-t border-white/5 text-slate-400 text-xs">
+    <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      
+      <div className="flex items-center gap-4">
+        <img 
+          src="/vlyne_logo_horizontal.png" 
+          alt="VLYNE Logo" 
+          className="h-10 sm:h-12 w-auto object-contain filter drop-shadow-md" 
+        />
+        <span className="text-[11px] text-slate-400 font-mono border-l border-white/15 pl-4">
+          Inteligência que Impulsiona Decisões
+        </span>
+      </div>
+
+      <div className="flex flex-wrap gap-6 text-slate-400 font-medium text-xs items-center">
+        <a href="#design-vlyne" className="hover:text-purple-300">DESIGN VLYNE (Projeto 3D)</a>
+        <a href="#event-intelligence" className="hover:text-cyan-300">VLYNE Event Intelligence (ERP)</a>
+        <a href="#contratacao" className="hover:text-cyan-300">Contratação</a>
+        <a href="#faq" className="hover:text-cyan-300">FAQ</a>
+        <span className="text-white/20">|</span>
+        <a href="https://design.vlyne.com.br/login" target="_blank" className="hover:text-purple-300 text-purple-400 font-semibold flex items-center gap-1.5"><Box className="w-3.5 h-3.5" /> Login DESIGN VLYNE</a>
+        <a href="https://eventos.vlyne.com.br" target="_blank" className="hover:text-cyan-300 text-cyan-400 font-semibold flex items-center gap-1.5"><LayoutDashboard className="w-3.5 h-3.5" /> Login Event Intelligence</a>
+      </div>
+
+      <p className="text-slate-600 font-mono">© 2026 VLYNE. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  
+
+
+    </main>
   );
 }
-
